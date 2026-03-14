@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Love Translated</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .about-hero {
+      min-height: 60vh; display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 5rem; padding: 8rem 4rem 5rem;
+      background: var(--parchment); position: relative; overflow: hidden;
+    }
+    .about-hero::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 42%; background: radial-gradient(ellipse at 80% 50%, rgba(194,123,106,0.14) 0%, transparent 70%); }
+    .about-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem,5vw,4.5rem); font-weight: 300; line-height: 1.1; }
+    .about-hero h1 em { color: var(--rose); font-style: italic; }
+    .about-hero-text .eyebrow { margin-bottom: 1rem; }
+    .about-hero-text p { margin-top: 1.5rem; font-size: 1rem; line-height: 1.85; opacity: 0.68; max-width: 480px; }
+
+    .about-portrait {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .portrait-frame {
+      width: min(360px, 38vw); height: min(440px, 46vw);
+      background: linear-gradient(145deg, rgba(232,196,176,0.5) 0%, rgba(194,123,106,0.25) 100%);
+      border: 1px solid rgba(194,123,106,0.2);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem; position: relative;
+    }
+    .portrait-frame::before {
+      content: ''; position: absolute; inset: -12px; border: 1px solid rgba(194,123,106,0.12); border-radius: 2px;
+    }
+    .portrait-tag {
+      position: absolute; bottom: -20px; left: -20px;
+      background: var(--rose); color: var(--white); padding: 1rem 1.5rem; border-radius: 2px;
+    }
+    .portrait-tag-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; }
+    .portrait-tag-sub { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.8; margin-top: 0.2rem; }
+
+    .mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .mission-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem,3vw,2.4rem); font-style: italic; font-weight: 300; line-height: 1.45; color: var(--rose); position: relative; padding-left: 2rem; }
+    .mission-quote::before { content: '\201C'; position: absolute; left: 0; top: -0.5rem; font-size: 4rem; color: var(--blush); line-height: 1; }
+    .mission-body p { font-size: 0.95rem; line-height: 1.85; opacity: 0.7; margin-bottom: 1.2rem; }
+
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
+    .value-card { padding: 2.5rem 2rem; background: var(--white); border: 1px solid rgba(194,123,106,0.12); border-radius: var(--radius); }
+    .value-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .value-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; margin-bottom: 0.7rem; }
+    .value-desc { font-size: 0.88rem; line-height: 1.75; opacity: 0.6; }
+
+    .cta-band { background: var(--deep); padding: 6rem 4rem; text-align: center; }
+    .cta-band-inner { max-width: 620px; margin: 0 auto; }
+    .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
+
+    @media (max-width: 900px) {
+      .about-hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 2.5rem; }
+      .about-portrait { display: none; }
+      .mission-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .values-grid { grid-template-columns: 1fr; }
+      .cta-band { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="index.html">Love <span>Translated</span></a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="workbook.html">Workbook</a></li>
+    <li><a href="videos.html">Videos</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="resources.html">Resources</a></li>
+  </ul>
+  <a class="nav-cta" href="workbook.html">Free Workbook</a>
+  <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-mobile">
+  <a href="index.html">Home</a><a href="about.html">About</a>
+  <a href="workbook.html">Workbook</a><a href="videos.html">Videos</a>
+  <a href="community.html">Community</a><a href="resources.html">Resources</a>
+  <a class="nav-cta" href="workbook.html">Free Workbook</a>
+</div>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="about-hero-text">
+    <span class="eyebrow anim-fadeup anim-d1">Our Story</span>
+    <h1 class="anim-fadeup anim-d2">Love is a language<br/><em>anyone can learn</em></h1>
+    <p class="anim-fadeup anim-d3">Love Translated was born from the belief that the struggles we face in love are rarely about love itself — they're about translation. When we learn each other's language, everything changes.</p>
+    <div style="margin-top:2rem;" class="anim-fadeup anim-d4">
+      <a class="btn btn--primary" href="workbook.html">Start with the Workbook</a>
+    </div>
+  </div>
+  <div class="about-portrait">
+    <div class="portrait-frame">🌿
+      <div class="portrait-tag">
+        <div class="portrait-tag-title">Love Translated</div>
+        <div class="portrait-tag-sub">Author & Founder</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="section section--white">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="mission-quote">"My deepest hope is that every person who comes here leaves knowing they are worth understanding — and capable of understanding others."</div>
+      <div class="mission-body">
+        <span class="eyebrow">The Mission</span>
+        <h2 class="heading" style="margin-bottom:1.5rem;">Why <em>this</em> matters</h2>
+        <p>So many relationships fracture not from a lack of love, but from a failure to translate it. We love in our own dialect and wonder why it doesn't land. We feel unseen, unheard, misunderstood — even by the people who love us most.</p>
+        <p>Love Translated exists to close that gap. Through practical tools, honest teaching, and a community of people on the same journey, we help you understand how you love, how others receive it, and how to build bridges where there were once walls.</p>
+        <p>Whether you're healing a relationship, deepening a good one, or simply learning to love yourself more fully — there's something here for you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section section--parchment">
+  <div class="container">
+    <span class="eyebrow">What We Believe</span>
+    <h2 class="heading">The values that <em>guide us</em></h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">🕊️</div>
+        <h3 class="value-title">Honesty Over Performance</h3>
+        <p class="value-desc">We believe real transformation happens when we stop performing love and start practicing it. Honesty is the foundation of every resource we create.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🌱</div>
+        <h3 class="value-title">Growth at Every Stage</h3>
+        <p class="value-desc">Whether you're a beginner or have been doing this work for years, there's always more to discover. Learning to love is a lifelong journey.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🤝</div>
+        <h3 class="value-title">Community Over Isolation</h3>
+        <p class="value-desc">Love is learned in relationship. Our community exists because the journey is sweeter — and more sustainable — when we walk it together.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">💡</div>
+        <h3 class="value-title">Practical Wisdom</h3>
+        <p class="value-desc">We bring ideas down from the clouds and into everyday life. Every teaching, workbook, and resource is designed to be immediately useful.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">💛</div>
+        <h3 class="value-title">Accessibility for All</h3>
+        <p class="value-desc">Our most important resources — including the workbook — are always free. We believe no one should be priced out of learning to love well.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🌍</div>
+        <h3 class="value-title">Love Without Limits</h3>
+        <p class="value-desc">Every culture, every background, every type of relationship. Love Translated is for anyone willing to do the beautiful work of growing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <span class="eyebrow eyebrow--light">Ready to Begin?</span>
+    <h2 class="heading heading--light" style="font-size:clamp(2rem,4vw,3rem);">Your journey starts with a <em style="color:var(--blush);">single step</em></h2>
+    <p style="margin-top:1.2rem;font-size:0.95rem;line-height:1.75;color:rgba(255,255,255,0.55);">Download the free workbook, watch a teaching, or join the community. Wherever you start, you're in the right place.</p>
+    <div class="cta-row">
+      <a class="btn btn--light" href="workbook.html">Get Free Workbook</a>
+      <a class="btn btn--ghost" href="community.html">Join Community</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div><a class="footer-brand-logo" href="index.html">Love Translated</a><p class="footer-brand-desc">Practical tools, teachings, and community to help you understand and deepen love in every relationship that matters.</p></div>
+    <div class="footer-col"><p class="footer-col-title">Navigate</p><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="resources.html">Resources</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col-title">Learn</p><ul><li><a href="workbook.html">Free Workbook</a></li><li><a href="videos.html">Video Series</a></li><li><a href="resources.html">Articles & Guides</a></li></ul></div>
+    <div class="footer-col"><p class="footer-col-title">Connect</p><ul><li><a href="community.html">Facebook Community</a></li><li><a href="https://www.love-translated.com" target="_blank">Main Website</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Love Translated. All rights reserved.</p>
+    <p class="footer-copy">Made with <span class="footer-heart">♥</span> for every relationship that matters.</p>
+  </div>
+</footer>
+<script src="shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Workbook — Love Translated</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .wb-hero {
+      padding: 8rem 4rem 6rem; background: var(--deep);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .wb-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 60%, rgba(194,123,106,0.18) 0%, transparent 60%); }
+    .wb-hero-text { position: relative; z-index: 1; }
+    .wb-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem,5vw,4.5rem); font-weight: 300; line-height: 1.1; color: var(--white); margin: 1rem 0 1.5rem; }
+    .wb-hero h1 em { color: var(--blush); font-style: italic; }
+    .wb-hero p { font-size: 1rem; line-height: 1.82; color: rgba(255,255,255,0.6); max-width: 460px; }
+    .wb-hero-visual { position: relative; z-index: 1; display: flex; justify-content: center; }
+    .wb-book {
+      width: min(320px,36vw); height: min(420px,46vw);
+      background: linear-gradient(135deg, rgba(232,196,176,0.9) 0%, rgba(194,123,106,0.7) 100%);
+      border-radius: 4px 12px 12px 4px; position: relative;
+      box-shadow: -8px 12px 40px rgba(0,0,0,0.4), inset -4px 0 12px rgba(0,0,0,0.1);
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      gap: 0.8rem; padding: 2rem; text-align: center;
+      animation: float 5s ease-in-out infinite;
+    }
+    .wb-book::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: linear-gradient(to right, rgba(59,42,39,0.3), transparent); border-radius: 4px 0 0 4px; }
+    .wb-book-icon { font-size: 3rem; }
+    .wb-book-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--deep); line-height: 1.3; }
+    .wb-book-sub { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--deep); opacity: 0.6; }
+    .wb-badge { position: absolute; top: -15px; right: -20px; background: var(--gold); color: var(--white); border-radius: 50%; width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; box-shadow: 0 4px 20px rgba(201,169,110,0.4); }
+    .wb-badge-top { font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .wb-badge-num { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; line-height: 1; }
+
+    .wb-form-section { background: var(--white); }
+    .wb-form-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .wb-form-card { background: var(--cream); border: 1px solid rgba(194,123,106,0.18); border-radius: var(--radius); padding: 3rem; }
+    .wb-form-card h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; margin-bottom: 0.5rem; }
+    .wb-form-card p { font-size: 0.9rem; line-height: 1.75; opacity: 0.65; margin-bottom: 2rem; }
+    .wb-form-fields { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .features-list { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; }
+    .features-list li { display: flex; gap: 1rem; align-items: flex-start; }
+    .feat-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .feat-title { font-weight: 500; font-size: 0.9rem; margin-bottom: 0.2rem; }
+    .feat-desc { font-size: 0.83rem; line-height: 1.65; opacity: 0.6; }
+
+    .chapter-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 2.5rem; }
+    .chapter-item { padding: 1.8rem; background: var(--parchment); border-left: 3px solid var(--rose); }
+    .chapter-num { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--rose); opacity: 0.6; margin-bottom: 0.5rem; }
+    .chapter-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .chapter-desc { font-size: 0.82rem; line-height: 1.65; opacity: 0.6; }
+
+    .shop-card {
+      max-width: 440px; margin: 2.5rem auto 0;
+      background: var(--white); border: 1px solid rgba(194,123,106,0.2);
+      border-radius: var(--radius); padding: 2.8rem; text-align: left;
+    }
+    .shop-price { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--rose); margin: 1rem 0; line-height: 1; }
+
+    @media (max-width: 900px) {
+      .wb-hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 3rem; }
+      .wb-hero-visual { display: none; }
+      .wb-form-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .chapter-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">Love <span>Translated</span></a>
+  <ul class="nav-center">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="workbook.html" class="active">Workbook</a></li>
+    <li><a href="videos.html">Videos</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="resources.html">Resources</a></li>
+  </ul>
+  <a class="nav-cta" href="https://akanakpan.gumroad.com/l/sdvcht" data-gumroad-single-product="true">Buy the Book</a>
+  <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-mobile">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="workbook.html">Workbook</a>
+  <a href="videos.html">Videos</a>
+  <a href="community.html">Community</a>
+  <a href="resources.html">Resources</a>
+  <a class="nav-cta" href="https://akanakpan.gumroad.com/l/sdvcht" data-gumroad-single-product="true">Buy the Book</a>
+</div>
+
+<!-- HERO -->
+<section class="wb-hero">
+  <div class="wb-hero-text">
+    <span class="eyebrow eyebrow--light anim-fadeup anim-d1">Free Download</span>
+    <h1 class="anim-fadeup anim-d2">The Love Translated<br/><em>Workbook</em></h1>
+    <p class="anim-fadeup anim-d3">A guided journey through understanding, expressing, and deepening love — completely free, yours to keep forever.</p>
+    <div style="margin-top:2.2rem;display:flex;gap:1rem;flex-wrap:wrap;" class="anim-fadeup anim-d4">
+      <a class="btn btn--light" href="#download">Download Free Now</a>
+      <a class="btn btn--ghost" href="#chapters">See What's Inside</a>
+    </div>
+    <p style="margin-top:1.2rem;font-size:0.72rem;color:rgba(255,255,255,0.35);letter-spacing:0.1em;">No credit card. No strings. Just love.</p>
+  </div>
+  <div class="wb-hero-visual">
+    <div class="wb-book">
+      <div class="wb-badge"><span class="wb-badge-top">100%</span><span class="wb-badge-num">Free</span></div>
+      <div class="wb-book-icon">📖</div>
+      <div class="wb-book-title">Love Translated Workbook</div>
+      <div class="wb-book-sub">Guided Reflections & Exercises</div>
+    </div>
+  </div>
+</section>
+
+<!-- FREE WORKBOOK DOWNLOAD -->
+<section class="section wb-form-section" id="download">
+  <div class="container">
+    <div class="wb-form-inner">
+      <div>
+        <span class="eyebrow">What You'll Receive</span>
+        <h2 class="heading">A workbook that <em>actually works</em></h2>
+        <div class="divider" style="margin:1.5rem 0;"></div>
+        <ul class="features-list">
+          <li>
+            <span class="feat-icon">🗺️</span>
+            <div><div class="feat-title">Your Love Language Map</div><div class="feat-desc">Exercises to discover how you naturally give and receive love — and why this matters in every relationship.</div></div>
+          </li>
+          <li>
+            <span class="feat-icon">🪞</span>
+            <div><div class="feat-title">Deep Reflection Prompts</div><div class="feat-desc">Journaling questions designed to surface patterns, beliefs, and blind spots you may have carried for years.</div></div>
+          </li>
+          <li>
+            <span class="feat-icon">🛠️</span>
+            <div><div class="feat-title">Practical Action Steps</div><div class="feat-desc">Real, doable exercises — not just theory. Each section ends with something you can actually do this week.</div></div>
+          </li>
+          <li>
+            <span class="feat-icon">💬</span>
+            <div><div class="feat-title">Conversation Guides</div><div class="feat-desc">Scripts and prompts to help you have the conversations you've been putting off — with grace and clarity.</div></div>
+          </li>
+          <li>
+            <span class="feat-icon">🎬</span>
+            <div><div class="feat-title">Paired with Video Teachings</div><div class="feat-desc">Each section links to a companion video for deeper exploration. The workbook and videos work beautifully together.</div></div>
+          </li>
+        </ul>
+      </div>
+      <div class="wb-form-card">
+        <h2>Download Your Free Copy</h2>
+        <p>Enter your details below and we'll send your workbook immediately — plus occasional love notes from Love Translated.</p>
+        <div class="wb-form-fields">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" placeholder="Your first name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input class="form-input" type="email" placeholder="you@email.com"/>
+          </div>
+          <a class="btn btn--primary" href="workbook-app/index.html" style="justify-content:center;">
+            Open Interactive Workbook →
+          </a>
+        </div>
+        <p style="font-size:0.7rem;opacity:0.4;text-align:center;margin-top:1rem;">Your information is safe. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUY THE BOOK -->
+<section class="section section--dark" id="shop">
+  <div class="container" style="text-align:center;">
+    <span class="eyebrow eyebrow--light">Available Now</span>
+    <h2 class="heading heading--light">Want to go deeper? <em>Buy the book.</em></h2>
+    <div class="divider divider--center divider--gold" style="margin:1.5rem auto;"></div>
+    <p style="max-width:480px;margin:0 auto;font-size:0.95rem;line-height:1.85;color:rgba(255,255,255,0.55);">
+      The workbook is free — always. The book goes deeper, unpacking the full principles behind the language of lasting marriage.
+    </p>
+    <div class="shop-card">
+      <div class="card-tag">Digital Book</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;margin:0.5rem 0 0.8rem;color:var(--deep);">Love Translated</h3>
+      <p style="font-size:0.88rem;line-height:1.75;opacity:0.65;margin-bottom:0;color:var(--deep);">
+        <em>The Secret Language of Lasting Marriage.</em> The complete book — immediate download after purchase.
+      </p>
+      <div class="shop-price">$XX</div>
+      <a class="btn btn--primary" style="width:100%;justify-content:center;"
+         href="https://akanakpan.gumroad.com/l/sdvcht"
+         data-gumroad-single-product="true">
+        Buy the Ebook
+      </a>
+      <p style="margin-top:1.2rem;font-size:0.78rem;text-align:center;opacity:0.5;color:var(--deep);">
+        Looking for the workbook? <a href="#download" style="color:var(--rose);text-decoration:none;">It's free ↑</a>
+      </p>
+    </div>
+    <p style="margin-top:2rem;font-size:0.75rem;opacity:0.3;color:var(--white);">
+      Secure checkout via Gumroad · Instant delivery · PDF format
+    </p>
+  </div>
+</section>
+
+<!-- CHAPTERS -->
+<section class="section section--parchment" id="chapters">
+  <div class="container">
+    <span class="eyebrow">Inside the Workbook</span>
+    <h2 class="heading">Six chapters. One <em>transformation.</em></h2>
+    <div class="chapter-grid">
+      <div class="chapter-item">
+        <div class="chapter-num">Chapter 01</div>
+        <h3 class="chapter-title">Understanding How You Love</h3>
+        <p class="chapter-desc">Identify your dominant love language and the story that shaped it.</p>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">Chapter 02</div>
+        <h3 class="chapter-title">Understanding How Others Love</h3>
+        <p class="chapter-desc">Learn to recognize the love dialects of the people around you.</p>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">Chapter 03</div>
+        <h3 class="chapter-title">The Gap: Why We Miss Each Other</h3>
+        <p class="chapter-desc">Explore the most common reasons love gets lost in translation.</p>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">Chapter 04</div>
+        <h3 class="chapter-title">Building Bridges</h3>
+        <p class="chapter-desc">Practical strategies for expressing love in ways others can actually receive.</p>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">Chapter 05</div>
+        <h3 class="chapter-title">Healing Old Wounds</h3>
+        <p class="chapter-desc">Address the past patterns that make loving well harder than it needs to be.</p>
+      </div>
+      <div class="chapter-item">
+        <div class="chapter-num">Chapter 06</div>
+        <h3 class="chapter-title">A Life of Love in Practice</h3>
+        <p class="chapter-desc">A sustainable rhythm for continuing to grow in love every single day.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a class="btn btn--primary" href="#download">Get the Workbook Free</a>
+      <a class="btn btn--outline" href="#shop">Buy the Book</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <a class="footer-brand-logo" href="index.html">Love Translated</a>
+      <p class="footer-brand-desc">Practical tools, teachings, and community to help you understand and deepen love in every relationship that matters.</p>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Navigate</p>
+      <ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="resources.html">Resources</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Learn</p>
+      <ul><li><a href="workbook.html">Free Workbook</a></li><li><a href="videos.html">Video Series</a></li><li><a href="resources.html">Articles & Guides</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Connect</p>
+      <ul>
+        <li><a href="community.html">Facebook Community</a></li>
+        <li><a href="https://www.love-translated.com" target="_blank">Main Website</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Love Translated. All rights reserved.</p>
+    <p class="footer-copy">Made with <span class="footer-heart">♥</span> for every relationship that matters.</p>
+  </div>
+</footer>
+
+<script src="https://gumroad.com/js/gumroad.js"></script>
+<script src="shared.js"></script>
+</body>
+</html>
