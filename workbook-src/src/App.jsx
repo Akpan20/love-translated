@@ -47,8 +47,6 @@ const SESSIONS = [
   { num:10, title:"Legacy of Love", opening:"What do we want others to learn about love from us?", questions:["How are we currently modeling respect and appreciation?","What would 'becoming bilingual' look like for us?","How can we support other couples?","What is our 10-year vision?"], commit:"We will leave a legacy of translated love." },
 ];
 
-// ── SHARED UI ─────────────────────────────────────────────
-
 const Ring = ({ pct, size = 72, stroke = 6, color = T.rose, bg = T.blush }) => {
   const r = (size - stroke * 2) / 2;
   const circ = 2 * Math.PI * r;
@@ -71,7 +69,6 @@ const ULabel = ({ children }) => (
   <div style={{ fontSize:10, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, marginBottom:10 }}>{children}</div>
 );
 
-// ── AUDIT ─────────────────────────────────────────────────
 const Audit = ({ data, scores, setScores, sk }) => {
   const totalPts = data.reduce((s, c) => s + c.items.length, 0) * 5;
   const scored = Object.values(scores).reduce((a, b) => a + b, 0);
@@ -116,7 +113,6 @@ const Audit = ({ data, scores, setScores, sk }) => {
   );
 };
 
-// ── CHALLENGE ─────────────────────────────────────────────
 const Challenge = ({ weeks, done, setDone, notes, setNotes, sk }) => {
   const total = weeks.reduce((s, w) => s + w.days.length, 0);
   const comp = Object.values(done).filter(Boolean).length;
@@ -169,7 +165,6 @@ const Challenge = ({ weeks, done, setDone, notes, setNotes, sk }) => {
   );
 };
 
-// ── PROGRESS ─────────────────────────────────────────────
 const Progress = ({ label, cats, data, setData }) => (
   <div style={{ marginBottom:32 }}>
     <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:22, marginBottom:14, color:T.deep }}>{label}</div>
@@ -216,7 +211,6 @@ const Progress = ({ label, cats, data, setData }) => (
   </div>
 );
 
-// ── CRISIS BLOCK — top-level to avoid re-creation on render ──
 const CrisisBlock = ({ title, color, causes, pk, data, onUpdate }) => (
   <div style={{ marginBottom:24, padding:24, background:T.white, border:`1px solid rgba(194,123,106,0.12)`, borderRadius:4 }}>
     <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:22, color, marginBottom:14 }}>{title}</div>
@@ -252,7 +246,6 @@ const Crisis = () => {
   );
 };
 
-// ── DISCUSSION ────────────────────────────────────────────
 const Discussion = () => {
   const [idx, setIdx] = useState(0);
   const [ans, setAns] = useState({});
@@ -308,7 +301,6 @@ const Discussion = () => {
   );
 };
 
-// ── NAV ITEMS ─────────────────────────────────────────────
 const NAV = [
   { id:"home",  icon:"🌸", label:"Home" },
   { id:"m1",   icon:"🔍", label:"Discover" },
@@ -319,7 +311,6 @@ const NAV = [
   { id:"guide",icon:"💬", label:"Discussion" },
 ];
 
-// ── PAGE TITLES ───────────────────────────────────────────
 const PAGE_META = {
   m1:    { title:"Discovering Your Language",      icon:"🔍" },
   m2:    { title:"30-Day Respect Challenge",        icon:"🌹" },
@@ -329,7 +320,6 @@ const PAGE_META = {
   guide: { title:"Discussion Guide",                icon:"💬" },
 };
 
-// ── ROOT APP ──────────────────────────────────────────────
 export default function App() {
   const [page, setPage]       = useState("home");
   const [m1tab, setM1tab]     = useState("gap");
@@ -347,13 +337,23 @@ export default function App() {
   const meta  = PAGE_META[page];
 
   return (
-    <div style={{ display:"flex", flexDirection:"column", minHeight:"100vh", background:T.cream }}>
+    <div style={{ display:"flex", flexDirection:"column", height:"100vh", width:"100vw", overflow:"hidden", background:T.cream }}>
 
-      {/* ── GLOBAL STYLES ── */}
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
-        html, body, #root { height:100%; }
-        body { font-family:'Jost','Georgia',sans-serif; font-weight:300; color:${T.deep}; background:${T.cream}; overflow-x:hidden; }
+        html, body { height:100%; width:100%; overflow:hidden; }
+        #root { height:100%; width:100%; display:flex; flex-direction:column; }
+        body {
+          font-family:'Jost','Georgia',sans-serif;
+          font-weight:300;
+          color:${T.deep};
+          background:${T.cream};
+          /* override the Vite default CSS that sets place-items:center */
+          display:block;
+          place-items:unset;
+          min-height:unset;
+          min-width:unset;
+        }
         textarea, input, select, button { font-family:inherit; }
         ::-webkit-scrollbar { width:5px; }
         ::-webkit-scrollbar-thumb { background:${T.blush}; border-radius:3px; }
@@ -364,19 +364,21 @@ export default function App() {
 
       {/* ── TOP NAV ── */}
       <header style={{
-        position:"sticky", top:0, zIndex:200,
+        flexShrink:0,
         background:"rgba(250,246,240,0.96)", backdropFilter:"blur(14px)",
         borderBottom:`1px solid rgba(194,123,106,0.14)`,
         display:"flex", alignItems:"center", justifyContent:"space-between",
-        padding:"0 28px", height:60, flexShrink:0,
+        padding:"0 28px", height:60,
       }}>
-        {/* logo */}
-        <button onClick={() => setPage("home")} style={{ background:"none", border:"none", cursor:"pointer", padding:0, textAlign:"left" }}>
+        {/* Love Translated button */}
+        <button 
+          onClick={() => window.location.href = '/index.html'}
+          style={{ background:"none", border:"none", padding:0, cursor:"pointer", textAlign:"left" }}
+        >
           <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:19, fontStyle:"italic", color:T.rose, lineHeight:1 }}>Love Translated</div>
           <div style={{ fontSize:8, letterSpacing:"0.22em", textTransform:"uppercase", opacity:0.4, marginTop:2 }}>Workbook & Discussion Guide</div>
         </button>
 
-        {/* nav pills */}
         <nav style={{ display:"flex", gap:4, flexWrap:"wrap", justifyContent:"flex-end" }}>
           {NAV.map(n => (
             <button key={n.id} onClick={() => setPage(n.id)}
@@ -395,7 +397,7 @@ export default function App() {
       </header>
 
       {/* ── BODY: sidebar + main ── */}
-      <div style={{ display:"flex", flex:1, minHeight:0 }}>
+      <div style={{ display:"flex", flex:1, minHeight:0 /* critical: allows children to scroll independently */ }}>
 
         {/* ── SIDEBAR ── */}
         <aside style={{
@@ -404,7 +406,6 @@ export default function App() {
           borderRight:`1px solid rgba(194,123,106,0.1)`,
           overflowY:"auto", padding:"28px 0",
         }}>
-          {/* progress rings */}
           <div style={{ padding:"0 20px 24px", borderBottom:`1px solid rgba(255,255,255,0.06)`, marginBottom:24 }}>
             <div style={{ fontSize:8, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, marginBottom:14, opacity:0.7 }}>Your Progress</div>
             {[
@@ -424,16 +425,15 @@ export default function App() {
             ))}
           </div>
 
-          {/* sidebar nav links */}
           <div style={{ padding:"0 12px", flex:1 }}>
             {[
-              { id:"home",  icon:"🌸", label:"Home",          sub:"Overview" },
-              { id:"m1",   icon:"🔍", label:"Module 1",       sub:"Discover" },
-              { id:"m2",   icon:"🌹", label:"Module 2",       sub:"Respect" },
-              { id:"m3",   icon:"💛", label:"Module 3",       sub:"Appreciate" },
-              { id:"m4",   icon:"📊", label:"Module 4",       sub:"Progress" },
-              { id:"m5",   icon:"🕊️", label:"Module 5",      sub:"Recovery" },
-              { id:"guide",icon:"💬", label:"Part 2",         sub:"Discussion" },
+              { id:"home",  icon:"🌸", label:"Home",    sub:"Overview" },
+              { id:"m1",   icon:"🔍", label:"Module 1", sub:"Discover" },
+              { id:"m2",   icon:"🌹", label:"Module 2", sub:"Respect" },
+              { id:"m3",   icon:"💛", label:"Module 3", sub:"Appreciate" },
+              { id:"m4",   icon:"📊", label:"Module 4", sub:"Progress" },
+              { id:"m5",   icon:"🕊️", label:"Module 5", sub:"Recovery" },
+              { id:"guide",icon:"💬", label:"Part 2",   sub:"Discussion" },
             ].map(n => (
               <button key={n.id} onClick={() => setPage(n.id)}
                 style={{
@@ -452,7 +452,6 @@ export default function App() {
             ))}
           </div>
 
-          {/* bottom quote */}
           <div style={{ padding:"24px 20px 0", borderTop:`1px solid rgba(255,255,255,0.06)`, marginTop:24 }}>
             <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:12, fontStyle:"italic", color:"rgba(255,255,255,0.2)", lineHeight:1.7 }}>
               "Translation is a lifelong practice, not a one-time achievement."
@@ -461,11 +460,11 @@ export default function App() {
         </aside>
 
         {/* ── MAIN CONTENT ── */}
-        <main style={{ flex:1, overflowY:"auto", background:T.cream }}>
+        <main style={{ flex:1, overflowY:"auto", background:T.cream, display:"flex", flexDirection:"column" }}>
 
-          {/* page header band */}
           {meta && (
             <div style={{
+              flexShrink:0,
               background:T.parchment, padding:"28px 40px",
               borderBottom:`1px solid rgba(194,123,106,0.14)`,
               display:"flex", alignItems:"center", gap:16,
@@ -486,13 +485,10 @@ export default function App() {
             </div>
           )}
 
-          {/* page content */}
           <div className="fade" key={page} style={{ padding:"36px 40px 80px", maxWidth:900, width:"100%" }}>
 
-            {/* ── HOME ── */}
             {page === "home" && (
               <div>
-                {/* hero */}
                 <div style={{ background:T.deep2, borderRadius:4, padding:"48px 40px", marginBottom:32, position:"relative", overflow:"hidden" }}>
                   <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 75% 50%,rgba(194,123,106,0.2),transparent 65%)", pointerEvents:"none" }}/>
                   <div style={{ position:"relative", zIndex:1, maxWidth:560 }}>
@@ -505,7 +501,6 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* module cards */}
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))", gap:14, marginBottom:32 }}>
                   {[
                     { icon:"🔍", title:"Module 1", sub:"Discover Your Language",        page:"m1", desc:"Self-assessments and gap analysis to find your love language." },
@@ -527,7 +522,6 @@ export default function App() {
                   ))}
                 </div>
 
-                {/* how to use */}
                 <div style={{ padding:"22px 24px", background:T.parchment, borderLeft:`3px solid ${T.rose}`, borderRadius:2 }}>
                   <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:19, fontStyle:"italic", color:T.rose, marginBottom:6 }}>How to use this workbook</div>
                   <div style={{ fontSize:13, lineHeight:1.85, opacity:0.72 }}>Complete each module individually first, then discuss together. Honesty with yourself is the foundation for growth with your partner. The 30-day challenges work best when you commit to one action per day — consistency over perfection.</div>
@@ -535,7 +529,6 @@ export default function App() {
               </div>
             )}
 
-            {/* ── MODULE 1 ── */}
             {page === "m1" && (
               <div>
                 <div style={{ display:"flex", gap:4, marginBottom:24, borderBottom:`1px solid rgba(194,123,106,0.18)` }}>
