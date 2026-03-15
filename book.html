@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Read the Book — Love Translated</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --deep:      #3b2a27;
+      --rose:      #c27b6a;
+      --gold:      #c9a96e;
+      --blush:     #e8c4b0;
+      --parchment: #faf6f0;
+      --parch2:    #f3ece2;
+      --deep2:     #2a1e1b;
+      --white:     #ffffff;
+      --nav-h:     80px;
+      --sidebar-w: 260px;
+      --transition: 0.25s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: var(--parchment);
+      color: var(--deep);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── NAV (matches index.html) ── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(250, 246, 240, 0.96);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(194,123,106,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      z-index: 200;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--deep);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--rose); font-style: italic; }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    .nav-links a {
+      font-family: inherit;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--deep);
+      text-decoration: none;
+      opacity: 0.65;
+      transition: opacity var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--rose); }
+
+    .nav-cta {
+      background: var(--rose);
+      color: var(--white);
+      padding: 0.7rem 1.4rem;
+      border-radius: 30px;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(194,123,106,0.3); }
+
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+    }
+    .nav-burger span { width: 22px; height: 2px; background: var(--deep); }
+
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: var(--white);
+      padding: 1.5rem 2rem;
+      flex-direction: column;
+      gap: 1.2rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      z-index: 199;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      font-size: 0.95rem;
+      color: var(--deep);
+      text-decoration: none;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(194,123,106,0.1);
+    }
+    .nav-mobile a.active { color: var(--rose); }
+
+    /* ── READER LAYOUT ── */
+    .reader-wrap {
+      display: flex;
+      flex: 1;
+      margin-top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      overflow: hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    .toc-sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--deep2);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      border-right: 1px solid rgba(194,123,106,0.1);
+    }
+    .toc-sidebar::-webkit-scrollbar { width: 3px; }
+    .toc-sidebar::-webkit-scrollbar-thumb { background: rgba(232,196,176,0.2); border-radius: 2px; }
+
+    .toc-header {
+      padding: 24px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+    }
+    .toc-eyebrow {
+      font-size: 8px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.65;
+      margin-bottom: 6px;
+    }
+    .toc-count {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--rose);
+    }
+
+    .toc-list { flex: 1; padding: 8px 0; }
+
+    .toc-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      width: 100%;
+      background: transparent;
+      border-left: 3px solid transparent;
+      border-top: none; border-right: none; border-bottom: none;
+      cursor: pointer;
+      padding: 11px 20px;
+      text-align: left;
+      transition: background var(--transition);
+    }
+    .toc-btn:hover { background: rgba(255,255,255,0.04); }
+    .toc-btn.active {
+      background: rgba(194,123,106,0.15);
+      border-left-color: var(--rose);
+    }
+    .toc-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      color: var(--rose);
+      opacity: 0.55;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .toc-title {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.5;
+    }
+    .toc-btn.active .toc-title { color: var(--blush); }
+
+    .toc-footer {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      font-style: italic;
+      font-size: 11px;
+      color: rgba(255,255,255,0.18);
+      line-height: 1.7;
+    }
+
+    /* ── MAIN READING PANE ── */
+    .reader-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    /* Toolbar */
+    .reader-toolbar {
+      flex-shrink: 0;
+      height: 52px;
+      background: rgba(250,246,240,0.97);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(194,123,106,0.14);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 10px;
+    }
+
+    .toolbar-toc-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      width: 36px; height: 36px;
+      background: none;
+      border: 1px solid rgba(194,123,106,0.25);
+      border-radius: 7px;
+      cursor: pointer;
+      padding: 8px;
+      flex-shrink: 0;
+    }
+    .toolbar-toc-btn span { display: block; height: 1.5px; background: var(--rose); }
+    .toolbar-toc-btn span:nth-child(1) { width: 14px; }
+    .toolbar-toc-btn span:nth-child(2) { width: 10px; }
+    .toolbar-toc-btn span:nth-child(3) { width: 14px; }
+
+    .toolbar-chapter-info { flex: 1; min-width: 0; }
+    .toolbar-eyebrow {
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .toolbar-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--deep);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .toolbar-controls { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
+    .ctrl-btn {
+      height: 32px;
+      padding: 0 9px;
+      border-radius: 6px;
+      border: 1px solid rgba(194,123,106,0.25);
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      color: var(--rose);
+      white-space: nowrap;
+      transition: background var(--transition);
+    }
+    .ctrl-btn:hover { background: rgba(194,123,106,0.08); }
+
+    /* Content scroll area */
+    .reader-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    .reader-scroll::-webkit-scrollbar { width: 4px; }
+    .reader-scroll::-webkit-scrollbar-thumb { background: var(--blush); border-radius: 3px; }
+
+    .chapter-content {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 48px 36px 40px;
+    }
+
+    .ch-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .ch-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 5vw, 2.9rem);
+      font-weight: 300;
+      line-height: 1.12;
+      color: var(--deep);
+      margin-bottom: 10px;
+    }
+
+    .ch-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(15px, 3.5vw, 18px);
+      font-style: italic;
+      color: var(--rose);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .ch-rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .ch-rule-line { flex: 1; height: 1px; background: rgba(194,123,106,0.22); }
+    .ch-rule-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rose); opacity: 0.45; }
+
+    /* Body text */
+    .book-p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: var(--book-fs, 19px);
+      line-height: 1.9;
+      color: var(--deep);
+      margin-bottom: 1.4em;
+      font-weight: 300;
+    }
+
+    .book-h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: calc(var(--book-fs, 19px) * 1.28);
+      font-weight: 500;
+      color: var(--deep);
+      margin: 2em 0 0.6em;
+      line-height: 1.3;
+    }
+
+    .book-pull {
+      margin: 1.8em 0;
+      padding: 18px 22px;
+      border-left: 3px solid var(--rose);
+      background: rgba(194,123,106,0.07);
+      border-radius: 0 6px 6px 0;
+    }
+    .book-pull p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: calc(var(--book-fs, 19px) * 1.04);
+      font-style: italic;
+      color: var(--rose);
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .book-insight {
+      margin: 1.8em 0;
+      padding: 16px 20px;
+      background: var(--parch2);
+      border-radius: 8px;
+      border-top: 3px solid var(--gold);
+    }
+    .book-insight-label {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .book-insight p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: calc(var(--book-fs, 19px) * 0.95);
+      line-height: 1.8;
+      color: var(--deep);
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* Chapter nav buttons */
+    .chapter-nav {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 20px 36px 72px;
+      border-top: 1px solid rgba(194,123,106,0.14);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ch-nav-btn {
+      flex: 1;
+      max-width: 130px;
+      padding: 13px 0;
+      border-radius: 8px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .ch-nav-btn--prev {
+      border: 1px solid rgba(194,123,106,0.25);
+      background: transparent;
+      color: var(--rose);
+    }
+    .ch-nav-btn--prev:hover:not(:disabled) { background: rgba(194,123,106,0.08); }
+    .ch-nav-btn--next {
+      border: none;
+      background: var(--rose);
+      color: var(--white);
+    }
+    .ch-nav-btn--next:hover:not(:disabled) { background: #b06e5c; }
+    .ch-nav-btn:disabled { opacity: 0.25; cursor: default; }
+    .ch-nav-counter { font-size: 10px; color: var(--rose); opacity: 0.4; flex-shrink: 0; }
+
+    /* Dark mode */
+    body.dark {
+      background: #1a1210;
+      --parchment: #1a1210;
+      --parch2: rgba(255,255,255,0.05);
+      --deep: #e8ddd4;
+    }
+    body.dark .nav { background: rgba(17,13,12,0.97); }
+    body.dark .nav-logo { color: #e8ddd4; }
+    body.dark .nav-links a { color: #e8ddd4; }
+    body.dark .reader-toolbar { background: rgba(17,13,12,0.97); }
+    body.dark .toolbar-title { color: #e8ddd4; }
+    body.dark .ch-title { color: #e8ddd4; }
+    body.dark .book-p { color: #e8ddd4; }
+    body.dark .book-h2 { color: #e8ddd4; }
+    body.dark .book-pull { background: rgba(194,123,106,0.13); }
+    body.dark .book-insight { background: rgba(255,255,255,0.05); }
+    body.dark .book-insight p { color: #e8ddd4; }
+    body.dark .reader-scroll { background: #1a1210; }
+
+    /* Mobile drawer */
+    .toc-overlay {
+      display: none;
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 149;
+    }
+    .toc-overlay.show { display: block; }
+
+    .toc-drawer {
+      position: fixed;
+      top: var(--nav-h); left: 0; bottom: 0;
+      width: min(80vw, 300px);
+      background: var(--deep2);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 150;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.35);
+      transform: translateX(-100%);
+      transition: transform 0.26s ease;
+    }
+    .toc-drawer.open { transform: translateX(0); }
+    .toc-drawer .toc-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .drawer-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.35);
+      font-size: 18px;
+      line-height: 1;
+      padding: 4px 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .nav-cta-desktop { display: none; }
+      .nav-burger { display: flex; }
+
+      .toc-sidebar { display: none; }
+      .toolbar-toc-btn { display: flex; }
+
+      .chapter-content { padding: 24px 18px 24px; }
+      .chapter-nav { padding: 16px 18px 88px; }
+    }
+
+    @media (max-width: 480px) {
+      .ch-title { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav class="nav">
+  <a class="nav-logo" href="index.html">Love <span>Translated</span></a>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="book.html" class="active">📖 Book</a></li>
+    <li><a href="workbook.html">Workbook</a></li>
+    <li><a href="videos.html">Videos</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li><a href="resources.html">Resources</a></li>
+  </ul>
+
+  <a class="nav-cta nav-cta-desktop" href="workbook.html">Free Workbook</a>
+
+  <button class="nav-burger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="book.html" class="active">📖 Read the Book</a>
+  <a href="workbook.html">Workbook</a>
+  <a href="videos.html">Videos</a>
+  <a href="community.html">Community</a>
+  <a href="resources.html">Resources</a>
+</div>
+
+<!-- ── READER ── -->
+<div class="reader-wrap">
+
+  <!-- Desktop sidebar TOC -->
+  <aside class="toc-sidebar" id="tocSidebar">
+    <div class="toc-header">
+      <div>
+        <div class="toc-eyebrow">Contents</div>
+        <div class="toc-count">12 Chapters</div>
+      </div>
+    </div>
+    <div class="toc-list" id="tocList"></div>
+    <div class="toc-footer">"Translation is a lifelong practice, not a one-time achievement."</div>
+  </aside>
+
+  <!-- Mobile TOC overlay + drawer -->
+  <div class="toc-overlay" id="tocOverlay" onclick="closeToc()"></div>
+  <aside class="toc-drawer" id="tocDrawer">
+    <div class="toc-header">
+      <div>
+        <div class="toc-eyebrow">Contents</div>
+        <div class="toc-count">12 Chapters</div>
+      </div>
+      <button class="drawer-close" onclick="closeToc()">✕</button>
+    </div>
+    <div class="toc-list" id="tocListMobile"></div>
+    <div class="toc-footer">"Translation is a lifelong practice, not a one-time achievement."</div>
+  </aside>
+
+  <!-- Main reading pane -->
+  <div class="reader-main">
+
+    <!-- Toolbar -->
+    <div class="reader-toolbar">
+      <button class="toolbar-toc-btn" onclick="openToc()" aria-label="Table of contents">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="toolbar-chapter-info">
+        <div class="toolbar-eyebrow" id="toolbarEyebrow">Ch. 1 / 12</div>
+        <div class="toolbar-title" id="toolbarTitle">The Problem with Fluency</div>
+      </div>
+      <div class="toolbar-controls">
+        <button class="ctrl-btn" onclick="changeFontSize(-1)">A−</button>
+        <button class="ctrl-btn" onclick="changeFontSize(1)">A+</button>
+        <button class="ctrl-btn" id="darkBtn" onclick="toggleDark()">☾</button>
+      </div>
+    </div>
+
+    <!-- Scrollable content -->
+    <div class="reader-scroll" id="readerScroll">
+      <div class="chapter-content" id="chapterContent"></div>
+      <div class="chapter-nav" id="chapterNav">
+        <button class="ch-nav-btn ch-nav-btn--prev" id="prevBtn" onclick="navigate(-1)">← Prev</button>
+        <span class="ch-nav-counter" id="navCounter">1 / 12</span>
+        <button class="ch-nav-btn ch-nav-btn--next" id="nextBtn" onclick="navigate(1)">Next →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const CHAPTERS = [
+  {
+    num:1, title:"The Problem with Fluency",
+    subtitle:"Why knowing how to love isn't the same as being understood",
+    content:[
+      {type:"p",text:"Maria and David had been married for eleven years when she first said the words that changed everything: \"I feel invisible.\" David was stunned. He had spent the last decade doing what he believed any devoted husband would do — working long hours to provide for their family, fixing the leaky faucet before she noticed it, making sure her car was always filled with gas. He showed up. He contributed. He loved her with every action he knew."},
+      {type:"p",text:"And she felt invisible."},
+      {type:"p",text:"This is the central tragedy of so many marriages: two people who genuinely love each other, who are fluent in the language of their own love, yet speak entirely past one another. David was communicating in the language of provision and practical care. Maria was waiting to hear words — spoken affirmation, verbal acknowledgment, someone noticing not just the broken faucet but the exhaustion behind her eyes."},
+      {type:"pull",text:"\"The greatest love story isn't about falling — it's about the daily, deliberate work of translation.\""},
+      {type:"p",text:"We come to our marriages carrying languages we didn't choose. The dialects of love we speak were shaped long before we ever met our partners — in the homes we grew up in, in the relationships we watched, in the wounds we carry and the hungers we've never named. Most of us speak our native tongue fluently. The problem is we assume our partner speaks the same one."},
+      {type:"p",text:"They almost never do."},
+      {type:"h2",text:"The Fluency Illusion"},
+      {type:"p",text:"Psychologists call this the \"closeness-communication bias\" — the more intimate we are with someone, the more we assume they understand us without explanation. The cruel irony of long-term love is that familiarity breeds not understanding, but assumption. We stop translating because we believe we no longer need to."},
+      {type:"p",text:"But love is never self-evident. It requires active transmission and active reception. It requires the willingness to speak a language that doesn't come naturally to you, for the sake of the person who needs to hear it in their own tongue."},
+      {type:"insight",label:"Key Insight",text:"Loving someone well is not about loving them the way you want to love them. It's about discovering how they receive love — and choosing to speak that language even when it feels foreign."},
+      {type:"p",text:"This book is not a theory of love. It is a practice. In the chapters ahead, we will identify the two most fundamental languages in every lasting marriage: respect and appreciation. We will examine the anti-languages — contempt and invisibility — that quietly erode even the strongest foundations. And we will build, together, a vocabulary that might finally allow you and your partner to hear each other."},
+      {type:"p",text:"But first, we must confront the hardest truth of all: the love you've been giving may not be the love your partner has been receiving. The gap between the two is not a failure of love. It is a failure of translation — and translation, thank God, can be learned."},
+    ]
+  },
+  {
+    num:2, title:"Two Languages That Matter Most",
+    subtitle:"Respect and appreciation — the twin pillars of lasting love",
+    content:[
+      {type:"p",text:"Of all the ways we express love, two rise above the rest in their power to sustain a marriage through every season: respect and appreciation. These are not simply emotions or attitudes. They are active languages — patterns of behavior that communicate to your partner, day after day, that they are seen, valued, and worthy."},
+      {type:"p",text:"Strip away the romance, the passion, the grand gestures, and what remains at the core of a lasting marriage is this: does my partner respect me? Does my partner appreciate me? These are not questions we ask aloud. They are questions our nervous systems ask constantly, scanning every interaction for evidence of the answer."},
+      {type:"pull",text:"\"Respect says: I see who you are. Appreciation says: I'm glad you exist. A marriage needs both — and most receive neither.\""},
+      {type:"h2",text:"Respect: The Foundation"},
+      {type:"p",text:"Respect, in the context of marriage, is not deference. It is not silence in the face of disagreement, or endless accommodation of another person's preferences. True respect is the active practice of honoring your partner's dignity — in public and in private, in moments of agreement and in the heat of conflict."},
+      {type:"p",text:"When you speak well of your partner to others, you are speaking respect. When you ask for their opinion before making decisions that affect you both, you are speaking respect. When you manage your own contempt — the eye-rolls, the sighs, the dismissive gestures — you are choosing respect over its opposite."},
+      {type:"insight",label:"Key Insight",text:"Respect is not a feeling you have about your partner. It is a practice — a series of daily choices that communicate your partner's worth back to them."},
+      {type:"h2",text:"Appreciation: The Nourishment"},
+      {type:"p",text:"Where respect addresses your partner's dignity, appreciation addresses their contributions. It answers the invisible question every partner asks: does what I do matter? Do you notice? Do you care?"},
+      {type:"p",text:"The labor of marriage is largely invisible. The meals prepared, the bills managed, the children bathed and read to, the appointments remembered, the emotional labor of keeping a household humming — most of it goes unacknowledged. Not because partners don't care, but because they've stopped noticing."},
+      {type:"p",text:"Appreciation is the antidote to invisibility. It is specific, deliberate notice. Not a generic \"thanks for everything you do,\" but the kind of particularized acknowledgment that says: I saw what you did. I know what it cost you. I am grateful."},
+      {type:"p",text:"Together, respect and appreciation form a kind of emotional ecosystem. Respect tells your partner they are worthy of love as a person. Appreciation tells them their presence and effort make a real difference. Without both, a marriage begins to starve — slowly, quietly, in ways that are difficult to name until the hunger becomes desperate."},
+    ]
+  },
+  {
+    num:3, title:"The Anti-Languages",
+    subtitle:"How contempt and invisibility quietly dismantle love",
+    content:[
+      {type:"p",text:"Every language has an opposite. The opposite of respect is contempt. The opposite of appreciation is invisibility. And unlike their counterparts, the anti-languages require no deliberate practice to develop — they arrive naturally, uninvited, when we stop being intentional about how we treat the person we love most."},
+      {type:"p",text:"John Gottman's decades of research on marriages identified contempt as the single most destructive force in a relationship — more predictive of divorce than conflict, incompatibility, or financial stress. Contempt is not anger. Anger says: I am hurt by what you did. Contempt says: I am superior to what you are. It is love curdled into disdain, and it poisons everything it touches."},
+      {type:"pull",text:"\"Contempt is not the opposite of love. It is the corpse of love — what remains when love has stopped being tended.\""},
+      {type:"h2",text:"The Face of Contempt"},
+      {type:"p",text:"Contempt wears many disguises. It arrives as a sigh when your partner speaks. It shows up in the slight curl of a lip, the roll of an eye, the dismissive wave of a hand. It lives in the way we interrupt, the way we talk over, the way we explain — patiently, condescendingly — something our partner \"clearly doesn't understand.\""},
+      {type:"p",text:"It flourishes in the stories we tell ourselves about our partners: the narrative of their incompetence, their selfishness, their fundamental inadequacy. Once that narrative takes root, it colors every interaction. Their good acts are explained away. Their flaws become evidence of who they really are."},
+      {type:"insight",label:"Key Insight",text:"Contempt is a habit before it is a feeling. We train ourselves into it through repeated small dismissals — and we can train ourselves out of it through repeated small acts of respect."},
+      {type:"h2",text:"The Silence of Invisibility"},
+      {type:"p",text:"Invisibility is quieter than contempt. It doesn't announce itself. It accumulates in the meals that go unthanked, the efforts that go unnoticed, the emotions that go unasked about. It builds in the moments when your partner is looking at a screen when you speak, when they change the subject from your story to theirs."},
+      {type:"p",text:"Invisibility is not usually malicious. Most partners who make their spouses feel invisible are not doing so intentionally. They are distracted, overwhelmed, caught in the magnetic pull of their own inner world. But intention is irrelevant to the person who is disappearing."},
+      {type:"p",text:"The good news is that both contempt and invisibility are reversible. They are not character traits but habits — patterns of attention and response that can be interrupted, examined, and replaced."},
+    ]
+  },
+  {
+    num:4, title:"Learning to Listen Again",
+    subtitle:"The forgotten art of hearing what your partner is actually saying",
+    content:[
+      {type:"p",text:"There is a kind of listening that most long-term couples have forgotten how to do. It is not the listening of waiting for your turn to speak, nor the listening of preparing your rebuttal, nor even the compassionate listening of wanting to fix what is broken. It is the listening of genuine curiosity — the kind that assumes you do not yet know what your partner is really trying to say."},
+      {type:"p",text:"After years together, we develop what researchers call \"person knowledge\" — a comprehensive mental model of our partner. We know how they think, how they react, what they're going to say before they say it. And while this knowledge is a gift in many ways, it is also a trap. It causes us to listen to the person we remember rather than the person in front of us."},
+      {type:"pull",text:"\"The longest relationships suffer from the shortest attention spans. Familiarity breeds not contempt but assumption — and assumption is the enemy of true listening.\""},
+      {type:"h2",text:"The Four Layers of a Message"},
+      {type:"p",text:"Communication theorists describe every message as having four layers: what is literally said, what the speaker intends, what the listener hears, and what the listener infers. In early relationships, these layers roughly align. In long-term partnerships, the gaps between them can become chasms."},
+      {type:"p",text:"When your partner says \"I'm fine,\" they may mean any number of things — none of which are fine. When they say \"You never help around the house,\" the literal complaint may be the least important part of the message; underneath it may be a plea for partnership, for visibility, for the sense that their labor is shared and their exhaustion recognized."},
+      {type:"insight",label:"Practice",text:"Before responding to your partner in a moment of tension, pause and ask yourself: \"What might they actually be trying to tell me beneath the words they're using?\" Then ask them — gently, openly — if you've understood correctly."},
+      {type:"h2",text:"Listening as an Act of Love"},
+      {type:"p",text:"Full listening — the kind that puts down phones, quiets the internal monologue, makes eye contact, leans in — is one of the most intimate acts available to a couple. It communicates something that no gift, no declaration, no grand gesture can: you matter enough to have my complete attention."},
+      {type:"p",text:"In a world engineered for distraction, the willingness to be fully present with another human being is increasingly rare and increasingly precious. It is also, like all the practices in this book, a skill — one that atrophies without use and strengthens with deliberate practice."},
+    ]
+  },
+  {
+    num:5, title:"The Language of Respect",
+    subtitle:"Thirty ways to tell your partner they are worthy",
+    content:[
+      {type:"p",text:"Respect is demonstrated before it is felt. This is perhaps the most counterintuitive truth in this book: we do not wait until we feel respect to act respectfully. We act respectfully, consistently, deliberately — and the feeling follows. Love, in this sense, is more verb than noun."},
+      {type:"p",text:"The four domains of respect correspond to the four categories in your workbook's Respect Audit: public validation, private deference, trust and autonomy, and physical and emotional signals. Each domain represents a distinct vocabulary — a set of behaviors that communicate, in their own register, that your partner is worthy of honor."},
+      {type:"pull",text:"\"What you say about your partner when they are not in the room is a more honest measure of your respect than anything you say to their face.\""},
+      {type:"h2",text:"Public Validation"},
+      {type:"p",text:"How we speak of our partners in public is a mirror of how we see them in private. Partners who speak positively about each other in social settings — who defend rather than mock, who credit rather than diminish — are doing something far more important than social performance. They are reinforcing, in the presence of witnesses, the dignity of the person they chose."},
+      {type:"p",text:"The opposite — the joke at a partner's expense, the casual complaint shared with friends, the slightly contemptuous summary of a spouse's failings at a dinner table — is one of the more corrosive habits in marriage. It is so normalized as to seem harmless. It is not harmless."},
+      {type:"h2",text:"Private Deference"},
+      {type:"p",text:"Private deference is the practice of honoring your partner's perspective in the intimate space of your relationship, before the world has any opportunity to witness it. It is asking rather than demanding. It is listening until they have finished before you begin. It is supporting decisions you disagree with, because you trust your partner's judgment and their right to make their own choices."},
+      {type:"insight",label:"This Week",text:"Choose one domain of respect that feels most difficult for you. Commit to one deliberate act within it every day for seven days. Notice what changes — in your partner, and in yourself."},
+      {type:"p",text:"Trust and autonomy are forms of respect most often violated without awareness. The micromanagement of a partner's tasks, the correction of their parenting in front of the children, the subtle but constant signaling that you could do it better — these are all forms of disrespect dressed in the costume of helpfulness."},
+    ]
+  },
+  {
+    num:6, title:"The Language of Appreciation",
+    subtitle:"Making the invisible visible, one acknowledgment at a time",
+    content:[
+      {type:"p",text:"The most reliable indicator of whether a partner feels appreciated is not whether their partner says thank you — it is whether their partner notices. Appreciation begins with attention: the deliberate practice of seeing what your partner actually does, day after day, that keeps your shared life running."},
+      {type:"p",text:"We live in an age of spectacular attention deficit. Our devices compete for our awareness with algorithmic precision; our minds run on the fuel of the urgent. In this environment, the quiet, repetitive, unglamorous labor of a partner — the school lunches packed, the bills reviewed, the sick child tended to at three in the morning — becomes effectively invisible."},
+      {type:"pull",text:"\"Appreciation is not a feeling that leads to action. It is an action — deliberate, specific, chosen — that eventually becomes a feeling.\""},
+      {type:"h2",text:"The Specificity Principle"},
+      {type:"p",text:"Generic appreciation (\"thanks for everything you do\") is better than nothing, but barely. What partners truly hunger for is specific acknowledgment — the kind that proves you actually saw what they did, understood what it cost them, and chose to name it aloud."},
+      {type:"p",text:"There is a significant difference between \"thanks for dinner\" and \"I noticed you were exhausted tonight, and you still made something from scratch instead of ordering out. That meant something to me.\" The second version proves attention. It requires the speaker to have actually seen their partner — which is, in the end, the deepest thing appreciation communicates: I see you."},
+      {type:"insight",label:"Key Practice",text:"For one week, make a daily list of three specific things your partner did that you noticed and are grateful for. Share at least one of them with your partner each day. The practice of noticing will transform how you see them."},
+      {type:"h2",text:"The Four Appreciation Languages"},
+      {type:"p",text:"Just as respect divides into four domains, appreciation manifests in four registers: verbal recognition, active participation, tangible thoughtfulness, and emotional presence. Some partners are most nourished by words; others by actions; others by the sense that their inner life is tracked and remembered."},
+      {type:"p",text:"The thirty-day Appreciation Challenge is not a performance. It is a training program for your attention — a systematic effort to rewire the neural pathways of habit so that notice, acknowledgment, and gratitude become your default response to the person you love."},
+    ]
+  },
+  {
+    num:7, title:"Seasons of a Marriage",
+    subtitle:"How love must evolve to survive the life you build together",
+    content:[
+      {type:"p",text:"A marriage is not a single relationship. It is a series of relationships shared by two people who keep each other's names. The couple who married at twenty-four are not the same couple raising teenagers at forty-five, nor the same couple navigating retirement at sixty-eight. The love that sustains a marriage must be elastic enough to stretch across these seasons — and wise enough to translate itself anew at each one."},
+      {type:"p",text:"The early years are characterized by discovery: the intoxicating work of learning another person, finding your rhythms together, negotiating the infinite small compromises of shared life. Love at this stage often requires no translation — the desire to understand and be understood is strong enough to fuel the effort naturally."},
+      {type:"pull",text:"\"The marriages that last are not the ones that remain unchanged. They are the ones that change together — updating their translation, season by season, year by year.\""},
+      {type:"h2",text:"The Middle Seasons"},
+      {type:"p",text:"The middle years — the years of parenting, career pressure, aging parents, financial stress — are the most dangerous for love. Not because the love is less real, but because the demands on attention are so ferocious that the relationship itself can become a thing that runs in the background: assumed, untended, slowly draining."},
+      {type:"p",text:"Couples in the middle seasons often report that they feel like business partners, co-parents, logistics coordinators — but not lovers. What is needed is not a grand romantic gesture, but a sustained small practice: the daily recommitment to speaking each other's language."},
+      {type:"insight",label:"Seasonal Translation",text:"At the start of each year, or each major life transition, ask your partner: \"What does love need to look like for you right now, in this season?\" Their answer may surprise you — and the question itself is an act of love."},
+      {type:"h2",text:"The Later Years"},
+      {type:"p",text:"Partners who have navigated the middle years with their love intact often discover something unexpected in the later seasons: a depth of connection unavailable in youth. The shared history, the mutual witnessing of each other's becoming, the accumulated evidence of having been chosen — again and again, through every season — becomes its own language, spoken in glances and small gestures."},
+    ]
+  },
+  {
+    num:8, title:"When the Translation Breaks Down",
+    subtitle:"Rebuilding trust after contempt, betrayal, or long neglect",
+    content:[
+      {type:"p",text:"There are seasons in every marriage when the translation does not merely falter — it fails entirely. The accumulated weight of unspoken resentments, repeated disappointments, breaches of trust, or simply the long erosion of two people who have stopped trying to understand each other can bring a relationship to a place that feels irreparable."},
+      {type:"p",text:"It is not always irreparable. But the work of repair is different in kind from the work of maintenance. It requires something more than good intentions or practiced appreciation. It requires a willingness to look honestly at what broke, and why — and to do the slow, often painful work of rebuilding on a clearer foundation."},
+      {type:"pull",text:"\"Repair is not the same as return. You cannot go back to who you were before the breaking. You can only go forward as people who have been broken and chose, together, to rebuild.\""},
+      {type:"h2",text:"The Anatomy of a Breach"},
+      {type:"p",text:"Trust breaks in recognizable patterns. There is the sudden rupture — the infidelity, the lie discovered, the betrayal that arrives without warning and leaves nothing unchanged. And there is the slow erosion — the years of contempt, the mounting invisibility, the gradual accumulation of small disrespects that eventually outweigh the love they were layered over."},
+      {type:"insight",label:"The Path Back",text:"Repair begins with a specific acknowledgment of what happened and how it affected your partner — not a general apology, but a demonstrated understanding of the particular harm. \"I know that when I did X, you felt Y, and that mattered\" is the beginning."},
+      {type:"h2",text:"When Professional Help Is Needed"},
+      {type:"p",text:"This book cannot substitute for professional support when a marriage has sustained serious harm. A skilled therapist is not a last resort — it is a wise choice, and often an early one. The couples most likely to repair significant damage are those who seek help before the situation becomes critical."},
+      {type:"p",text:"The crisis module in your workbook provides a framework for beginning the conversation about what broke and what it would take to rebuild. But if you find yourselves unable to move through that framework without escalating conflict, please consider reaching out to a licensed professional."},
+    ]
+  },
+  {
+    num:9, title:"The Upward Spiral",
+    subtitle:"How small consistent actions create compounding love",
+    content:[
+      {type:"p",text:"Here is what the research consistently shows, and what the experience of couples who have done this work confirms: small positive actions, sustained consistently over time, do not merely add to a relationship's wellbeing. They compound it. Like interest in a savings account, acts of respect and appreciation accrue — not just in goodwill and positive feeling, but in the partner's neurological response to the relationship itself."},
+      {type:"p",text:"When a partner receives consistent respect, their nervous system begins to associate the relationship with safety. When they receive consistent appreciation, it begins to associate it with worth. Over time, this changes not only how they feel in the relationship, but how they behave in it."},
+      {type:"pull",text:"\"You cannot manufacture the upward spiral by willing it into existence. You can only create the conditions for it — through small, consistent, chosen acts of translated love.\""},
+      {type:"h2",text:"The Trap of Reciprocity"},
+      {type:"p",text:"The most common obstacle to the upward spiral is the expectation of reciprocity: I will do my part when my partner does theirs. I will respect when I feel respected. I will appreciate when I feel appreciated. This is an understandable impulse. It is also a prescription for stalemate."},
+      {type:"p",text:"The transformed marriages described in the research on positive relationship interventions are almost never the result of both partners changing simultaneously. They begin with one partner deciding to change regardless of the other — to begin the practice of translated love unilaterally, without waiting for permission or reciprocation."},
+      {type:"insight",label:"The 30-Day Commitment",text:"The challenges in Modules 2 and 3 are designed to be undertaken individually, not as a couple project. Your job is not to monitor your partner's progress. It is to show up for yours — and to trust that the spiral, once started, has its own momentum."},
+      {type:"p",text:"The couples who have used this workbook to transform their relationships share a common thread: they stopped waiting. They chose, as an act of faith and love, to give the language freely — and found, with time, that the language was returned."},
+    ]
+  },
+  {
+    num:10, title:"The Practice of Daily Translation",
+    subtitle:"Building rituals that keep love fluent through every season",
+    content:[
+      {type:"p",text:"Translation is not a project you complete. It is a practice you maintain — as ongoing and unglamorous as any other maintenance work that keeps something you love from deteriorating. The couples who sustain the gains they make through the thirty-day challenges are the ones who built daily rituals small enough to survive exhaustion."},
+      {type:"p",text:"Rituals are the infrastructure of translated love. They are the recurring moments in the day when you choose, again, to speak your partner's language — not because you feel inspired, but because the structure of your shared life makes the choice automatic."},
+      {type:"pull",text:"\"A marriage is not kept alive by grand gestures. It is kept alive by the accumulation of small, ordinary moments of genuine presence.\""},
+      {type:"h2",text:"Designing Your Translation Practice"},
+      {type:"p",text:"The best translation rituals are ones you design together, with honest knowledge of your own patterns and constraints. If mornings are chaotic, a morning check-in ritual will not survive the first week. The ritual must fit your actual life — not the life you intend to live, but the one you are living now."},
+      {type:"p",text:"Begin with the smallest possible version. Not a thirty-minute daily check-in, but a two-minute one. Not a handwritten note each morning, but a text. The goal is not intensity but consistency — the accumulated signal, sent day after day, that your partner is someone you have not forgotten to see."},
+      {type:"insight",label:"Start Here",text:"Choose one ritual from each language — one act of respect and one act of appreciation — that you can genuinely commit to for the next thirty days. Write them down. Tell your partner. Begin tomorrow."},
+      {type:"p",text:"The practice of daily translation is, in the end, a practice of faith — faith that the person across from you at the breakfast table is still worth the effort of being truly known, and that you are still capable of growing into the partner they need you to be."},
+    ]
+  },
+  {
+    num:11, title:"Becoming Bilingual",
+    subtitle:"When speaking your partner's language becomes second nature",
+    content:[
+      {type:"p",text:"There is a moment, in language learning, when the dictionary disappears. The conscious effort of translation gives way to something more fluid. You begin to think in the new language. Words arrive without retrieval. The effort becomes invisible because it has been absorbed."},
+      {type:"p",text:"This is what becoming bilingual in love feels like. After months of deliberate practice — of choosing respect when contempt would have come more easily, of choosing appreciation when invisibility was the path of least resistance — the deliberate begins to become natural."},
+      {type:"pull",text:"\"Bilingualism in love is not the end of effort. It is the transformation of effort into grace — the point at which doing the right thing begins to feel like being yourself.\""},
+      {type:"h2",text:"The Signs of Fluency"},
+      {type:"p",text:"You will know you are becoming bilingual when your partner stops being surprised by your acts of respect and appreciation. Early in the practice, every acknowledgment lands with a particular weight — the weight of unexpectedness. As fluency grows, the startlement fades. Not because the acts of love mean less, but because they have become part of the weather of the relationship — expected, ambient, quietly sustaining."},
+      {type:"insight",label:"Reflection",text:"Ask your partner: \"When do you feel most loved by me?\" and \"When do you feel most unseen?\" Their answers will tell you where your fluency is growing and where it still needs work."},
+      {type:"p",text:"Bilingualism does not mean you will always get it right. You will have bad days, exhausted days, days when the anti-languages surface despite your best intentions. Fluency is not perfection. It is the orientation of your defaults — the language you return to when you are at your best, and reach for even when you are not."},
+    ]
+  },
+  {
+    num:12, title:"The Legacy of Translated Love",
+    subtitle:"What we model becomes what we give to the world",
+    content:[
+      {type:"p",text:"The love we practice in private does not stay private. It teaches. It shapes the children who watch it, the friends who witness it, the communities it flows through. Every marriage that sustains the practice of translated love — imperfectly, faithfully, over decades — becomes a model of what is possible, and a gift to everyone in its radius."},
+      {type:"pull",text:"\"The greatest thing you will ever teach your children is not a lesson. It is a marriage — the daily evidence that love, practiced faithfully, can last.\""},
+      {type:"h2",text:"What You Are Building"},
+      {type:"p",text:"When you work through this book — honestly, consistently, even in the weeks when the challenges feel difficult and the discussion questions sit uncomfortably close to truths you'd rather avoid — you are building something that extends beyond your own relationship. You are building a template. A story. A piece of evidence that will outlast you."},
+      {type:"p",text:"Your children will carry the image of how you treated each other into their own relationships. Your friends will bring something of what they observed in your marriage to their own. The influence of a well-translated love radiates outward in ways that are rarely visible but never entirely absent."},
+      {type:"insight",label:"Your 10-Year Vision",text:"Imagine your relationship ten years from now, having practiced translated love consistently. What does it feel like? What does it look like? Write it down — and share it with your partner. The vision you hold together shapes the love you build."},
+      {type:"p",text:"The work of translation is never finished. The languages of love continue to evolve as we evolve — as seasons change, as losses accumulate, as the people we married continue to become people we are still learning."},
+      {type:"p",text:"Keep translating. Keep noticing. Keep choosing. Not because it is easy, but because the person beside you is worth the fluency — and because the love you practice is, in the end, the love you leave behind."},
+    ]
+  },
+];
+
+// ── State ──
+let current = 0;
+let fontSize = 19;
+let darkMode = false;
+
+// ── Render TOC ──
+function buildToc(listId, onClickFn) {
+  const list = document.getElementById(listId);
+  list.innerHTML = CHAPTERS.map((ch, i) => `
+    <button class="toc-btn ${i === current ? 'active' : ''}" onclick="${onClickFn}(${i})">
+      <span class="toc-num">${String(ch.num).padStart(2,'0')}</span>
+      <span class="toc-title">${ch.title}</span>
+    </button>
+  `).join('');
+}
+
+function refreshToc() {
+  buildToc('tocList', 'goTo');
+  buildToc('tocListMobile', 'goToMobile');
+}
+
+// ── Render chapter content ──
+function renderChapter() {
+  const ch = CHAPTERS[current];
+
+  // Toolbar
+  document.getElementById('toolbarEyebrow').textContent = `Ch. ${ch.num} / ${CHAPTERS.length}`;
+  document.getElementById('toolbarTitle').textContent   = ch.title;
+  document.getElementById('navCounter').textContent     = `${current + 1} / ${CHAPTERS.length}`;
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = current === CHAPTERS.length - 1;
+
+  // Content
+  const fs = fontSize;
+  let html = `
+    <div class="ch-eyebrow">Chapter ${ch.num} of ${CHAPTERS.length}</div>
+    <h1 class="ch-title">${ch.title}</h1>
+    <div class="ch-subtitle">${ch.subtitle}</div>
+    <div class="ch-rule">
+      <div class="ch-rule-line"></div>
+      <div class="ch-rule-dot"></div>
+      <div class="ch-rule-line"></div>
+    </div>
+  `;
+
+  ch.content.forEach(block => {
+    if (block.type === 'p') {
+      html += `<p class="book-p" style="font-size:${fs}px">${block.text}</p>`;
+    } else if (block.type === 'h2') {
+      html += `<h2 class="book-h2" style="font-size:${Math.round(fs*1.28)}px">${block.text}</h2>`;
+    } else if (block.type === 'pull') {
+      html += `<div class="book-pull"><p style="font-size:${Math.round(fs*1.04)}px">${block.text}</p></div>`;
+    } else if (block.type === 'insight') {
+      html += `<div class="book-insight"><div class="book-insight-label">${block.label}</div><p style="font-size:${Math.round(fs*0.95)}px">${block.text}</p></div>`;
+    }
+  });
+
+  document.getElementById('chapterContent').innerHTML = html;
+  document.getElementById('readerScroll').scrollTo({ top: 0, behavior: 'smooth' });
+  refreshToc();
+}
+
+// ── Navigation ──
+function goTo(i) {
+  current = i;
+  renderChapter();
+}
+
+function goToMobile(i) {
+  current = i;
+  renderChapter();
+  closeToc();
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < CHAPTERS.length) goTo(next);
+}
+
+// ── Font size ──
+function changeFontSize(delta) {
+  fontSize = Math.max(15, Math.min(26, fontSize + delta));
+  renderChapter();
+}
+
+// ── Dark mode ──
+function toggleDark() {
+  darkMode = !darkMode;
+  document.body.classList.toggle('dark', darkMode);
+  document.getElementById('darkBtn').textContent = darkMode ? '☀' : '☾';
+}
+
+// ── Mobile TOC ──
+function openToc() {
+  document.getElementById('tocDrawer').classList.add('open');
+  document.getElementById('tocOverlay').classList.add('show');
+}
+
+function closeToc() {
+  document.getElementById('tocDrawer').classList.remove('open');
+  document.getElementById('tocOverlay').classList.remove('show');
+}
+
+// ── Mobile nav ──
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const nav = document.querySelector('.nav');
+  const mn  = document.getElementById('mobileNav');
+  if (!nav.contains(e.target) && mn.classList.contains('open')) mn.classList.remove('open');
+});
+
+// ── Init ──
+refreshToc();
+renderChapter();
+</script>
+</body>
+</html>
