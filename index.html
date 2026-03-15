@@ -21,10 +21,7 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html {
-      height: 100%;
-      min-height: 100vh;
-    }
+    html { height: 100%; min-height: 100vh; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -32,23 +29,17 @@
       color: var(--deep);
       line-height: 1.6;
       min-height: 100vh;
-      min-height: -webkit-fill-available; /* Mobile Safari fix */
+      min-height: -webkit-fill-available;
       display: flex;
       flex-direction: column;
     }
 
-    /* Main content wrapper to push footer down */
-    main {
-      flex: 1 0 auto;
-      width: 100%;
-    }
+    main { flex: 1 0 auto; width: 100%; }
 
     /* Navigation */
     .nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: var(--nav-h);
       background: rgba(250, 246, 243, 0.95);
       backdrop-filter: blur(20px);
@@ -69,17 +60,15 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      flex-shrink: 0;
     }
 
-    .nav-logo span {
-      color: var(--rose);
-      font-style: italic;
-    }
+    .nav-logo span { color: var(--rose); font-style: italic; }
 
     .nav-center {
       display: flex;
       list-style: none;
-      gap: 2.5rem;
+      gap: 2rem;
     }
 
     .nav-center a {
@@ -96,21 +85,21 @@
     .nav-center a::after {
       content: '';
       position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1px;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
       background: var(--rose);
       transition: width var(--transition);
     }
 
-    .nav-center a:hover {
-      opacity: 1;
-    }
+    .nav-center a:hover { opacity: 1; }
+    .nav-center a:hover::after { width: 100%; }
 
-    .nav-center a:hover::after {
-      width: 100%;
+    /* Book nav item gets a subtle rose tint */
+    .nav-center a.nav-book {
+      color: var(--rose);
+      opacity: 0.85;
     }
+    .nav-center a.nav-book:hover { opacity: 1; }
 
     .nav-cta {
       background: var(--rose);
@@ -122,6 +111,7 @@
       text-transform: uppercase;
       text-decoration: none;
       transition: transform var(--transition), box-shadow var(--transition);
+      flex-shrink: 0;
     }
 
     .nav-cta:hover {
@@ -140,8 +130,7 @@
     }
 
     .nav-burger span {
-      width: 24px;
-      height: 2px;
+      width: 24px; height: 2px;
       background: var(--deep);
       transition: var(--transition);
     }
@@ -149,9 +138,7 @@
     .nav-mobile {
       display: none;
       position: fixed;
-      top: var(--nav-h);
-      left: 0;
-      right: 0;
+      top: var(--nav-h); left: 0; right: 0;
       background: var(--white);
       padding: 2rem;
       flex-direction: column;
@@ -160,9 +147,7 @@
       z-index: 999;
     }
 
-    .nav-mobile.active {
-      display: flex;
-    }
+    .nav-mobile.active { display: flex; }
 
     .nav-mobile a {
       font-size: 0.9rem;
@@ -170,6 +155,11 @@
       text-decoration: none;
       padding: 0.5rem 0;
       border-bottom: 1px solid rgba(194, 123, 106, 0.1);
+    }
+
+    .nav-mobile a.nav-book-mobile {
+      color: var(--rose);
+      font-weight: 500;
     }
 
     /* Hero */
@@ -190,8 +180,7 @@
 
     .hero::before {
       content: '';
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background: radial-gradient(ellipse at 70% 40%, rgba(232,196,176,0.28) 0%, transparent 60%);
       pointer-events: none;
     }
@@ -212,8 +201,7 @@
     .hero-eyebrow::before {
       content: '';
       display: block;
-      width: 32px;
-      height: 1px;
+      width: 32px; height: 1px;
       background: var(--gold);
       opacity: 0.6;
     }
@@ -243,10 +231,7 @@
       animation: fadeUp 0.9s 0.5s forwards;
     }
 
-    .hero-desc span {
-      opacity: 0.68;
-      display: block;
-    }
+    .hero-desc span { opacity: 0.68; display: block; }
 
     .hero-ctas {
       display: flex;
@@ -343,16 +328,14 @@
 
     .hero-orb::before {
       content: '';
-      position: absolute;
-      inset: 20px;
+      position: absolute; inset: 20px;
       border-radius: 50%;
       border: 1px solid rgba(194,123,106,0.12);
     }
 
     .hero-orb::after {
       content: '';
-      position: absolute;
-      inset: 40px;
+      position: absolute; inset: 40px;
       border-radius: 50%;
       border: 1px dashed rgba(194,123,106,0.1);
     }
@@ -375,22 +358,12 @@
       transition: transform var(--transition);
     }
 
-    .hero-pill:hover {
-      transform: scale(1.05);
-    }
-
+    .hero-pill:hover { transform: scale(1.05); }
     .hero-pill-1 { top: 10%; left: -8%; }
     .hero-pill-2 { bottom: 15%; right: -8%; }
-
     .hero-pill-icon { font-size: 1.2rem; }
-
     .hero-pill-text { font-size: 0.72rem; font-weight: 500; }
-
-    .hero-pill-sub {
-      font-size: 0.62rem;
-      opacity: 0.45;
-      display: block;
-    }
+    .hero-pill-sub { font-size: 0.62rem; opacity: 0.45; display: block; }
 
     /* Marquee */
     .marquee-wrap {
@@ -419,25 +392,17 @@
     }
 
     .marquee-dot {
-      width: 4px;
-      height: 4px;
+      width: 4px; height: 4px;
       border-radius: 50%;
       background: rgba(255,255,255,0.5);
     }
 
     /* Sections */
-    .section {
-      padding: 6rem 4rem;
-      width: 100%;
-    }
-
+    .section { padding: 6rem 4rem; width: 100%; }
     .section--white { background: var(--white); }
     .section--parchment { background: var(--parchment); }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1200px; margin: 0 auto; }
 
     .eyebrow {
       display: block;
@@ -456,15 +421,12 @@
       margin-bottom: 1rem;
     }
 
-    .heading em {
-      color: var(--rose);
-      font-style: italic;
-    }
+    .heading em { color: var(--rose); font-style: italic; }
 
     /* Features */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 2px;
       margin-top: 4rem;
     }
@@ -482,6 +444,14 @@
       transform: translateY(-5px);
       box-shadow: 0 20px 40px rgba(0,0,0,0.05);
     }
+
+    /* Book feature block gets a warm accent */
+    .feature-block--book {
+      border-top: 3px solid var(--rose);
+      position: relative;
+    }
+
+    .feature-block--book .feature-num { color: var(--rose); opacity: 1; }
 
     .feature-num {
       font-family: 'Cormorant Garamond', serif;
@@ -519,19 +489,13 @@
       font-weight: 500;
     }
 
-    .feature-link::after {
-      content: '→';
-      transition: transform 0.2s;
-    }
-
-    .feature-block:hover .feature-link::after {
-      transform: translateX(5px);
-    }
+    .feature-link::after { content: '→'; transition: transform 0.2s; }
+    .feature-block:hover .feature-link::after { transform: translateX(5px); }
 
     /* Resources */
     .resources-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1.5rem;
       margin-top: 3.5rem;
     }
@@ -555,10 +519,18 @@
       border-color: rgba(194,123,106,0.2);
     }
 
-    .card-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+    /* Book card featured styling */
+    .card--book {
+      border-color: rgba(194,123,106,0.25);
+      background: linear-gradient(145deg, var(--white) 0%, rgba(250,246,243,0.6) 100%);
     }
+
+    .card--book:hover {
+      border-color: var(--rose);
+      box-shadow: 0 20px 40px rgba(194,123,106,0.15);
+    }
+
+    .card-icon { font-size: 2rem; margin-bottom: 1rem; }
 
     .card-tag {
       font-size: 0.6rem;
@@ -571,6 +543,11 @@
       display: inline-block;
       margin-bottom: 1rem;
       width: fit-content;
+    }
+
+    .card-tag--new {
+      background: var(--rose);
+      color: var(--white);
     }
 
     .card-title {
@@ -599,14 +576,8 @@
       gap: 0.5rem;
     }
 
-    .card-link::after {
-      content: '→';
-      transition: transform 0.2s;
-    }
-
-    .card:hover .card-link::after {
-      transform: translateX(4px);
-    }
+    .card-link::after { content: '→'; transition: transform 0.2s; }
+    .card:hover .card-link::after { transform: translateX(4px); }
 
     /* Quote */
     .quote-section {
@@ -621,8 +592,7 @@
     .quote-section::before {
       content: '\201C';
       position: absolute;
-      top: -3rem;
-      left: 50%;
+      top: -3rem; left: 50%;
       transform: translateX(-50%);
       font-family: 'Cormorant Garamond', serif;
       font-size: 20rem;
@@ -662,23 +632,15 @@
     }
 
     .divider {
-      width: 60px;
-      height: 1px;
+      width: 60px; height: 1px;
       background: var(--rose);
       margin: 1.5rem 0;
       opacity: 0.5;
     }
 
-    .body-text {
-      font-size: 1rem;
-      line-height: 1.8;
-      opacity: 0.7;
-      max-width: 400px;
-    }
+    .body-text { font-size: 1rem; line-height: 1.8; opacity: 0.7; max-width: 400px; }
 
-    .form-group {
-      margin-bottom: 1.2rem;
-    }
+    .form-group { margin-bottom: 1.2rem; }
 
     .form-label {
       display: block;
@@ -708,9 +670,7 @@
       box-shadow: 0 0 0 3px rgba(194,123,106,0.1);
     }
 
-    .form-input::placeholder {
-      color: rgba(59,42,39,0.4);
-    }
+    .form-input::placeholder { color: rgba(59,42,39,0.4); }
 
     /* Footer */
     .footer {
@@ -718,8 +678,8 @@
       color: var(--white);
       padding: 5rem 4rem 2rem;
       width: 100%;
-      flex-shrink: 0; /* Prevent footer from shrinking */
-      margin-top: auto; /* Push to bottom */
+      flex-shrink: 0;
+      margin-top: auto;
     }
 
     .footer-grid {
@@ -756,13 +716,8 @@
       margin-bottom: 1.5rem;
     }
 
-    .footer-col ul {
-      list-style: none;
-    }
-
-    .footer-col li {
-      margin-bottom: 0.8rem;
-    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.8rem; }
 
     .footer-col a {
       color: rgba(255,255,255,0.7);
@@ -771,9 +726,13 @@
       transition: color var(--transition);
     }
 
-    .footer-col a:hover {
-      color: var(--white);
+    .footer-col a:hover { color: var(--white); }
+
+    .footer-col a.footer-book-link {
+      color: var(--blush);
     }
+
+    .footer-col a.footer-book-link:hover { color: var(--white); }
 
     .footer-bottom {
       max-width: 1200px;
@@ -786,10 +745,7 @@
       gap: 1rem;
     }
 
-    .footer-copy {
-      font-size: 0.8rem;
-      opacity: 0.5;
-    }
+    .footer-copy { font-size: 0.8rem; opacity: 0.5; }
 
     .footer-heart {
       color: var(--rose);
@@ -799,34 +755,28 @@
 
     /* Animations */
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes fadeIn {
       from { opacity: 0; }
-      to { opacity: 1; }
+      to   { opacity: 1; }
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
+      50%       { transform: translateY(-20px); }
     }
 
     @keyframes marqueeScroll {
       from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
+      to   { transform: translateX(-50%); }
     }
 
     @keyframes heartbeat {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      50%       { transform: scale(1.1); }
     }
 
     /* Responsive */
@@ -834,22 +784,21 @@
       .nav { padding: 0 2rem; }
       .nav-center { display: none; }
       .nav-burger { display: flex; }
-      .nav-mobile.active { display: flex; }
-      
+
       .hero {
         grid-template-columns: 1fr;
         padding: 6rem 2rem 3rem;
         text-align: center;
         min-height: auto;
       }
-      
+
       .hero-eyebrow { justify-content: center; }
       .hero-desc { margin: 0 auto; }
       .hero-ctas { justify-content: center; }
       .hero-stats { justify-content: center; }
       .hero-visual { display: none; }
-      
-      .features-grid { grid-template-columns: 1fr; }
+
+      .features-grid { grid-template-columns: 1fr 1fr; }
       .nl-inner { grid-template-columns: 1fr; gap: 3rem; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
     }
@@ -860,25 +809,7 @@
       .footer { padding: 3rem 1.5rem 1.5rem; }
       .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
       .footer-bottom { flex-direction: column; text-align: center; }
-    }
-
-    /* Back link for React integration */
-    .back-link {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--rose);
-      opacity: 0.6;
-      text-decoration: none;
-      margin-left: 20px;
-      transition: opacity 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .back-link:hover {
-      opacity: 1;
+      .features-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -887,33 +818,33 @@
   <!-- Navigation -->
   <nav class="nav">
     <a class="nav-logo" href="index.html">Love <span>Translated</span></a>
-    
+
     <ul class="nav-center">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
+      <li><a href="book.html" class="nav-book">📖 Book</a></li>
       <li><a href="workbook.html">Workbook</a></li>
       <li><a href="videos.html">Videos</a></li>
       <li><a href="community.html">Community</a></li>
       <li><a href="resources.html">Resources</a></li>
     </ul>
-    
+
     <a class="nav-cta" href="workbook.html">Free Workbook</a>
-    
+
     <button class="nav-burger" aria-label="Menu" onclick="toggleMobileNav()">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
   </nav>
-  
+
   <div class="nav-mobile" id="mobileNav">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
+    <a href="book.html" class="nav-book-mobile">📖 Read the Book</a>
     <a href="workbook.html">Workbook</a>
     <a href="videos.html">Videos</a>
     <a href="community.html">Community</a>
     <a href="resources.html">Resources</a>
-    <a class="nav-cta" href="workbook.html" style="margin-top: 1rem; text-align: center;">Free Workbook</a>
+    <a class="nav-cta" href="workbook.html" style="margin-top:1rem;text-align:center;">Free Workbook</a>
   </div>
 
   <main>
@@ -926,17 +857,18 @@
           <span>Practical tools, teachings, and community to help you understand, communicate, and deepen love — in every relationship that matters.</span>
         </div>
         <div class="hero-ctas">
-          <a class="btn btn--primary" href="workbook.html">↓ Free Workbook</a>
+          <a class="btn btn--primary" href="book.html">📖 Read the Book</a>
+          <a class="btn btn--outline" href="workbook.html">↓ Free Workbook</a>
           <a class="btn btn--outline" href="videos.html">Watch Teachings</a>
         </div>
         <div class="hero-stats">
           <div>
-            <span class="hero-stat-num">Free</span>
-            <span class="hero-stat-label">Workbook Download</span>
+            <span class="hero-stat-num">12</span>
+            <span class="hero-stat-label">Book Chapters</span>
           </div>
           <div>
-            <span class="hero-stat-num">∞</span>
-            <span class="hero-stat-label">Video Teachings</span>
+            <span class="hero-stat-num">Free</span>
+            <span class="hero-stat-label">Workbook Download</span>
           </div>
           <div>
             <span class="hero-stat-num">❤️</span>
@@ -944,15 +876,15 @@
           </div>
         </div>
       </div>
-      
+
       <div class="hero-visual">
         <div class="hero-orb">
           <span class="hero-orb-inner">🌸</span>
           <div class="hero-pill hero-pill-1">
             <span class="hero-pill-icon">📖</span>
             <div>
-              <span class="hero-pill-text">Free Workbook</span>
-              <span class="hero-pill-sub">Download Now</span>
+              <span class="hero-pill-text">Read the Book</span>
+              <span class="hero-pill-sub">12 Chapters · Free</span>
             </div>
           </div>
           <div class="hero-pill hero-pill-2">
@@ -969,6 +901,7 @@
     <!-- Marquee -->
     <div class="marquee-wrap">
       <div class="marquee-track">
+        <span class="marquee-item">Read the Book<span class="marquee-dot"></span></span>
         <span class="marquee-item">Free Workbook<span class="marquee-dot"></span></span>
         <span class="marquee-item">Video Teaching Series<span class="marquee-dot"></span></span>
         <span class="marquee-item">Private Community<span class="marquee-dot"></span></span>
@@ -976,6 +909,7 @@
         <span class="marquee-item">Guided Reflections<span class="marquee-dot"></span></span>
         <span class="marquee-item">Deeper Connection<span class="marquee-dot"></span></span>
         <!-- Duplicate for seamless loop -->
+        <span class="marquee-item">Read the Book<span class="marquee-dot"></span></span>
         <span class="marquee-item">Free Workbook<span class="marquee-dot"></span></span>
         <span class="marquee-item">Video Teaching Series<span class="marquee-dot"></span></span>
         <span class="marquee-item">Private Community<span class="marquee-dot"></span></span>
@@ -990,23 +924,30 @@
       <div class="container">
         <span class="eyebrow">Why Love Translated</span>
         <h2 class="heading">Built to help you love <em>better</em></h2>
-        
+
         <div class="features-grid">
-          <div class="feature-block">
+          <div class="feature-block feature-block--book" onclick="location.href='book.html'">
+            <div class="feature-num">📖</div>
+            <h3 class="feature-title">Read the Book</h3>
+            <p class="feature-desc">All 12 chapters — read online with dark mode, adjustable font, and chapter-by-chapter navigation. Free.</p>
+            <a class="feature-link" href="book.html">Start Reading</a>
+          </div>
+
+          <div class="feature-block" onclick="location.href='workbook.html'">
             <div class="feature-num">01</div>
             <h3 class="feature-title">Understand Your Love Language</h3>
             <p class="feature-desc">Discover how you give and receive love — and how to bridge the gap with those who speak differently.</p>
             <a class="feature-link" href="workbook.html">Get the Workbook</a>
           </div>
-          
-          <div class="feature-block">
+
+          <div class="feature-block" onclick="location.href='videos.html'">
             <div class="feature-num">02</div>
             <h3 class="feature-title">Learn Through Rich Teachings</h3>
             <p class="feature-desc">Video teachings that go deep — real, honest conversations about what love requires of us.</p>
             <a class="feature-link" href="videos.html">Watch Now</a>
           </div>
-          
-          <div class="feature-block">
+
+          <div class="feature-block" onclick="location.href='community.html'">
             <div class="feature-num">03</div>
             <h3 class="feature-title">Grow in Community</h3>
             <p class="feature-desc">You weren't meant to figure this out alone. Our community is a warm, safe space to share and be known.</p>
@@ -1021,38 +962,46 @@
       <div class="container">
         <span class="eyebrow">All Resources</span>
         <h2 class="heading">Everything in one <em>place</em></h2>
-        
+
         <div class="resources-grid">
-          <a class="card" href="workbook.html">
+          <a class="card card--book" href="book.html">
             <span class="card-icon">📖</span>
+            <span class="card-tag card-tag--new">Read Online</span>
+            <h3 class="card-title">The Book</h3>
+            <p class="card-desc">All 12 chapters of <em>Love Translated</em> — read in your browser with dark mode, adjustable font size, and full chapter navigation.</p>
+            <span class="card-link">Start Reading</span>
+          </a>
+
+          <a class="card" href="workbook.html">
+            <span class="card-icon">✏️</span>
             <span class="card-tag">Free Download</span>
             <h3 class="card-title">Free Workbook</h3>
             <p class="card-desc">Guided exercises and reflections to help you explore and express love more deeply.</p>
-            <span class="card-link">Download →</span>
+            <span class="card-link">Download</span>
           </a>
-          
+
           <a class="card" href="videos.html">
             <span class="card-icon">🎬</span>
             <span class="card-tag">Video Series</span>
             <h3 class="card-title">Teaching Videos</h3>
             <p class="card-desc">A library of rich teachings to guide your journey — watch at your own pace, anytime.</p>
-            <span class="card-link">Watch →</span>
+            <span class="card-link">Watch</span>
           </a>
-          
+
           <a class="card" href="community.html">
             <span class="card-icon">💬</span>
             <span class="card-tag">Private Group</span>
             <h3 class="card-title">Facebook Community</h3>
             <p class="card-desc">The Love Translated Community — warm, safe, and full of people on the same journey.</p>
-            <span class="card-link">Join →</span>
+            <span class="card-link">Join</span>
           </a>
-          
+
           <a class="card" href="resources.html">
             <span class="card-icon">✨</span>
             <span class="card-tag">More</span>
             <h3 class="card-title">All Resources</h3>
             <p class="card-desc">Browse articles, guides, recommended reading, and everything else created for you.</p>
-            <span class="card-link">Explore →</span>
+            <span class="card-link">Explore</span>
           </a>
         </div>
       </div>
@@ -1074,7 +1023,7 @@
             <div class="divider"></div>
             <p class="body-text">Encouragement, new resources, and gentle reflections — delivered with care, never too often.</p>
           </div>
-          
+
           <form onsubmit="handleSubscribe(event)">
             <div class="form-group">
               <label class="form-label">First Name</label>
@@ -1101,7 +1050,7 @@
         <a class="footer-brand-logo" href="index.html">Love Translated</a>
         <p class="footer-brand-desc">Practical tools, teachings, and community to help you understand and deepen love in every relationship that matters.</p>
       </div>
-      
+
       <div class="footer-col">
         <p class="footer-col-title">Navigate</p>
         <ul>
@@ -1110,16 +1059,17 @@
           <li><a href="resources.html">Resources</a></li>
         </ul>
       </div>
-      
+
       <div class="footer-col">
         <p class="footer-col-title">Learn</p>
         <ul>
+          <li><a href="book.html" class="footer-book-link">📖 Read the Book</a></li>
           <li><a href="workbook.html">Free Workbook</a></li>
           <li><a href="videos.html">Video Series</a></li>
-          <li><a href="resources.html">Articles & Guides</a></li>
+          <li><a href="resources.html">Articles &amp; Guides</a></li>
         </ul>
       </div>
-      
+
       <div class="footer-col">
         <p class="footer-col-title">Connect</p>
         <ul>
@@ -1128,7 +1078,7 @@
         </ul>
       </div>
     </div>
-    
+
     <div class="footer-bottom">
       <p class="footer-copy">© 2026 Love Translated. All rights reserved.</p>
       <p class="footer-copy">Made with <span class="footer-heart">♥</span> for every relationship that matters.</p>
@@ -1136,33 +1086,26 @@
   </footer>
 
   <script>
-    // Mobile navigation toggle
     function toggleMobileNav() {
-      const mobileNav = document.getElementById('mobileNav');
-      mobileNav.classList.toggle('active');
+      document.getElementById('mobileNav').classList.toggle('active');
     }
 
-    // Close mobile nav when clicking outside
     document.addEventListener('click', function(e) {
       const nav = document.querySelector('.nav');
       const mobileNav = document.getElementById('mobileNav');
-      
       if (!nav.contains(e.target) && mobileNav.classList.contains('active')) {
         mobileNav.classList.remove('active');
       }
     });
 
-    // Newsletter form handler
     function handleSubscribe(e) {
       e.preventDefault();
       const btn = e.target.querySelector('button');
-      const originalText = btn.textContent;
-      
+      const orig = btn.textContent;
       btn.textContent = 'Subscribed! ✓';
       btn.style.background = '#8a9e8c';
-      
       setTimeout(() => {
-        btn.textContent = originalText;
+        btn.textContent = orig;
         btn.style.background = '';
         e.target.reset();
       }, 3000);

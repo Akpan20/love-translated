@@ -268,132 +268,222 @@ const ULabel = ({ children }) => (
 );
 
 // ─────────────────────────────────────────────
+// BOOK TOC SIDEBAR — declared outside BookReader
+// ─────────────────────────────────────────────
+const BookTocSidebar = ({ asDrawer, chIdx, sidebarBg, goTo, onClose }) => (
+  <aside style={{
+    width: asDrawer ? "min(80vw, 300px)" : 240,
+    flexShrink: 0,
+    background: sidebarBg,
+    display: "flex",
+    flexDirection: "column",
+    borderRight: "1px solid rgba(194,123,106,0.1)",
+    overflowY: "auto",
+    ...(asDrawer ? {
+      position:"fixed", top:60, left:0, bottom:0,
+      zIndex:300,
+      boxShadow:"4px 0 24px rgba(0,0,0,0.35)",
+      animation:"bookDrawerIn 0.24s ease",
+    } : {}),
+  }}>
+    <div style={{ padding:"20px 18px 14px", borderBottom:"1px solid rgba(255,255,255,0.07)", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+      <div>
+        <div style={{ fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, opacity:0.6, marginBottom:4 }}>Contents</div>
+        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontStyle:"italic", fontSize:14, color:T.rose }}>{BOOK_CHAPTERS.length} Chapters</div>
+      </div>
+      {asDrawer && (
+        <button onClick={onClose}
+          style={{ background:"none", border:"none", cursor:"pointer", color:"rgba(255,255,255,0.35)", fontSize:20, lineHeight:1, padding:"4px 6px" }}>
+          ✕
+        </button>
+      )}
+    </div>
+    <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
+      {BOOK_CHAPTERS.map((c, i) => (
+        <button key={i} onClick={() => goTo(i)}
+          style={{
+            display:"flex", alignItems:"flex-start", gap:10,
+            width:"100%",
+            borderLeft: i === chIdx ? `3px solid ${T.rose}` : "3px solid transparent",
+            borderTop:"none", borderRight:"none", borderBottom:"none",
+            cursor:"pointer", padding:"11px 18px", textAlign:"left",
+            background: i === chIdx ? "rgba(194,123,106,0.15)" : "transparent",
+            transition:"background 0.15s",
+          }}>
+          <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:12, color:T.rose, opacity:0.55, flexShrink:0, marginTop:1 }}>{String(c.num).padStart(2,"0")}</span>
+          <span style={{ fontSize:11, color: i === chIdx ? T.blush : "rgba(255,255,255,0.5)", lineHeight:1.5 }}>{c.title}</span>
+        </button>
+      ))}
+    </div>
+    <div style={{ padding:"16px 18px", borderTop:"1px solid rgba(255,255,255,0.07)", fontFamily:"'Cormorant Garamond',serif", fontStyle:"italic", fontSize:11, color:"rgba(255,255,255,0.2)", lineHeight:1.7 }}>
+      "Translation is a lifelong practice, not a one-time achievement."
+    </div>
+  </aside>
+);
+
+// ─────────────────────────────────────────────
 // BOOK READER COMPONENT
 // ─────────────────────────────────────────────
 const BookReader = () => {
   const [chIdx, setChIdx] = useState(0);
   const [fontSize, setFontSize] = useState(19);
   const [darkMode, setDarkMode] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [tocOpen, setTocOpen] = useState(false);
 
   const ch = BOOK_CHAPTERS[chIdx];
 
   const goTo = (i) => {
     setChIdx(i);
-    setDrawerOpen(false);
+    setTocOpen(false);
     const el = document.getElementById("book-scroll-area");
     if (el) el.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const bg = darkMode ? "#1a1210" : T.cream;
-  const textColor = darkMode ? "#e8ddd4" : T.deep;
-  const parchmentColor = darkMode ? "rgba(255,255,255,0.04)" : T.parchment;
-  const pullBg = darkMode ? "rgba(194,123,106,0.13)" : "rgba(194,123,106,0.06)";
-  const sidebarBg = darkMode ? "#110d0c" : T.deep2;
+  const bg          = darkMode ? "#1a1210" : T.cream;
+  const textColor   = darkMode ? "#e8ddd4" : T.deep;
+  const parchColor  = darkMode ? "rgba(255,255,255,0.05)" : T.parchment;
+  const pullBg      = darkMode ? "rgba(194,123,106,0.13)" : "rgba(194,123,106,0.07)";
+  const sidebarBg   = darkMode ? "#110d0c" : T.deep2;
+  const toolbarBg   = darkMode ? "rgba(17,13,12,0.97)" : "rgba(250,246,240,0.97)";
+  const borderColor = "rgba(194,123,106,0.14)";
 
   const renderBlock = (block, i) => {
-    const pStyle = { fontFamily:"'Cormorant Garamond',serif", fontSize, lineHeight:1.9, color:textColor, marginBottom:"1.4em", fontWeight:300 };
-    switch(block.type) {
-      case "p": return <p key={i} style={pStyle}>{block.text}</p>;
-      case "h2": return (
-        <h2 key={i} style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:fontSize*1.3, fontWeight:500, color:textColor, margin:"2.2em 0 0.7em", lineHeight:1.3 }}>{block.text}</h2>
-      );
-      case "pull": return (
-        <div key={i} style={{ margin:"2em 0", padding:"20px 24px", borderLeft:`3px solid ${T.rose}`, background:pullBg, borderRadius:"0 6px 6px 0" }}>
-          <p style={{ ...pStyle, fontStyle:"italic", color:T.rose, margin:0, fontSize:fontSize*1.05 }}>{block.text}</p>
-        </div>
-      );
-      case "insight": return (
-        <div key={i} style={{ margin:"2em 0", padding:"18px 22px", background:parchmentColor, borderRadius:8, borderTop:`3px solid ${T.gold}` }}>
-          <div style={{ fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, marginBottom:8 }}>{block.label}</div>
-          <p style={{ ...pStyle, margin:0, fontSize:fontSize*0.95 }}>{block.text}</p>
-        </div>
-      );
+    const fs = Math.max(17, fontSize);
+    const pStyle = {
+      fontFamily:"'Cormorant Garamond',serif",
+      fontSize: fs,
+      lineHeight:1.9, color:textColor, marginBottom:"1.4em", fontWeight:300,
+    };
+    switch (block.type) {
+      case "p":
+        return <p key={i} style={pStyle}>{block.text}</p>;
+      case "h2":
+        return (
+          <h2 key={i} style={{
+            fontFamily:"'Cormorant Garamond',serif",
+            fontSize: Math.round(fs * 1.28),
+            fontWeight:500, color:textColor, margin:"2em 0 0.6em", lineHeight:1.3,
+          }}>{block.text}</h2>
+        );
+      case "pull":
+        return (
+          <div key={i} style={{ margin:"1.8em 0", padding:"16px 20px", borderLeft:`3px solid ${T.rose}`, background:pullBg, borderRadius:"0 6px 6px 0" }}>
+            <p style={{ ...pStyle, fontStyle:"italic", color:T.rose, margin:0, fontSize: Math.round(fs * 1.04) }}>{block.text}</p>
+          </div>
+        );
+      case "insight":
+        return (
+          <div key={i} style={{ margin:"1.8em 0", padding:"16px 18px", background:parchColor, borderRadius:8, borderTop:`3px solid ${T.gold}` }}>
+            <div style={{ fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, marginBottom:8 }}>{block.label}</div>
+            <p style={{ ...pStyle, margin:0, fontSize: Math.round(fs * 0.95) }}>{block.text}</p>
+          </div>
+        );
       default: return null;
     }
   };
 
   return (
     <div style={{ display:"flex", height:"100%", overflow:"hidden", background:bg, position:"relative" }}>
-      {/* Mobile overlay */}
-      {drawerOpen && (
-        <div onClick={() => setDrawerOpen(false)}
-          style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.4)", zIndex:199 }}/>
+      <style>{`
+        @keyframes bookDrawerIn { from{transform:translateX(-100%)} to{transform:translateX(0)} }
+        .book-desktop-toc { display:flex; }
+        .book-toc-btn     { display:none; }
+        @media (max-width:768px) {
+          .book-desktop-toc { display:none !important; }
+          .book-toc-btn     { display:flex !important; }
+        }
+      `}</style>
+
+      {/* Desktop sidebar (always visible ≥769px) */}
+      <div className="book-desktop-toc">
+        <BookTocSidebar asDrawer={false} chIdx={chIdx} sidebarBg={sidebarBg} goTo={goTo} onClose={() => setTocOpen(false)} />
+      </div>
+
+      {/* Mobile drawer overlay */}
+      {tocOpen && (
+        <>
+          <div onClick={() => setTocOpen(false)}
+            style={{ position:"fixed", top:60, left:0, right:0, bottom:0, background:"rgba(0,0,0,0.45)", zIndex:299 }}/>
+          <BookTocSidebar asDrawer={true} chIdx={chIdx} sidebarBg={sidebarBg} goTo={goTo} onClose={() => setTocOpen(false)} />
+        </>
       )}
 
-      {/* Sidebar */}
-      <aside style={{
-        width:240, flexShrink:0, background:sidebarBg,
-        display:"flex", flexDirection:"column",
-        borderRight:`1px solid rgba(194,123,106,0.1)`,
-        overflowY:"auto", transition:"transform 0.28s ease",
-        position: "relative", zIndex: 10,
-      }}>
-        <div style={{ padding:"20px 18px 14px", borderBottom:"1px solid rgba(255,255,255,0.07)", flexShrink:0 }}>
-          <div style={{ fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, opacity:0.6, marginBottom:8 }}>Contents</div>
-          <div style={{ fontFamily:"'Cormorant Garamond',serif", fontStyle:"italic", fontSize:14, color:T.rose }}>{BOOK_CHAPTERS.length} Chapters</div>
-        </div>
-        <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
-          {BOOK_CHAPTERS.map((c, i) => (
-            <button key={i} onClick={() => goTo(i)}
-              style={{
-                display:"flex", alignItems:"flex-start", gap:10,
-                width:"100%", background:"none",
-                borderLeft: i === chIdx ? `3px solid ${T.rose}` : "3px solid transparent",
-                borderTop:"none", borderRight:"none", borderBottom:"none",
-                cursor:"pointer", padding:"10px 18px", textAlign:"left",  transition:"background 0.15s",
-              }}>
-              <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:12, color:T.rose, opacity:0.55, flexShrink:0, marginTop:1 }}>{String(c.num).padStart(2,"0")}</span>
-              <span style={{ fontSize:11, color: i === chIdx ? T.blush : "rgba(255,255,255,0.5)", lineHeight:1.45 }}>{c.title}</span>
-            </button>
-          ))}
-        </div>
-        <div style={{ padding:"16px 18px", borderTop:"1px solid rgba(255,255,255,0.07)", fontFamily:"'Cormorant Garamond',serif", fontStyle:"italic", fontSize:11, color:"rgba(255,255,255,0.2)", lineHeight:1.7 }}>
-          "Translation is a lifelong practice, not a one-time achievement."
-        </div>
-      </aside>
-
       {/* Main reading pane */}
-      <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden" }}>
-        {/* Reader toolbar */}
+      <div style={{ flex:1, display:"flex", flexDirection:"column", overflow:"hidden", minWidth:0 }}>
+
+        {/* ── Toolbar ── */}
         <div style={{
-          flexShrink:0, height:52,
-          background: darkMode ? "rgba(26,18,16,0.97)" : "rgba(250,246,240,0.97)",
+          flexShrink:0,
+          background: toolbarBg,
           backdropFilter:"blur(14px)",
-          borderBottom:`1px solid rgba(194,123,106,0.14)`,
-          display:"flex", alignItems:"center", padding:"0 24px", gap:12,
+          borderBottom:`1px solid ${borderColor}`,
+          display:"flex", alignItems:"center",
+          padding:"0 14px", gap:8, height:52,
         }}>
+          {/* TOC button — mobile only */}
+          <button className="book-toc-btn" onClick={() => setTocOpen(true)}
+            style={{
+              display:"none", alignItems:"center", justifyContent:"center",
+              flexShrink:0, width:36, height:36,
+              background:"none", border:`1px solid rgba(194,123,106,0.25)`,
+              borderRadius:7, cursor:"pointer", flexDirection:"column", gap:4, padding:8,
+            }}>
+            <span style={{ display:"block", width:14, height:1.5, background:T.rose }}/>
+            <span style={{ display:"block", width:10, height:1.5, background:T.rose }}/>
+            <span style={{ display:"block", width:14, height:1.5, background:T.rose }}/>
+          </button>
+
+          {/* Chapter label */}
           <div style={{ flex:1, minWidth:0 }}>
-            <div style={{ fontSize:9, letterSpacing:"0.2em", textTransform:"uppercase", color:T.gold }}>Chapter {ch.num}</div>
-            <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:15, fontStyle:"italic", color:textColor, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{ch.title}</div>
+            <div style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:T.gold }}>Ch. {ch.num} / {BOOK_CHAPTERS.length}</div>
+            <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:14, fontStyle:"italic", color:textColor, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{ch.title}</div>
           </div>
-          <div style={{ display:"flex", gap:6, alignItems:"center" }}>
-            {[["A−", -1], ["A+", 1]].map(([label, d]) => (
-              <button key={label} onClick={() => setFontSize(s => Math.max(15, Math.min(26, s + d)))}
-                style={{ width:30, height:30, borderRadius:6, border:`1px solid rgba(194,123,106,0.25)`, background:"transparent", cursor:"pointer", fontFamily:"'Cormorant Garamond',serif", color:T.rose, fontSize:12 }}>
-                {label}
+
+          {/* Controls */}
+          <div style={{ display:"flex", gap:5, alignItems:"center", flexShrink:0 }}>
+            {[["A−", -1], ["A+", 1]].map(([lbl, d]) => (
+              <button key={lbl} onClick={() => setFontSize(s => Math.max(15, Math.min(26, s + d)))}
+                style={{ width:32, height:32, borderRadius:6, border:`1px solid rgba(194,123,106,0.25)`, background:"transparent", cursor:"pointer", fontFamily:"'Cormorant Garamond',serif", color:T.rose, fontSize:12, flexShrink:0 }}>
+                {lbl}
               </button>
             ))}
             <button onClick={() => setDarkMode(d => !d)}
-              style={{ padding:"5px 10px", borderRadius:6, border:`1px solid rgba(194,123,106,0.25)`, background:"transparent", cursor:"pointer", fontSize:9, letterSpacing:"0.1em", textTransform:"uppercase", color:T.rose }}>
-              {darkMode ? "☀ Light" : "☾ Dark"}
+              style={{ height:32, padding:"0 9px", borderRadius:6, border:`1px solid rgba(194,123,106,0.25)`, background:"transparent", cursor:"pointer", fontSize:9, letterSpacing:"0.08em", textTransform:"uppercase", color:T.rose, flexShrink:0, whiteSpace:"nowrap" }}>
+              {darkMode ? "☀" : "☾"}
             </button>
           </div>
         </div>
 
-        {/* Scrollable content */}
-        <div id="book-scroll-area" style={{ flex:1, overflowY:"auto", overflowX:"hidden" }}>
-          <div style={{ maxWidth:660, margin:"0 auto", padding:"48px 36px 60px" }}>
+        {/* ── Scrollable content ── */}
+        <div id="book-scroll-area" style={{ flex:1, overflowY:"auto", overflowX:"hidden", WebkitOverflowScrolling:"touch" }}>
+          <style>{`
+            .bk-pad  { padding: 40px 32px 32px; }
+            .bk-nav  { padding: 16px 32px 88px; }
+            .bk-h1   { font-size: clamp(1.6rem, 6vw, 2.8rem); }
+            .bk-sub  { font-size: clamp(15px, 4vw, 18px); }
+            @media (max-width: 768px) {
+              .bk-pad { padding: 24px 18px 24px; }
+              .bk-nav { padding: 16px 18px 96px; }
+            }
+          `}</style>
+
+          <div className="bk-pad" style={{ maxWidth:660, margin:"0 auto" }}>
             <div style={{ fontSize:9, letterSpacing:"0.3em", textTransform:"uppercase", color:T.gold, marginBottom:10 }}>
               Chapter {ch.num} of {BOOK_CHAPTERS.length}
             </div>
-            <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.9rem,4vw,2.9rem)", fontWeight:300, color:textColor, lineHeight:1.15, marginBottom:8 }}>
+            <h1 className="bk-h1" style={{
+              fontFamily:"'Cormorant Garamond',serif",
+              fontWeight:300, color:textColor, lineHeight:1.15, marginBottom:8,
+            }}>
               {ch.title}
             </h1>
-            <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:18, fontStyle:"italic", color:T.rose, marginBottom:28, lineHeight:1.45 }}>
+            <div className="bk-sub" style={{
+              fontFamily:"'Cormorant Garamond',serif",
+              fontStyle:"italic", color:T.rose, marginBottom:24, lineHeight:1.5,
+            }}>
               {ch.subtitle}
             </div>
-            <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:32 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:28 }}>
               <div style={{ flex:1, height:1, background:"rgba(194,123,106,0.22)" }}/>
               <div style={{ width:6, height:6, borderRadius:"50%", background:T.rose, opacity:0.45 }}/>
               <div style={{ flex:1, height:1, background:"rgba(194,123,106,0.22)" }}/>
@@ -401,15 +491,19 @@ const BookReader = () => {
             {ch.content.map((block, i) => renderBlock(block, i))}
           </div>
 
-          {/* Chapter navigation */}
-          <div style={{ maxWidth:660, margin:"0 auto", padding:"16px 36px 48px", borderTop:`1px solid rgba(194,123,106,0.14)`, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+          {/* ── Chapter nav ── */}
+          <div className="bk-nav" style={{
+            maxWidth:660, margin:"0 auto",
+            borderTop:`1px solid ${borderColor}`,
+            display:"flex", justifyContent:"space-between", alignItems:"center", gap:12,
+          }}>
             <button onClick={() => goTo(Math.max(0, chIdx - 1))} disabled={chIdx === 0}
-              style={{ display:"flex", alignItems:"center", gap:8, padding:"10px 16px", border:`1px solid rgba(194,123,106,0.25)`, background:"transparent", borderRadius:8, cursor:chIdx===0?"default":"pointer", fontSize:11, letterSpacing:"0.1em", textTransform:"uppercase", color:T.rose, opacity:chIdx===0?0.25:1 }}>
+              style={{ flex:1, maxWidth:130, padding:"13px 0", border:`1px solid rgba(194,123,106,0.25)`, background:"transparent", borderRadius:8, cursor:chIdx===0?"default":"pointer", fontSize:12, letterSpacing:"0.08em", textTransform:"uppercase", color:T.rose, opacity:chIdx===0?0.25:1, textAlign:"center" }}>
               ← Prev
             </button>
-            <span style={{ fontSize:10, color:T.rose, opacity:0.4 }}>{chIdx+1} / {BOOK_CHAPTERS.length}</span>
+            <span style={{ fontSize:10, color:T.rose, opacity:0.4, flexShrink:0 }}>{chIdx+1} / {BOOK_CHAPTERS.length}</span>
             <button onClick={() => goTo(Math.min(BOOK_CHAPTERS.length-1, chIdx+1))} disabled={chIdx===BOOK_CHAPTERS.length-1}
-              style={{ display:"flex", alignItems:"center", gap:8, padding:"10px 16px", border:"none", background:T.rose, color:T.white, borderRadius:8, cursor:chIdx===BOOK_CHAPTERS.length-1?"default":"pointer", fontSize:11, letterSpacing:"0.1em", textTransform:"uppercase", opacity:chIdx===BOOK_CHAPTERS.length-1?0.3:1 }}>
+              style={{ flex:1, maxWidth:130, padding:"13px 0", border:"none", background:T.rose, color:T.white, borderRadius:8, cursor:chIdx===BOOK_CHAPTERS.length-1?"default":"pointer", fontSize:12, letterSpacing:"0.08em", textTransform:"uppercase", opacity:chIdx===BOOK_CHAPTERS.length-1?0.3:1, textAlign:"center" }}>
               Next →
             </button>
           </div>
