@@ -62,7 +62,7 @@ const Ring = ({ pct, size = 72, stroke = 6, color = T.rose, bg = T.blush }) => {
 
 const TA = ({ value, onChange, placeholder, minH = 80 }) => (
   <textarea value={value} onChange={onChange} placeholder={placeholder}
-    style={{ width:"100%", minHeight:minH, border:`1px solid rgba(194,123,106,0.22)`, background:T.parchment, borderRadius:4, padding:"10px 14px", fontSize:13, lineHeight:1.7, resize:"vertical", outline:"none", color:T.deep, fontFamily:"'Cormorant Garamond', Georgia, serif", fontWeight:300 }}/>
+    style={{ width:"100%", minHeight:minH, border:`1px solid rgba(194,123,106,0.22)`, background:T.parchment, borderRadius:6, padding:"10px 14px", fontSize:16, lineHeight:1.7, resize:"vertical", outline:"none", color:T.deep, fontFamily:"'Cormorant Garamond', Georgia, serif", fontWeight:300, WebkitAppearance:"none", boxSizing:"border-box" }}/>
 );
 
 const ULabel = ({ children }) => (
@@ -77,7 +77,7 @@ const Audit = ({ data, scores, setScores, sk }) => {
   let gi = 0;
   return (
     <div>
-      <div style={{ display:"flex", alignItems:"center", gap:20, padding:20, background:T.white, border:`1px solid rgba(194,123,106,0.15)`, borderRadius:4, marginBottom:24 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:16, padding:16, background:T.white, border:`1px solid rgba(194,123,106,0.15)`, borderRadius:8, marginBottom:20 }}>
         <div style={{ position:"relative", flexShrink:0 }}>
           <Ring pct={pct}/>
           <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:700, color:T.rose }}>{Math.round(pct*100)}%</div>
@@ -94,12 +94,12 @@ const Audit = ({ data, scores, setScores, sk }) => {
           {cat.items.map(item => {
             const idx = gi++; const k = `${sk}_${idx}`; const val = scores[k] || 0;
             return (
-              <div key={idx} style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 14px", background:T.parchment, borderRadius:4, marginBottom:6 }}>
-                <div style={{ flex:1, fontSize:13, lineHeight:1.5, opacity:0.82 }}>{item}</div>
-                <div style={{ display:"flex", gap:4, flexShrink:0 }}>
+              <div key={idx} style={{ padding:"12px 14px", background:T.parchment, borderRadius:8, marginBottom:8 }}>
+                <div style={{ fontSize:14, lineHeight:1.6, opacity:0.85, marginBottom:10 }}>{item}</div>
+                <div style={{ display:"flex", gap:6 }}>
                   {[1,2,3,4,5].map(n => (
                     <button key={n} onClick={() => setScores(p => ({ ...p, [k]:n }))}
-                      style={{ width:26, height:26, borderRadius:"50%", border:`1.5px solid`, cursor:"pointer", fontSize:11, fontWeight:600, transition:"all 0.15s", background:val>=n?T.rose:"transparent", borderColor:val>=n?T.rose:"rgba(194,123,106,0.3)", color:val>=n?T.white:T.rose }}>
+                      style={{ flex:1, height:38, borderRadius:6, border:`1.5px solid`, cursor:"pointer", fontSize:14, fontWeight:600, transition:"all 0.15s", background:val>=n?T.rose:"transparent", borderColor:val>=n?T.rose:"rgba(194,123,106,0.3)", color:val>=n?T.white:T.rose, minWidth:0, WebkitTapHighlightColor:"transparent" }}>
                       {n}
                     </button>
                   ))}
@@ -119,7 +119,7 @@ const Challenge = ({ weeks, done, setDone, notes, setNotes, sk }) => {
   let dn = 0;
   return (
     <div>
-      <div style={{ display:"flex", alignItems:"center", gap:20, padding:20, background:T.deep2, borderRadius:4, marginBottom:24 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:16, padding:16, background:T.deep2, borderRadius:8, marginBottom:20 }}>
         <div style={{ position:"relative", flexShrink:0 }}>
           <Ring pct={comp/total} color={T.gold} bg="rgba(232,196,176,0.3)"/>
           <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:600, color:T.gold }}>{comp}/{total}</div>
@@ -134,28 +134,28 @@ const Challenge = ({ weeks, done, setDone, notes, setNotes, sk }) => {
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
             <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:18 }}>Week {week.week}</div>
             <div style={{ height:1, flex:1, background:"rgba(194,123,106,0.2)" }}/>
-            <div style={{ fontSize:10, letterSpacing:"0.18em", textTransform:"uppercase", color:T.gold }}>{week.theme}</div>
+            <div style={{ fontSize:10, letterSpacing:"0.15em", textTransform:"uppercase", color:T.gold }}>{week.theme}</div>
           </div>
           {week.days.map(action => {
             dn++; const d = dn; const k = `${sk}_d${d}`; const isDone = done[k]||false; const nk = `${sk}_n${d}`;
             return (
-              <div key={d} style={{ marginBottom:6, padding:"10px 14px", background:isDone?"rgba(194,123,106,0.07)":T.white, border:`1px solid`, borderColor:isDone?T.rose:"rgba(194,123,106,0.12)", borderRadius:4, transition:"all 0.25s" }}>
-                <div style={{ display:"flex", alignItems:"flex-start", gap:10 }}>
+              <div key={d} style={{ marginBottom:8, padding:"12px 14px", background:isDone?"rgba(194,123,106,0.07)":T.white, border:`1px solid`, borderColor:isDone?T.rose:"rgba(194,123,106,0.12)", borderRadius:8, transition:"all 0.25s" }}>
+                <div style={{ display:"flex", alignItems:"flex-start", gap:12 }}>
                   <button onClick={() => setDone(p => ({ ...p, [k]:!isDone }))}
-                    style={{ width:20, height:20, borderRadius:4, border:`1.5px solid`, borderColor:isDone?T.rose:"rgba(194,123,106,0.3)", background:isDone?T.rose:"transparent", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, marginTop:2, transition:"all 0.2s" }}>
-                    {isDone && <span style={{ color:T.white, fontSize:11 }}>✓</span>}
+                    style={{ width:26, height:26, borderRadius:6, border:`1.5px solid`, borderColor:isDone?T.rose:"rgba(194,123,106,0.3)", background:isDone?T.rose:"transparent", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, marginTop:1, transition:"all 0.2s", WebkitTapHighlightColor:"transparent" }}>
+                    {isDone && <span style={{ color:T.white, fontSize:13 }}>✓</span>}
                   </button>
                   <div style={{ flex:1 }}>
-                    <div style={{ fontSize:10, color:T.gold, marginBottom:2 }}>Day {d}</div>
-                    <div style={{ fontSize:13, lineHeight:1.55, opacity:isDone?0.5:0.85, textDecoration:isDone?"line-through":"none" }}>{action}</div>
+                    <div style={{ fontSize:10, color:T.gold, marginBottom:3 }}>Day {d}</div>
+                    <div style={{ fontSize:14, lineHeight:1.55, opacity:isDone?0.5:0.85, textDecoration:isDone?"line-through":"none" }}>{action}</div>
                     {isDone && <input value={notes[nk]||""} onChange={e => setNotes(p => ({ ...p, [nk]:e.target.value }))} placeholder="Note their response…"
-                      style={{ marginTop:6, width:"100%", border:"none", borderBottom:"1px solid rgba(194,123,106,0.2)", background:"transparent", fontSize:12, padding:"3px 0", color:T.deep, outline:"none" }}/>}
+                      style={{ marginTop:8, width:"100%", border:"none", borderBottom:"1px solid rgba(194,123,106,0.2)", background:"transparent", fontSize:16, padding:"4px 0", color:T.deep, outline:"none" }}/>}
                   </div>
                 </div>
               </div>
             );
           })}
-          <div style={{ marginTop:10 }}>
+          <div style={{ marginTop:12 }}>
             <div style={{ fontSize:10, letterSpacing:"0.15em", textTransform:"uppercase", color:T.gold, marginBottom:6, opacity:0.7 }}>Week {week.week} Reflection</div>
             <TA value={notes[`${sk}_r${week.week}`]||""} onChange={e => setNotes(p => ({ ...p, [`${sk}_r${week.week}`]:e.target.value }))} placeholder={`How did ${week.theme.toLowerCase()} go?`} minH={72}/>
           </div>
@@ -168,12 +168,12 @@ const Challenge = ({ weeks, done, setDone, notes, setNotes, sk }) => {
 const Progress = ({ label, cats, data, setData }) => (
   <div style={{ marginBottom:32 }}>
     <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:22, marginBottom:14, color:T.deep }}>{label}</div>
-    <div style={{ overflowX:"auto" }}>
-      <table style={{ width:"100%", borderCollapse:"collapse", fontSize:12 }}>
+    <div style={{ overflowX:"auto", WebkitOverflowScrolling:"touch" }}>
+      <table style={{ width:"100%", borderCollapse:"collapse", fontSize:12, minWidth:300 }}>
         <thead><tr>
-          <th style={{ textAlign:"left", padding:"6px 10px", fontSize:9, letterSpacing:"0.2em", textTransform:"uppercase", color:T.gold, borderBottom:`1px solid rgba(194,123,106,0.2)` }}>Week</th>
-          {cats.map(c => <th key={c} style={{ padding:"6px 8px", fontSize:9, letterSpacing:"0.12em", textTransform:"uppercase", color:T.gold, borderBottom:`1px solid rgba(194,123,106,0.2)`, textAlign:"center" }}>{c.split(" ").slice(-1)[0]}</th>)}
-          <th style={{ padding:"6px 8px", fontSize:9, letterSpacing:"0.12em", textTransform:"uppercase", color:T.rose, borderBottom:`1px solid rgba(194,123,106,0.2)`, textAlign:"center" }}>Avg</th>
+          <th style={{ textAlign:"left", padding:"6px 10px", fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:T.gold, borderBottom:`1px solid rgba(194,123,106,0.2)` }}>Wk</th>
+          {cats.map(c => <th key={c} style={{ padding:"6px 4px", fontSize:9, letterSpacing:"0.06em", textTransform:"uppercase", color:T.gold, borderBottom:`1px solid rgba(194,123,106,0.2)`, textAlign:"center" }}>{c.split(" ").slice(-1)[0]}</th>)}
+          <th style={{ padding:"6px 4px", fontSize:9, color:T.rose, borderBottom:`1px solid rgba(194,123,106,0.2)`, textAlign:"center" }}>Avg</th>
         </tr></thead>
         <tbody>
           {[1,2,3,4].map(w => {
@@ -184,27 +184,27 @@ const Progress = ({ label, cats, data, setData }) => (
               <tr key={w} style={{ background:w%2?T.white:T.parchment }}>
                 <td style={{ padding:"8px 10px", fontFamily:"'Cormorant Garamond',serif", fontSize:16, color:T.rose }}>W{w}</td>
                 {cats.map(c => (
-                  <td key={c} style={{ padding:"6px 8px", textAlign:"center" }}>
+                  <td key={c} style={{ padding:"4px 3px", textAlign:"center" }}>
                     <select value={data[`${label}_w${w}_${c}`]||""} onChange={e => setData(p => ({ ...p, [`${label}_w${w}_${c}`]:Number(e.target.value) }))}
-                      style={{ border:`1px solid rgba(194,123,106,0.2)`, background:T.white, borderRadius:3, padding:"3px 6px", fontSize:12, color:T.deep, cursor:"pointer", outline:"none" }}>
+                      style={{ border:`1px solid rgba(194,123,106,0.2)`, background:T.white, borderRadius:4, padding:"4px 2px", fontSize:13, color:T.deep, cursor:"pointer", outline:"none", width:"100%", maxWidth:42 }}>
                       <option value="">—</option>
                       {[1,2,3,4,5,6,7,8,9,10].map(n => <option key={n} value={n}>{n}</option>)}
                     </select>
                   </td>
                 ))}
-                <td style={{ padding:"6px 8px", textAlign:"center", fontFamily:"'Cormorant Garamond',serif", fontSize:16, color:T.rose }}>{avg?avg.toFixed(1):"—"}</td>
+                <td style={{ padding:"4px 4px", textAlign:"center", fontFamily:"'Cormorant Garamond',serif", fontSize:16, color:T.rose }}>{avg?avg.toFixed(1):"—"}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
     </div>
-    <div style={{ marginTop:14, display:"flex", flexDirection:"column", gap:10 }}>
+    <div style={{ marginTop:14, display:"flex", flexDirection:"column", gap:12 }}>
       {["What improved most?","What still needs work?","Partner's feedback"].map(q => (
         <div key={q}>
-          <div style={{ fontSize:11, opacity:0.55, marginBottom:4 }}>{q}</div>
+          <div style={{ fontSize:11, opacity:0.55, marginBottom:5 }}>{q}</div>
           <input value={data[`${label}_${q}`]||""} onChange={e => setData(p => ({ ...p, [`${label}_${q}`]:e.target.value }))}
-            style={{ width:"100%", border:"none", borderBottom:"1px solid rgba(194,123,106,0.22)", background:"transparent", padding:"5px 0", fontSize:13, color:T.deep, outline:"none" }}/>
+            style={{ width:"100%", border:"none", borderBottom:"1px solid rgba(194,123,106,0.22)", background:"transparent", padding:"6px 0", fontSize:16, color:T.deep, outline:"none" }}/>
         </div>
       ))}
     </div>
@@ -212,20 +212,20 @@ const Progress = ({ label, cats, data, setData }) => (
 );
 
 const CrisisBlock = ({ title, color, causes, pk, data, onUpdate }) => (
-  <div style={{ marginBottom:24, padding:24, background:T.white, border:`1px solid rgba(194,123,106,0.12)`, borderRadius:4 }}>
-    <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:22, color, marginBottom:14 }}>{title}</div>
+  <div style={{ marginBottom:20, padding:18, background:T.white, border:`1px solid rgba(194,123,106,0.12)`, borderRadius:8 }}>
+    <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:20, color, marginBottom:14 }}>{title}</div>
     <ULabel>What caused this?</ULabel>
-    <div style={{ display:"flex", flexWrap:"wrap", gap:6, marginBottom:18 }}>
+    <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginBottom:16 }}>
       {causes.map(c => (
         <button key={c} onClick={() => onUpdate(`${pk}_${c}`, !data[`${pk}_${c}`])}
-          style={{ padding:"5px 12px", borderRadius:20, border:`1.5px solid`, cursor:"pointer", fontSize:11, transition:"all 0.2s", background:data[`${pk}_${c}`]?color:"transparent", borderColor:data[`${pk}_${c}`]?color:"rgba(194,123,106,0.3)", color:data[`${pk}_${c}`]?T.white:T.deep }}>
+          style={{ padding:"9px 14px", borderRadius:20, border:`1.5px solid`, cursor:"pointer", fontSize:13, transition:"all 0.2s", background:data[`${pk}_${c}`]?color:"transparent", borderColor:data[`${pk}_${c}`]?color:"rgba(194,123,106,0.3)", color:data[`${pk}_${c}`]?T.white:T.deep, WebkitTapHighlightColor:"transparent" }}>
           {c}
         </button>
       ))}
     </div>
     {[["Acknowledge the breach","What happened and how it affected things"],["Identify the path back","What specific actions could help rebuild?"],["Set boundaries","What is necessary to move forward?"],["Commit to the process","What am I willing to do for 90 days?"]].map(([label,ph],i) => (
-      <div key={label} style={{ marginBottom:12 }}>
-        <div style={{ fontSize:11, opacity:0.6, marginBottom:5 }}>{i+1}. {label}</div>
+      <div key={label} style={{ marginBottom:14 }}>
+        <div style={{ fontSize:12, opacity:0.6, marginBottom:6 }}>{i+1}. {label}</div>
         <TA value={data[`${pk}_${i}`]||""} onChange={e => onUpdate(`${pk}_${i}`, e.target.value)} placeholder={ph} minH={72}/>
       </div>
     ))}
@@ -237,7 +237,7 @@ const Crisis = () => {
   const upd = (k,v) => setD(p => ({ ...p, [k]:v }));
   return (
     <div>
-      <div style={{ padding:16, background:"rgba(194,123,106,0.08)", border:`1px solid rgba(194,123,106,0.2)`, borderRadius:4, marginBottom:20, fontSize:12, lineHeight:1.7, opacity:0.8 }}>
+      <div style={{ padding:14, background:"rgba(194,123,106,0.08)", border:`1px solid rgba(194,123,106,0.2)`, borderRadius:8, marginBottom:20, fontSize:13, lineHeight:1.7, opacity:0.8 }}>
         ⚠️ This module is for deeply strained seasons. If you're in immediate danger or experiencing abuse, please reach out to a professional.
       </div>
       <CrisisBlock title="When Respect Has Been Broken" color={T.rose} pk="resp" causes={["Their actions","My actions","Mutual patterns","External stress"]} data={d} onUpdate={upd}/>
@@ -253,49 +253,49 @@ const Discussion = () => {
   const s = SESSIONS[idx];
   return (
     <div>
-      <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:24 }}>
+      <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:20 }}>
         {SESSIONS.map((ss,i) => (
           <button key={i} onClick={() => setIdx(i)}
-            style={{ width:34, height:34, borderRadius:"50%", border:`1.5px solid`, cursor:"pointer", fontSize:12, fontWeight:600, transition:"all 0.2s", fontFamily:"'Cormorant Garamond',serif", background:idx===i?T.rose:"transparent", borderColor:idx===i?T.rose:"rgba(194,123,106,0.3)", color:idx===i?T.white:T.deep }}>
+            style={{ width:38, height:38, borderRadius:"50%", border:`1.5px solid`, cursor:"pointer", fontSize:13, fontWeight:600, transition:"all 0.2s", fontFamily:"'Cormorant Garamond',serif", background:idx===i?T.rose:"transparent", borderColor:idx===i?T.rose:"rgba(194,123,106,0.3)", color:idx===i?T.white:T.deep, WebkitTapHighlightColor:"transparent" }}>
             {ss.num}
           </button>
         ))}
       </div>
-      <div style={{ padding:28, background:T.deep2, borderRadius:4, marginBottom:20, position:"relative", overflow:"hidden" }}>
-        <div style={{ position:"absolute", top:-20, right:20, fontFamily:"'Cormorant Garamond',serif", fontSize:120, color:"rgba(194,123,106,0.06)", lineHeight:1, pointerEvents:"none" }}>"</div>
+      <div style={{ padding:20, background:T.deep2, borderRadius:8, marginBottom:16, position:"relative", overflow:"hidden" }}>
+        <div style={{ position:"absolute", top:-20, right:16, fontFamily:"'Cormorant Garamond',serif", fontSize:100, color:"rgba(194,123,106,0.06)", lineHeight:1, pointerEvents:"none" }}>"</div>
         <div style={{ fontSize:9, letterSpacing:"0.25em", textTransform:"uppercase", color:T.gold, marginBottom:6 }}>Session {s.num} of 10</div>
-        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:24, color:T.white, fontStyle:"italic", marginBottom:10 }}>{s.title}</div>
-        <div style={{ fontSize:12, color:"rgba(255,255,255,0.5)", lineHeight:1.7, fontStyle:"italic" }}>Opening: {s.opening}</div>
+        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:22, color:T.white, fontStyle:"italic", marginBottom:10 }}>{s.title}</div>
+        <div style={{ fontSize:13, color:"rgba(255,255,255,0.5)", lineHeight:1.7, fontStyle:"italic" }}>Opening: {s.opening}</div>
       </div>
       <ULabel>Discussion Questions</ULabel>
       {s.questions.map((q,qi) => (
-        <div key={qi} style={{ marginBottom:12, padding:"16px 20px", background:T.white, border:`1px solid rgba(194,123,106,0.12)`, borderRadius:4 }}>
+        <div key={qi} style={{ marginBottom:12, padding:"14px 16px", background:T.white, border:`1px solid rgba(194,123,106,0.12)`, borderRadius:8 }}>
           <div style={{ display:"flex", gap:12, alignItems:"flex-start" }}>
             <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:18, color:T.rose, opacity:0.5, flexShrink:0, lineHeight:1, marginTop:2 }}>0{qi+1}</div>
             <div style={{ flex:1 }}>
-              <div style={{ fontSize:13, lineHeight:1.6, marginBottom:8, opacity:0.85 }}>{q}</div>
+              <div style={{ fontSize:14, lineHeight:1.6, marginBottom:8, opacity:0.85 }}>{q}</div>
               <TA value={ans[`s${s.num}_q${qi}`]||""} onChange={e => setAns(p => ({ ...p, [`s${s.num}_q${qi}`]:e.target.value }))} placeholder="Your thoughts…" minH={64}/>
             </div>
           </div>
         </div>
       ))}
-      <div style={{ padding:20, background:"rgba(201,169,110,0.1)", border:`1px solid rgba(201,169,110,0.25)`, borderRadius:4, margin:"20px 0 16px" }}>
+      <div style={{ padding:16, background:"rgba(201,169,110,0.1)", border:`1px solid rgba(201,169,110,0.25)`, borderRadius:8, margin:"16px 0" }}>
         <ULabel>Commitment</ULabel>
-        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:17, fontStyle:"italic", marginBottom:12, lineHeight:1.55, color:T.deep }}>"{s.commit}"</div>
+        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:16, fontStyle:"italic", marginBottom:12, lineHeight:1.55, color:T.deep }}>"{s.commit}"</div>
         <button onClick={() => setCommits(p => ({ ...p, [s.num]:!p[s.num] }))}
-          style={{ display:"flex", alignItems:"center", gap:10, background:"none", border:"none", cursor:"pointer", color:T.deep, fontSize:13, padding:0 }}>
-          <div style={{ width:20, height:20, borderRadius:4, border:`1.5px solid`, borderColor:commits[s.num]?T.rose:"rgba(194,123,106,0.4)", background:commits[s.num]?T.rose:"transparent", display:"flex", alignItems:"center", justifyContent:"center", transition:"all 0.2s" }}>
-            {commits[s.num] && <span style={{ color:T.white, fontSize:11 }}>✓</span>}
+          style={{ display:"flex", alignItems:"center", gap:10, background:"none", border:"none", cursor:"pointer", color:T.deep, fontSize:14, padding:0, WebkitTapHighlightColor:"transparent" }}>
+          <div style={{ width:24, height:24, borderRadius:6, border:`1.5px solid`, borderColor:commits[s.num]?T.rose:"rgba(194,123,106,0.4)", background:commits[s.num]?T.rose:"transparent", display:"flex", alignItems:"center", justifyContent:"center", transition:"all 0.2s", flexShrink:0 }}>
+            {commits[s.num] && <span style={{ color:T.white, fontSize:13 }}>✓</span>}
           </div>
           I commit to this
         </button>
       </div>
-      <div style={{ display:"flex", justifyContent:"space-between" }}>
+      <div style={{ display:"flex", justifyContent:"space-between", gap:10 }}>
         <button onClick={() => setIdx(Math.max(0,idx-1))} disabled={idx===0}
-          style={{ padding:"10px 20px", border:`1px solid rgba(194,123,106,0.3)`, background:"transparent", borderRadius:2, cursor:idx===0?"default":"pointer", fontSize:11, letterSpacing:"0.15em", textTransform:"uppercase", opacity:idx===0?0.3:1 }}>← Prev</button>
-        <span style={{ fontSize:11, opacity:0.4, alignSelf:"center" }}>{idx+1}/{SESSIONS.length}</span>
+          style={{ flex:1, padding:"14px 12px", border:`1px solid rgba(194,123,106,0.3)`, background:"transparent", borderRadius:8, cursor:idx===0?"default":"pointer", fontSize:12, letterSpacing:"0.1em", textTransform:"uppercase", opacity:idx===0?0.3:1 }}>← Prev</button>
+        <span style={{ fontSize:11, opacity:0.4, alignSelf:"center", whiteSpace:"nowrap" }}>{idx+1}/{SESSIONS.length}</span>
         <button onClick={() => setIdx(Math.min(SESSIONS.length-1,idx+1))} disabled={idx===SESSIONS.length-1}
-          style={{ padding:"10px 20px", border:"none", background:T.rose, color:T.white, borderRadius:2, cursor:idx===SESSIONS.length-1?"default":"pointer", fontSize:11, letterSpacing:"0.15em", textTransform:"uppercase", opacity:idx===SESSIONS.length-1?0.3:1 }}>Next →</button>
+          style={{ flex:1, padding:"14px 12px", border:"none", background:T.rose, color:T.white, borderRadius:8, cursor:idx===SESSIONS.length-1?"default":"pointer", fontSize:12, letterSpacing:"0.1em", textTransform:"uppercase", opacity:idx===SESSIONS.length-1?0.3:1 }}>Next →</button>
       </div>
     </div>
   );
@@ -312,263 +312,312 @@ const NAV = [
 ];
 
 const PAGE_META = {
-  m1:    { title:"Discovering Your Language",      icon:"🔍" },
-  m2:    { title:"30-Day Respect Challenge",        icon:"🌹" },
-  m3:    { title:"30-Day Appreciation Challenge",   icon:"💛" },
-  m4:    { title:"Progress Trackers",               icon:"📊" },
-  m5:    { title:"Crisis Recovery",                 icon:"🕊️" },
-  guide: { title:"Discussion Guide",                icon:"💬" },
+  m1:    { title:"Discovering Your Language",   icon:"🔍" },
+  m2:    { title:"30-Day Respect Challenge",     icon:"🌹" },
+  m3:    { title:"30-Day Appreciation Challenge",icon:"💛" },
+  m4:    { title:"Progress Trackers",            icon:"📊" },
+  m5:    { title:"Crisis Recovery",              icon:"🕊️" },
+  guide: { title:"Discussion Guide",             icon:"💬" },
 };
 
+function SidebarContents({ page, rComp, aComp, navigateTo }) {
+  return (
+    <>
+      <div style={{ padding:"0 16px 20px", borderBottom:`1px solid rgba(255,255,255,0.06)`, marginBottom:20 }}>
+        <div style={{ fontSize:8, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, marginBottom:12, opacity:0.7 }}>Your Progress</div>
+        {[
+          { label:"Respect", comp:rComp, total:30, color:T.rose },
+          { label:"Appreciation", comp:aComp, total:30, color:T.gold },
+        ].map(({ label, comp, total, color }) => (
+          <div key={label} style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
+            <div style={{ position:"relative", flexShrink:0 }}>
+              <Ring pct={comp/total} size={40} stroke={4} color={color} bg="rgba(232,196,176,0.15)"/>
+              <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:9, fontWeight:700, color }}>{comp}</div>
+            </div>
+            <div>
+              <div style={{ fontSize:11, color:"rgba(255,255,255,0.6)", marginBottom:1 }}>{label}</div>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.3)" }}>{comp}/{total} days</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ padding:"0 10px", flex:1 }}>
+        {[
+          { id:"home",  icon:"🌸", label:"Home",    sub:"Overview" },
+          { id:"m1",   icon:"🔍", label:"Module 1", sub:"Discover" },
+          { id:"m2",   icon:"🌹", label:"Module 2", sub:"Respect" },
+          { id:"m3",   icon:"💛", label:"Module 3", sub:"Appreciate" },
+          { id:"m4",   icon:"📊", label:"Module 4", sub:"Progress" },
+          { id:"m5",   icon:"🕊️", label:"Module 5", sub:"Recovery" },
+          { id:"guide",icon:"💬", label:"Part 2",   sub:"Discussion" },
+        ].map(n => (
+          <button key={n.id} onClick={() => navigateTo(n.id)}
+            style={{ width:"100%", display:"flex", alignItems:"center", gap:10, padding:"11px 10px", borderRadius:6, border:"none", cursor:"pointer", marginBottom:2, transition:"all 0.18s", textAlign:"left", background:page===n.id?"rgba(194,123,106,0.18)":"transparent", WebkitTapHighlightColor:"transparent" }}>
+            <span style={{ fontSize:16, flexShrink:0 }}>{n.icon}</span>
+            <div>
+              <div style={{ fontSize:12, color:page===n.id?T.blush:"rgba(255,255,255,0.55)", lineHeight:1.2 }}>{n.label}</div>
+              <div style={{ fontSize:9, color:"rgba(255,255,255,0.25)", marginTop:1 }}>{n.sub}</div>
+            </div>
+            {page===n.id && <div style={{ marginLeft:"auto", width:3, height:18, background:T.rose, borderRadius:2, flexShrink:0 }}/>}
+          </button>
+        ))}
+      </div>
+      <div style={{ padding:"20px 16px 0", borderTop:`1px solid rgba(255,255,255,0.06)`, marginTop:20 }}>
+        <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:11, fontStyle:"italic", color:"rgba(255,255,255,0.2)", lineHeight:1.7 }}>
+          "Translation is a lifelong practice, not a one-time achievement."
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function App() {
-  const [page, setPage]       = useState("home");
-  const [m1tab, setM1tab]     = useState("gap");
-  const [gapData, setGapData] = useState({ q1:"", q2:"", q3:"", q4:"", reflection:"", rows:[{ give:"", need:"", response:"" }] });
-  const [rScores, setRScores] = useState({});
-  const [aScores, setAScores] = useState({});
-  const [rdone,   setRdone]   = useState({});
-  const [rnotes,  setRnotes]  = useState({});
-  const [adone,   setAdone]   = useState({});
-  const [anotes,  setAnotes]  = useState({});
-  const [progress,setProgress]= useState({});
+  const [page, setPage]           = useState("home");
+  const [m1tab, setM1tab]         = useState("gap");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [gapData, setGapData]     = useState({ q1:"", q2:"", q3:"", q4:"", reflection:"", rows:[{ give:"", need:"", response:"" }] });
+  const [rScores, setRScores]     = useState({});
+  const [aScores, setAScores]     = useState({});
+  const [rdone,   setRdone]       = useState({});
+  const [rnotes,  setRnotes]      = useState({});
+  const [adone,   setAdone]       = useState({});
+  const [anotes,  setAnotes]      = useState({});
+  const [progress,setProgress]    = useState({});
 
   const rComp = Object.values(rdone).filter(Boolean).length;
   const aComp = Object.values(adone).filter(Boolean).length;
   const meta  = PAGE_META[page];
 
+  const navigateTo = (id) => { setPage(id); setSidebarOpen(false); };
+
   return (
     <div style={{ display:"flex", flexDirection:"column", height:"100vh", width:"100vw", overflow:"hidden", background:T.cream }}>
 
       <style>{`
-        *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+        *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
         html, body { height:100%; width:100%; overflow:hidden; }
         #root { height:100%; width:100%; display:flex; flex-direction:column; }
         body {
-          font-family:'Jost','Georgia',sans-serif;
-          font-weight:300;
-          color:${T.deep};
-          background:${T.cream};
-          /* override the Vite default CSS that sets place-items:center */
-          display:block;
-          place-items:unset;
-          min-height:unset;
-          min-width:unset;
+          font-family:'Jost','Georgia',sans-serif; font-weight:300;
+          color:${T.deep}; background:${T.cream};
+          display:block; place-items:unset; min-height:unset; min-width:unset;
+          -webkit-text-size-adjust:100%;
         }
         textarea, input, select, button { font-family:inherit; }
-        ::-webkit-scrollbar { width:5px; }
+        /* Prevent iOS zoom on focus */
+        input, textarea, select { font-size:16px !important; }
+        ::-webkit-scrollbar { width:4px; }
         ::-webkit-scrollbar-thumb { background:${T.blush}; border-radius:3px; }
+        button { -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
         button:focus-visible { outline:2px solid ${T.rose}; outline-offset:2px; }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-        .fade { animation: fadeUp 0.4s ease forwards; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes slideIn { from{transform:translateX(-100%)} to{transform:translateX(0)} }
+        .fade { animation:fadeUp 0.3s ease forwards; }
+
+        /* ─ Responsive breakpoints ─ */
+        @media (max-width:768px) {
+          .desktop-sidebar { display:none !important; }
+          .desktop-nav     { display:none !important; }
+          .mobile-burger   { display:flex !important; }
+          .main-pad        { padding:16px 16px 76px !important; }
+          .page-hdr        { padding:14px 16px !important; }
+          .page-hdr-title  { font-size:19px !important; }
+          .hero-pad        { padding:22px 16px 18px !important; }
+          .hero-h          { font-size:clamp(1.5rem,6vw,2rem) !important; }
+          .mod-grid        { grid-template-columns:1fr 1fr !important; gap:10px !important; }
+          .mod-card        { padding:14px 12px !important; }
+        }
+        @media (max-width:400px) {
+          .mod-grid        { grid-template-columns:1fr !important; }
+        }
+
+        /* ─ Bottom nav (mobile only) ─ */
+        .bottom-nav {
+          display:none;
+          position:fixed; bottom:0; left:0; right:0;
+          background:rgba(250,246,240,0.97); backdrop-filter:blur(20px);
+          border-top:1px solid rgba(194,123,106,0.14);
+          z-index:300;
+          padding-bottom:env(safe-area-inset-bottom,0px);
+        }
+        @media (max-width:768px) { .bottom-nav { display:block; } }
+        .bottom-nav-inner {
+          display:flex; justify-content:space-around; align-items:center; height:56px;
+        }
+        .bnav-btn {
+          display:flex; flex-direction:column; align-items:center; gap:2px;
+          background:none; border:none; cursor:pointer;
+          padding:4px 6px; border-radius:8px; flex:1;
+          -webkit-tap-highlight-color:transparent;
+        }
+        .bnav-lbl {
+          font-size:9px; letter-spacing:0.04em; text-transform:uppercase;
+          color:${T.deep}; opacity:0.4;
+        }
+        .bnav-btn.active .bnav-lbl { color:${T.rose}; opacity:1; }
+        .bnav-btn.active { background:rgba(194,123,106,0.08); }
       `}</style>
 
-      {/* ── TOP NAV ── */}
-      <header style={{
-        flexShrink:0,
-        background:"rgba(250,246,240,0.96)", backdropFilter:"blur(14px)",
-        borderBottom:`1px solid rgba(194,123,106,0.14)`,
-        display:"flex", alignItems:"center", justifyContent:"space-between",
-        padding:"0 28px", height:60,
-      }}>
-        {/* Love Translated button */}
-        <button 
-          onClick={() => window.location.href = '/index.html'}
-          style={{ background:"none", border:"none", padding:0, cursor:"pointer", textAlign:"left" }}
-        >
+      {/* ── HEADER ── */}
+      <header style={{ flexShrink:0, background:"rgba(250,246,240,0.96)", backdropFilter:"blur(14px)", borderBottom:`1px solid rgba(194,123,106,0.14)`, display:"flex", alignItems:"center", justifyContent:"space-between", padding:"0 20px", height:60, zIndex:100 }}>
+        <button onClick={() => window.location.href='/index.html'}
+          style={{ background:"none", border:"none", cursor:"pointer", padding:0, textAlign:"left", flexShrink:0 }}>
           <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:19, fontStyle:"italic", color:T.rose, lineHeight:1 }}>Love Translated</div>
           <div style={{ fontSize:8, letterSpacing:"0.22em", textTransform:"uppercase", opacity:0.4, marginTop:2 }}>Workbook & Discussion Guide</div>
         </button>
 
-        <nav style={{ display:"flex", gap:4, flexWrap:"wrap", justifyContent:"flex-end" }}>
+        {/* Desktop nav pills */}
+        <nav className="desktop-nav" style={{ display:"flex", gap:4, flexWrap:"wrap", justifyContent:"flex-end" }}>
           {NAV.map(n => (
             <button key={n.id} onClick={() => setPage(n.id)}
-              style={{
-                display:"flex", flexDirection:"column", alignItems:"center", gap:2,
-                padding:"5px 9px", borderRadius:6, border:`1.5px solid`,
-                cursor:"pointer", transition:"all 0.18s",
-                background: page===n.id ? T.rose : "transparent",
-                borderColor: page===n.id ? T.rose : "rgba(194,123,106,0.22)",
-              }}>
+              style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:2, padding:"5px 9px", borderRadius:6, border:`1.5px solid`, cursor:"pointer", transition:"all 0.18s", background:page===n.id?T.rose:"transparent", borderColor:page===n.id?T.rose:"rgba(194,123,106,0.22)" }}>
               <span style={{ fontSize:15 }}>{n.icon}</span>
-              <span style={{ fontSize:8, letterSpacing:"0.1em", textTransform:"uppercase", color: page===n.id ? T.white : T.deep, opacity: page===n.id ? 1 : 0.55 }}>{n.label}</span>
+              <span style={{ fontSize:8, letterSpacing:"0.1em", textTransform:"uppercase", color:page===n.id?T.white:T.deep, opacity:page===n.id?1:0.55 }}>{n.label}</span>
             </button>
           ))}
         </nav>
+
+        {/* Mobile hamburger */}
+        <button className="mobile-burger" onClick={() => setSidebarOpen(o => !o)}
+          style={{ display:"none", alignItems:"center", justifyContent:"center", width:40, height:40, background:"none", border:`1px solid rgba(194,123,106,0.25)`, borderRadius:8, cursor:"pointer", flexDirection:"column", gap:5, padding:8, flexShrink:0 }}>
+          <span style={{ display:"block", width:18, height:1.5, background:T.rose }}/>
+          <span style={{ display:"block", width:14, height:1.5, background:T.rose }}/>
+          <span style={{ display:"block", width:18, height:1.5, background:T.rose }}/>
+        </button>
       </header>
 
-      {/* ── BODY: sidebar + main ── */}
-      <div style={{ display:"flex", flex:1, minHeight:0 /* critical: allows children to scroll independently */ }}>
+      {/* ── BODY ── */}
+      <div style={{ display:"flex", flex:1, minHeight:0, position:"relative" }}>
 
-        {/* ── SIDEBAR ── */}
-        <aside style={{
-          width:220, flexShrink:0, background:T.deep2,
-          display:"flex", flexDirection:"column",
-          borderRight:`1px solid rgba(194,123,106,0.1)`,
-          overflowY:"auto", padding:"28px 0",
-        }}>
-          <div style={{ padding:"0 20px 24px", borderBottom:`1px solid rgba(255,255,255,0.06)`, marginBottom:24 }}>
-            <div style={{ fontSize:8, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, marginBottom:14, opacity:0.7 }}>Your Progress</div>
-            {[
-              { label:"Respect", comp:rComp, total:30, color:T.rose },
-              { label:"Appreciation", comp:aComp, total:30, color:T.gold },
-            ].map(({ label, comp, total, color }) => (
-              <div key={label} style={{ display:"flex", alignItems:"center", gap:12, marginBottom:14 }}>
-                <div style={{ position:"relative", flexShrink:0 }}>
-                  <Ring pct={comp/total} size={44} stroke={4} color={color} bg="rgba(232,196,176,0.15)"/>
-                  <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:9, fontWeight:700, color }}>{comp}</div>
-                </div>
-                <div>
-                  <div style={{ fontSize:11, color:"rgba(255,255,255,0.6)", marginBottom:1 }}>{label}</div>
-                  <div style={{ fontSize:9, color:"rgba(255,255,255,0.3)" }}>{comp}/{total} days</div>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Mobile overlay */}
+        {sidebarOpen && (
+          <div onClick={() => setSidebarOpen(false)}
+            style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.4)", zIndex:199 }}/>
+        )}
 
-          <div style={{ padding:"0 12px", flex:1 }}>
-            {[
-              { id:"home",  icon:"🌸", label:"Home",    sub:"Overview" },
-              { id:"m1",   icon:"🔍", label:"Module 1", sub:"Discover" },
-              { id:"m2",   icon:"🌹", label:"Module 2", sub:"Respect" },
-              { id:"m3",   icon:"💛", label:"Module 3", sub:"Appreciate" },
-              { id:"m4",   icon:"📊", label:"Module 4", sub:"Progress" },
-              { id:"m5",   icon:"🕊️", label:"Module 5", sub:"Recovery" },
-              { id:"guide",icon:"💬", label:"Part 2",   sub:"Discussion" },
-            ].map(n => (
-              <button key={n.id} onClick={() => setPage(n.id)}
-                style={{
-                  width:"100%", display:"flex", alignItems:"center", gap:10,
-                  padding:"10px 12px", borderRadius:6, border:"none", cursor:"pointer",
-                  marginBottom:2, transition:"all 0.18s", textAlign:"left",
-                  background: page===n.id ? "rgba(194,123,106,0.18)" : "transparent",
-                }}>
-                <span style={{ fontSize:16, flexShrink:0 }}>{n.icon}</span>
-                <div>
-                  <div style={{ fontSize:12, color: page===n.id ? T.blush : "rgba(255,255,255,0.55)", lineHeight:1.2 }}>{n.label}</div>
-                  <div style={{ fontSize:9, color:"rgba(255,255,255,0.25)", marginTop:1 }}>{n.sub}</div>
-                </div>
-                {page===n.id && <div style={{ marginLeft:"auto", width:3, height:20, background:T.rose, borderRadius:2, flexShrink:0 }}/>}
-              </button>
-            ))}
-          </div>
-
-          <div style={{ padding:"24px 20px 0", borderTop:`1px solid rgba(255,255,255,0.06)`, marginTop:24 }}>
-            <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:12, fontStyle:"italic", color:"rgba(255,255,255,0.2)", lineHeight:1.7 }}>
-              "Translation is a lifelong practice, not a one-time achievement."
-            </div>
-          </div>
+        {/* Desktop sidebar */}
+        <aside className="desktop-sidebar" style={{ width:220, flexShrink:0, background:T.deep2, display:"flex", flexDirection:"column", borderRight:`1px solid rgba(194,123,106,0.1)`, overflowY:"auto", padding:"24px 0" }}>
+          <SidebarContents page={page} rComp={rComp} aComp={aComp} navigateTo={navigateTo}/>
         </aside>
 
-        {/* ── MAIN CONTENT ── */}
-        <main style={{ flex:1, overflowY:"auto", background:T.cream, display:"flex", flexDirection:"column" }}>
+        {/* Mobile drawer */}
+        {sidebarOpen && (
+          <aside style={{ position:"fixed", top:60, left:0, bottom:0, width:260, background:T.deep2, display:"flex", flexDirection:"column", borderRight:`1px solid rgba(194,123,106,0.1)`, overflowY:"auto", padding:"20px 0", zIndex:200, animation:"slideIn 0.22s ease" }}>
+            <SidebarContents page={page} rComp={rComp} aComp={aComp} navigateTo={navigateTo}/>
+          </aside>
+        )}
+
+        {/* Main content */}
+        <main style={{ flex:1, overflowY:"auto", overflowX:"hidden", background:T.cream, display:"flex", flexDirection:"column", WebkitOverflowScrolling:"touch" }}>
 
           {meta && (
-            <div style={{
-              flexShrink:0,
-              background:T.parchment, padding:"28px 40px",
-              borderBottom:`1px solid rgba(194,123,106,0.14)`,
-              display:"flex", alignItems:"center", gap:16,
-            }}>
-              <span style={{ fontSize:28 }}>{meta.icon}</span>
-              <div>
-                <div style={{ fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, marginBottom:4 }}>
+            <div className="page-hdr" style={{ flexShrink:0, background:T.parchment, padding:"20px 28px", borderBottom:`1px solid rgba(194,123,106,0.14)`, display:"flex", alignItems:"center", gap:12 }}>
+              <span style={{ fontSize:24 }}>{meta.icon}</span>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontSize:9, letterSpacing:"0.22em", textTransform:"uppercase", color:T.gold, marginBottom:3 }}>
                   {page.startsWith("m") ? `Module ${page.slice(1)}` : "Part 2"}
                 </div>
-                <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:26, fontWeight:300, color:T.deep }}>
+                <div className="page-hdr-title" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:22, fontWeight:300, color:T.deep, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
                   {meta.title}
                 </div>
               </div>
               <button onClick={() => setPage("home")}
-                style={{ marginLeft:"auto", background:"none", border:`1px solid rgba(194,123,106,0.3)`, borderRadius:2, padding:"7px 16px", cursor:"pointer", fontSize:10, letterSpacing:"0.15em", textTransform:"uppercase", color:T.rose }}>
+                style={{ flexShrink:0, background:"none", border:`1px solid rgba(194,123,106,0.3)`, borderRadius:6, padding:"7px 12px", cursor:"pointer", fontSize:10, letterSpacing:"0.12em", textTransform:"uppercase", color:T.rose }}>
                 ← Home
               </button>
             </div>
           )}
 
-          <div className="fade" key={page} style={{ padding:"36px 40px 80px", maxWidth:900, width:"100%" }}>
+          <div className="fade main-pad" key={page} style={{ padding:"24px 28px 80px", maxWidth:860, width:"100%" }}>
 
+            {/* ── HOME ── */}
             {page === "home" && (
               <div>
-                <div style={{ background:T.deep2, borderRadius:4, padding:"48px 40px", marginBottom:32, position:"relative", overflow:"hidden" }}>
+                <div className="hero-pad" style={{ background:T.deep2, borderRadius:8, padding:"32px 28px", marginBottom:22, position:"relative", overflow:"hidden" }}>
                   <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 75% 50%,rgba(194,123,106,0.2),transparent 65%)", pointerEvents:"none" }}/>
-                  <div style={{ position:"relative", zIndex:1, maxWidth:560 }}>
-                    <div style={{ fontSize:9, letterSpacing:"0.3em", textTransform:"uppercase", color:T.gold, marginBottom:12 }}>Complete Companion Resource</div>
-                    <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2rem,4vw,3rem)", fontStyle:"italic", color:T.white, lineHeight:1.1, marginBottom:8 }}>Love Translated</div>
-                    <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:18, color:T.blush, marginBottom:18 }}>Workbook & Discussion Guide</div>
-                    <div style={{ fontSize:13, lineHeight:1.85, color:"rgba(255,255,255,0.52)", maxWidth:480 }}>
-                      A complete companion for <em>Love Translated: The Secret Language of Lasting Marriage</em>. Two parts: a personal workbook and a 10-session discussion guide for couples, small groups, and mentors.
+                  <div style={{ position:"relative", zIndex:1 }}>
+                    <div style={{ fontSize:9, letterSpacing:"0.3em", textTransform:"uppercase", color:T.gold, marginBottom:10 }}>Complete Companion Resource</div>
+                    <div className="hero-h" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.8rem,4vw,2.8rem)", fontStyle:"italic", color:T.white, lineHeight:1.15, marginBottom:8 }}>Love Translated</div>
+                    <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:16, color:T.blush, marginBottom:12 }}>Workbook & Discussion Guide</div>
+                    <div style={{ fontSize:13, lineHeight:1.85, color:"rgba(255,255,255,0.52)" }}>
+                      A complete companion for <em>Love Translated: The Secret Language of Lasting Marriage</em>.
                     </div>
                   </div>
                 </div>
 
-                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))", gap:14, marginBottom:32 }}>
+                <div className="mod-grid" style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:12, marginBottom:22 }}>
                   {[
-                    { icon:"🔍", title:"Module 1", sub:"Discover Your Language",        page:"m1", desc:"Self-assessments and gap analysis to find your love language." },
-                    { icon:"🌹", title:"Module 2", sub:`Respect: ${rComp}/30 days`,      page:"m2", desc:"30 daily actions to build respect, week by week." },
-                    { icon:"💛", title:"Module 3", sub:`Appreciation: ${aComp}/30 days`, page:"m3", desc:"30 daily actions to deepen appreciation." },
-                    { icon:"📊", title:"Module 4", sub:"Progress Trackers",              page:"m4", desc:"Weekly scoring and monthly reflections." },
-                    { icon:"🕊️", title:"Module 5", sub:"Crisis Recovery",               page:"m5", desc:"Rebuilding respect and appreciation after a breach." },
-                    { icon:"💬", title:"Part 2",   sub:"10 Discussion Sessions",         page:"guide", desc:"Guided sessions for couples, small groups, and mentors." },
+                    { icon:"🔍", title:"Module 1", sub:"Discover Your Language",        page:"m1", desc:"Self-assessments and gap analysis." },
+                    { icon:"🌹", title:"Module 2", sub:`Respect: ${rComp}/30`,           page:"m2", desc:"30 daily actions to build respect." },
+                    { icon:"💛", title:"Module 3", sub:`Appreciation: ${aComp}/30`,      page:"m3", desc:"30 daily actions to appreciate more." },
+                    { icon:"📊", title:"Module 4", sub:"Progress Trackers",              page:"m4", desc:"Weekly scoring and reflections." },
+                    { icon:"🕊️", title:"Module 5", sub:"Crisis Recovery",               page:"m5", desc:"Rebuilding after a breach." },
+                    { icon:"💬", title:"Part 2",   sub:"10 Discussion Sessions",         page:"guide", desc:"Guided sessions for couples." },
                   ].map(c => (
                     <button key={c.page} onClick={() => setPage(c.page)}
-                      style={{ padding:"22px 20px", background:T.white, border:`1px solid rgba(194,123,106,0.14)`, borderRadius:4, cursor:"pointer", textAlign:"left", transition:"all 0.22s" }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor=T.rose; e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 12px 32px rgba(59,42,39,0.1)"; }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor="rgba(194,123,106,0.14)"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}>
-                      <div style={{ fontSize:26, marginBottom:10 }}>{c.icon}</div>
-                      <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:16, marginBottom:3, color:T.deep }}>{c.title}</div>
-                      <div style={{ fontSize:10, color:T.rose, marginBottom:8, letterSpacing:"0.05em" }}>{c.sub}</div>
-                      <div style={{ fontSize:12, opacity:0.55, lineHeight:1.6 }}>{c.desc}</div>
+                      className="mod-card"
+                      style={{ padding:"18px 16px", background:T.white, border:`1px solid rgba(194,123,106,0.14)`, borderRadius:8, cursor:"pointer", textAlign:"left", transition:"all 0.2s" }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor=T.rose; e.currentTarget.style.boxShadow="0 6px 20px rgba(59,42,39,0.1)"; }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor="rgba(194,123,106,0.14)"; e.currentTarget.style.boxShadow=""; }}>
+                      <div style={{ fontSize:22, marginBottom:8 }}>{c.icon}</div>
+                      <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:15, marginBottom:2, color:T.deep }}>{c.title}</div>
+                      <div style={{ fontSize:10, color:T.rose, marginBottom:6 }}>{c.sub}</div>
+                      <div style={{ fontSize:12, opacity:0.55, lineHeight:1.5 }}>{c.desc}</div>
                     </button>
                   ))}
                 </div>
 
-                <div style={{ padding:"22px 24px", background:T.parchment, borderLeft:`3px solid ${T.rose}`, borderRadius:2 }}>
-                  <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:19, fontStyle:"italic", color:T.rose, marginBottom:6 }}>How to use this workbook</div>
-                  <div style={{ fontSize:13, lineHeight:1.85, opacity:0.72 }}>Complete each module individually first, then discuss together. Honesty with yourself is the foundation for growth with your partner. The 30-day challenges work best when you commit to one action per day — consistency over perfection.</div>
+                <div style={{ padding:"16px 18px", background:T.parchment, borderLeft:`3px solid ${T.rose}`, borderRadius:4 }}>
+                  <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:17, fontStyle:"italic", color:T.rose, marginBottom:6 }}>How to use this workbook</div>
+                  <div style={{ fontSize:13, lineHeight:1.85, opacity:0.72 }}>Complete each module individually first, then discuss together. Consistency over perfection.</div>
                 </div>
               </div>
             )}
 
+            {/* ── MODULE 1 ── */}
             {page === "m1" && (
               <div>
-                <div style={{ display:"flex", gap:4, marginBottom:24, borderBottom:`1px solid rgba(194,123,106,0.18)` }}>
+                <div style={{ display:"flex", marginBottom:20, borderBottom:`1px solid rgba(194,123,106,0.18)`, overflowX:"auto", WebkitOverflowScrolling:"touch" }}>
                   {[["gap","Translation Gap"],["respect","Respect Audit"],["appreciate","Appreciation Audit"]].map(([id,label]) => (
                     <button key={id} onClick={() => setM1tab(id)}
-                      style={{ padding:"9px 18px", border:"none", background:"none", cursor:"pointer", fontSize:11, letterSpacing:"0.14em", textTransform:"uppercase", transition:"all 0.2s", color:m1tab===id?T.rose:T.deep, borderBottom:`2px solid ${m1tab===id?T.rose:"transparent"}`, opacity:m1tab===id?1:0.5 }}>
+                      style={{ padding:"10px 14px", border:"none", background:"none", cursor:"pointer", fontSize:11, letterSpacing:"0.1em", textTransform:"uppercase", transition:"all 0.2s", color:m1tab===id?T.rose:T.deep, borderBottom:`2px solid ${m1tab===id?T.rose:"transparent"}`, opacity:m1tab===id?1:0.5, whiteSpace:"nowrap", flexShrink:0 }}>
                       {label}
                     </button>
                   ))}
                 </div>
-
                 {m1tab === "gap" && (
                   <div>
-                    <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:24, fontStyle:"italic", marginBottom:20 }}>What's Your <span style={{ color:T.rose }}>Native Tongue?</span></div>
-                    {[["q1","When you feel most loved by your partner, what are they doing? (Be specific)"],["q2","When you feel most unloved, what are they doing?"],["q3","What do you naturally do to show love? (List 3–5 things)"],["q4","Does your partner receive these efforts well, or do they seem to miss them?"]].map(([k,q]) => (
-                      <div key={k} style={{ marginBottom:18 }}>
-                        <div style={{ fontSize:14, opacity:0.8, marginBottom:7, lineHeight:1.5 }}>{q}</div>
+                    <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:22, fontStyle:"italic", marginBottom:16 }}>What's Your <span style={{ color:T.rose }}>Native Tongue?</span></div>
+                    {[["q1","When you feel most loved by your partner, what are they doing?"],["q2","When you feel most unloved, what are they doing?"],["q3","What do you naturally do to show love? (List 3–5 things)"],["q4","Does your partner receive these efforts well, or do they miss them?"]].map(([k,q]) => (
+                      <div key={k} style={{ marginBottom:16 }}>
+                        <div style={{ fontSize:14, opacity:0.8, marginBottom:8, lineHeight:1.5 }}>{q}</div>
                         <TA value={gapData[k]} onChange={e => setGapData(p => ({ ...p, [k]:e.target.value }))} placeholder="Your answer…"/>
                       </div>
                     ))}
-                    <div style={{ marginTop:24 }}>
-                      <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:20, marginBottom:14, fontStyle:"italic" }}>Translation Gap Analysis</div>
-                      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8, marginBottom:6 }}>
-                        {["What I Give","What I Need","Partner's Response"].map(h => <div key={h} style={{ fontSize:9, letterSpacing:"0.18em", textTransform:"uppercase", color:T.gold, padding:"6px 8px" }}>{h}</div>)}
-                      </div>
-                      {(gapData.rows||[]).map((row,i) => (
-                        <div key={i} style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8, marginBottom:7 }}>
-                          {["give","need","response"].map(f => (
-                            <input key={f} value={row[f]||""} onChange={e => setGapData(p => { const rows=[...(p.rows||[])]; rows[i]={...rows[i],[f]:e.target.value}; return {...p,rows}; })}
-                              style={{ border:`1px solid rgba(194,123,106,0.2)`, background:T.white, borderRadius:4, padding:"8px 12px", fontSize:13, outline:"none", color:T.deep }}/>
+                    <div style={{ marginTop:20 }}>
+                      <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:18, marginBottom:12, fontStyle:"italic" }}>Translation Gap Analysis</div>
+                      <div style={{ overflowX:"auto", WebkitOverflowScrolling:"touch" }}>
+                        <div style={{ minWidth:300 }}>
+                          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8, marginBottom:6 }}>
+                            {["What I Give","What I Need","Their Response"].map(h => <div key={h} style={{ fontSize:9, letterSpacing:"0.12em", textTransform:"uppercase", color:T.gold, padding:"4px 6px" }}>{h}</div>)}
+                          </div>
+                          {(gapData.rows||[]).map((row,i) => (
+                            <div key={i} style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8, marginBottom:8 }}>
+                              {["give","need","response"].map(f => (
+                                <input key={f} value={row[f]||""} onChange={e => setGapData(p => { const rows=[...(p.rows||[])]; rows[i]={...rows[i],[f]:e.target.value}; return {...p,rows}; })}
+                                  style={{ border:`1px solid rgba(194,123,106,0.2)`, background:T.white, borderRadius:6, padding:"10px 8px", fontSize:16, outline:"none", color:T.deep, width:"100%" }}/>
+                              ))}
+                            </div>
                           ))}
                         </div>
-                      ))}
+                      </div>
                       <button onClick={() => setGapData(p => ({ ...p, rows:[...(p.rows||[]),{give:"",need:"",response:""}] }))}
-                        style={{ marginTop:8, padding:"7px 16px", border:`1px solid rgba(194,123,106,0.3)`, background:"transparent", borderRadius:2, cursor:"pointer", fontSize:11, color:T.rose }}>
+                        style={{ marginTop:8, padding:"10px 18px", border:`1px solid rgba(194,123,106,0.3)`, background:"transparent", borderRadius:6, cursor:"pointer", fontSize:13, color:T.rose }}>
                         + Add Row
                       </button>
                     </div>
-                    <div style={{ marginTop:20 }}>
-                      <div style={{ fontSize:12, opacity:0.6, marginBottom:6 }}>Reflection: Where is the biggest gap between what you give and what you need?</div>
+                    <div style={{ marginTop:16 }}>
+                      <div style={{ fontSize:12, opacity:0.6, marginBottom:6 }}>Reflection: Where is the biggest gap?</div>
                       <TA value={gapData.reflection||""} onChange={e => setGapData(p => ({ ...p, reflection:e.target.value }))} placeholder="Your reflection…" minH={80}/>
                     </div>
                   </div>
@@ -578,13 +627,13 @@ export default function App() {
               </div>
             )}
 
-            {page === "m2"    && <Challenge weeks={RESPECT_CHALLENGE}      done={rdone} setDone={setRdone} notes={rnotes} setNotes={setRnotes} sk="r"/>}
-            {page === "m3"    && <Challenge weeks={APPRECIATION_CHALLENGE} done={adone} setDone={setAdone} notes={anotes} setNotes={setAnotes} sk="a"/>}
+            {page === "m2" && <Challenge weeks={RESPECT_CHALLENGE}      done={rdone} setDone={setRdone} notes={rnotes} setNotes={setRnotes} sk="r"/>}
+            {page === "m3" && <Challenge weeks={APPRECIATION_CHALLENGE} done={adone} setDone={setAdone} notes={anotes} setNotes={setAnotes} sk="a"/>}
 
             {page === "m4" && (
               <div>
-                <Progress label="Respect Tracker"      cats={["Public Validation","Private Deference","Trust & Autonomy","Physical Signals"]}                   data={progress} setData={setProgress}/>
-                <div style={{ height:1, background:"rgba(194,123,106,0.15)", margin:"28px 0" }}/>
+                <Progress label="Respect Tracker"      cats={["Public Validation","Private Deference","Trust & Autonomy","Physical Signals"]} data={progress} setData={setProgress}/>
+                <div style={{ height:1, background:"rgba(194,123,106,0.15)", margin:"24px 0" }}/>
                 <Progress label="Appreciation Tracker" cats={["Verbal Recognition","Active Participation","Tangible Thoughtfulness","Emotional Presence"]} data={progress} setData={setProgress}/>
               </div>
             )}
@@ -594,6 +643,18 @@ export default function App() {
           </div>
         </main>
       </div>
+
+      {/* ── MOBILE BOTTOM NAV ── */}
+      <nav className="bottom-nav">
+        <div className="bottom-nav-inner">
+          {NAV.map(n => (
+            <button key={n.id} className={`bnav-btn${page===n.id?" active":""}`} onClick={() => setPage(n.id)}>
+              <span style={{ fontSize:19 }}>{n.icon}</span>
+              <span className="bnav-lbl">{n.label}</span>
+            </button>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }
