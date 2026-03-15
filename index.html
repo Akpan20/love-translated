@@ -680,6 +680,52 @@
 
     .form-input::placeholder { color: rgba(59,42,39,0.4); }
 
+    .floating-buy{
+      position:fixed;
+      bottom:28px;
+      right:28px;
+      background:var(--rose);
+      color:white;
+      padding:14px 22px;
+      border-radius:40px;
+      font-size:13px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-decoration:none;
+      box-shadow:0 10px 30px rgba(0,0,0,.2);
+      transform:translateY(120px);
+      opacity:0;
+      transition:all .35s ease;
+      z-index:9999;
+    }
+
+    /* Pulse attention effect */
+    .floating-buy.pulse{
+      animation: buyPulse 1.6s ease-out 2;
+    }
+
+    @keyframes buyPulse{
+      0%{
+        box-shadow:0 0 0 0 rgba(194,123,106,0.55);
+      }
+      70%{
+        box-shadow:0 0 0 18px rgba(194,123,106,0);
+      }
+      100%{
+        box-shadow:0 0 0 0 rgba(194,123,106,0);
+      }
+    }
+
+    .floating-buy.visible{
+      transform:translateY(0);
+      opacity:1;
+    }
+
+    .floating-buy:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 40px rgba(0,0,0,.25);
+    }
+
     /* Footer */
     .footer {
       background: var(--deep);
@@ -1143,6 +1189,46 @@
         e.target.reset();
       }, 3000);
     }
+
+    const buyBtn = document.getElementById("floatingBuyBtn");
+    let pulseTriggered = false;
+
+    window.addEventListener("scroll", function(){
+
+      const scroll = window.scrollY;
+      const pageHeight = document.body.scrollHeight;
+      const screen = window.innerHeight;
+
+      const progress = scroll / (pageHeight - screen);
+
+      /* Reveal button after engagement */
+      if(scroll > screen * 1.2){
+        buyBtn.classList.add("visible");
+
+        /* Trigger pulse only once */
+        if(!pulseTriggered){
+          buyBtn.classList.add("pulse");
+          pulseTriggered = true;
+        }
+
+      }else{
+        buyBtn.classList.remove("visible");
+      }
+
+      /* Change CTA when reader is deep in page */
+      if(progress > 0.65){
+        buyBtn.textContent = "🛒 Get the Full Book on Selar";
+      }else{
+        buyBtn.textContent = "📖 Buy This Book";
+      }
+    });
   </script>
+  <a href="https://selar.com/9179rr6169"
+    target="_blank"
+    rel="noopener"
+    id="floatingBuyBtn"
+    class="floating-buy">
+    📖 Buy This Book
+  </a>
 </body>
 </html>
