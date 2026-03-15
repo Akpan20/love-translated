@@ -497,6 +497,68 @@
       padding: 4px 6px;
     }
 
+    .toc-dev-credit{
+      margin-top:20px;
+      text-align:center;
+      font-size:11px;
+      opacity:.85;
+    }
+
+    .toc-dev-label{
+      display:block;
+    }
+
+    .toc-dev-name{
+      display:block;
+      font-weight:600;
+      margin-bottom:8px;
+    }
+
+    .toc-selar-btn{
+      display:inline-block;
+      font-size:9px;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      color:rgba(212,165,116,0.7);
+      text-decoration:none;
+      border:1px solid rgba(212,165,116,0.25);
+      padding:4px 10px;
+      border-radius:20px;
+      transition:all .2s;
+    }
+
+    .toc-selar-btn:hover{
+      color:rgba(232,196,176,0.95);
+      border-color:rgba(212,165,116,0.5);
+    }
+
+    .floating-buy-btn{
+      position:fixed;
+      bottom:25px;
+      right:25px;
+      background:#ff6a3d;
+      color:#fff;
+      padding:14px 22px;
+      font-size:14px;
+      font-weight:600;
+      border-radius:40px;
+      text-decoration:none;
+      box-shadow:0 10px 25px rgba(0,0,0,0.25);
+      transform:translateY(120px);
+      opacity:0;
+      transition:all .35s ease;
+      z-index:9999;
+    }
+
+    .floating-buy-btn.visible{
+      transform:translateY(0);
+      opacity:1;
+    }
+
+    .floating-buy-btn:hover{
+      background:#e45c33;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .nav { padding: 0 1.2rem; }
@@ -552,31 +614,67 @@
 <!-- ── READER ── -->
 <div class="reader-wrap">
 
-  <!-- Desktop sidebar TOC -->
-  <aside class="toc-sidebar" id="tocSidebar">
-    <div class="toc-header">
-      <div>
-        <div class="toc-eyebrow">Contents</div>
-        <div class="toc-count">12 Chapters</div>
-      </div>
+<!-- Desktop sidebar TOC -->
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-header">
+    <div>
+      <div class="toc-eyebrow">Contents</div>
+      <div class="toc-count">12 Chapters</div>
     </div>
-    <div class="toc-list" id="tocList"></div>
-    <div class="toc-footer">"Translation is a lifelong practice, not a one-time achievement."</div>
-  </aside>
+  </div>
 
-  <!-- Mobile TOC overlay + drawer -->
-  <div class="toc-overlay" id="tocOverlay" onclick="closeToc()"></div>
-  <aside class="toc-drawer" id="tocDrawer">
-    <div class="toc-header">
-      <div>
-        <div class="toc-eyebrow">Contents</div>
-        <div class="toc-count">12 Chapters</div>
-      </div>
-      <button class="drawer-close" onclick="closeToc()">✕</button>
+  <div class="toc-list" id="tocList"></div>
+
+  <!-- Developer credit -->
+  <div class="toc-dev-credit">
+    <span class="toc-dev-label">Website developed by</span>
+    <span class="toc-dev-name">Akaninyene Akpan</span>
+
+    <a href="https://selar.com/9179rr6169"
+       target="_blank"
+       rel="noopener"
+       class="toc-selar-btn">
+       🛒 Get on Selar
+    </a>
+  </div>
+
+  <div class="toc-footer">
+    "Translation is a lifelong practice, not a one-time achievement."
+  </div>
+</aside>
+
+
+<!-- Mobile TOC overlay + drawer -->
+<div class="toc-overlay" id="tocOverlay" onclick="closeToc()"></div>
+
+<aside class="toc-drawer" id="tocDrawer">
+  <div class="toc-header">
+    <div>
+      <div class="toc-eyebrow">Contents</div>
+      <div class="toc-count">12 Chapters</div>
     </div>
-    <div class="toc-list" id="tocListMobile"></div>
-    <div class="toc-footer">"Translation is a lifelong practice, not a one-time achievement."</div>
-  </aside>
+    <button class="drawer-close" onclick="closeToc()">✕</button>
+  </div>
+
+  <div class="toc-list" id="tocListMobile"></div>
+
+  <!-- Developer credit -->
+  <div class="toc-dev-credit">
+    <span class="toc-dev-label">Website developed by</span>
+    <span class="toc-dev-name">Akaninyene Akpan</span>
+
+    <a href="https://selar.com/9179rr6169"
+       target="_blank"
+       rel="noopener"
+       class="toc-selar-btn">
+       🛒 Get on Selar
+    </a>
+  </div>
+
+  <div class="toc-footer">
+    "Translation is a lifelong practice, not a one-time achievement."
+  </div>
+</aside>
 
   <!-- Main reading pane -->
   <div class="reader-main">
@@ -913,9 +1011,31 @@ document.addEventListener('click', e => {
   if (!nav.contains(e.target) && mn.classList.contains('open')) mn.classList.remove('open');
 });
 
+const buyBtn = document.getElementById("floatingBuyBtn");
+
+window.addEventListener("scroll", function(){
+
+  const scrollDepth = window.scrollY;
+  const triggerPoint = window.innerHeight * 1.2;
+
+  if(scrollDepth > triggerPoint){
+    buyBtn.classList.add("visible");
+  } else {
+    buyBtn.classList.remove("visible");
+  }
+
+});
+
 // ── Init ──
 refreshToc();
 renderChapter();
 </script>
+<a href="https://selar.com/9179rr6169"
+   target="_blank"
+   rel="noopener"
+   class="floating-buy-btn"
+   id="floatingBuyBtn">
+   📖 Buy This Book
+</a>
 </body>
 </html>

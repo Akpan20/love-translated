@@ -62,6 +62,23 @@
     .cta-band-inner { max-width: 620px; margin: 0 auto; }
     .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
 
+    .footer-buy-btn{
+      display:inline-block;
+      margin-top:15px;
+      padding:12px 20px;
+      background:#ff6a3d;
+      color:#fff;
+      font-weight:600;
+      border-radius:6px;
+      text-decoration:none;
+      transition:all .3s ease;
+    }
+
+    .footer-buy-btn:hover{
+      background:#e85b31;
+      transform:translateY(-2px);
+    }
+
     @media (max-width: 900px) {
       .about-hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 2.5rem; }
       .about-portrait { display: none; }
@@ -181,16 +198,52 @@
   </div>
 </section>
 
+<!-- Footer -->
 <footer class="footer">
   <div class="footer-grid">
-    <div><a class="footer-brand-logo" href="index.html">Love Translated</a><p class="footer-brand-desc">Practical tools, teachings, and community to help you understand and deepen love in every relationship that matters.</p></div>
-    <div class="footer-col"><p class="footer-col-title">Navigate</p><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="resources.html">Resources</a></li></ul></div>
-    <div class="footer-col"><p class="footer-col-title">Learn</p><ul><li><a href="workbook.html">Free Workbook</a></li><li><a href="videos.html">Video Series</a></li><li><a href="resources.html">Articles & Guides</a></li></ul></div>
-    <div class="footer-col"><p class="footer-col-title">Connect</p><ul><li><a href="community.html">Facebook Community</a></li><li><a href="https://www.love-translated.com" target="_blank">Main Website</a></li></ul></div>
+    <div>
+      <a class="footer-brand-logo" href="index.html">Love Translated</a>
+      <p class="footer-brand-desc">
+        Practical tools, teachings, and community to help you understand and deepen love in every relationship that matters.
+      </p>
+
+      <!-- Sell the book directly -->
+      <a href="https://selar.com/9179rr6169" target="_blank" rel="noopener" class="footer-buy-btn">
+        🛒 Get the Book
+      </a>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-col-title">Navigate</p>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-col-title">Learn</p>
+      <ul>
+        <li><a href="book.html">📖 Read the Book</a></li>
+        <li><a href="workbook.html">Free Workbook</a></li>
+        <li><a href="videos.html">Video Series</a></li>
+        <li><a href="resources.html">Articles &amp; Guides</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-col-title">Connect</p>
+      <ul>
+        <li><a href="community.html">Facebook Community</a></li>
+        <li><a href="https://www.love-translated.onrender.com" target="_blank" rel="noopener">Main Website</a></li>
+      </ul>
+    </div>
   </div>
+
   <div class="footer-bottom">
     <p class="footer-copy">© 2026 Love Translated. All rights reserved.</p>
-    <p class="footer-copy">Developed by: <span class="footer-dev-name"></span>Akaninyene Akpan</span></p>
+    <p class="footer-copy">Developed by: <span class="footer-dev-name">Akaninyene Akpan</span></p>
     <p class="footer-copy">Made with <span class="footer-heart">♥</span> for every relationship that matters.</p>
   </div>
 </footer>
