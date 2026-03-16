@@ -23,7 +23,7 @@
       --blush:     #e8c4b0;
       --parchment: #faf6f0;
       --parch2:    #f3ece2;
-      --deep2:     #2a1e1b;
+      --deep2:     #6b4f48;   /* ← lightened sidebar bg (was #2a1e1b) */
       --white:     #ffffff;
       --nav-h:     80px;
       --sidebar-w: 260px;
@@ -31,7 +31,6 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html, body { height: 100%; }
 
     body {
@@ -43,7 +42,7 @@
       min-height: 100vh;
     }
 
-    /* ── NAV (matches index.html) ── */
+    /* ── NAV ── */
     .nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -57,7 +56,6 @@
       padding: 0 3rem;
       z-index: 200;
     }
-
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.5rem;
@@ -66,12 +64,7 @@
       text-decoration: none;
     }
     .nav-logo span { color: var(--rose); font-style: italic; }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
+    .nav-links { display: flex; list-style: none; gap: 2rem; }
     .nav-links a {
       font-family: inherit;
       font-size: 0.72rem;
@@ -83,7 +76,6 @@
       transition: opacity var(--transition);
     }
     .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--rose); }
-
     .nav-cta {
       background: var(--rose);
       color: var(--white);
@@ -96,7 +88,6 @@
       transition: transform var(--transition), box-shadow var(--transition);
     }
     .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(194,123,106,0.3); }
-
     .nav-burger {
       display: none;
       flex-direction: column;
@@ -107,7 +98,6 @@
       padding: 5px;
     }
     .nav-burger span { width: 22px; height: 2px; background: var(--deep); }
-
     .nav-mobile {
       display: none;
       position: fixed;
@@ -142,18 +132,17 @@
     .toc-sidebar {
       width: var(--sidebar-w);
       flex-shrink: 0;
-      background: var(--deep2);
+      background: var(--deep2);  /* now #6b4f48 — warm medium brown */
       display: flex;
       flex-direction: column;
       overflow-y: auto;
-      border-right: 1px solid rgba(194,123,106,0.1);
+      border-right: 1px solid rgba(194,123,106,0.18);
     }
     .toc-sidebar::-webkit-scrollbar { width: 3px; }
-    .toc-sidebar::-webkit-scrollbar-thumb { background: rgba(232,196,176,0.2); border-radius: 2px; }
-
+    .toc-sidebar::-webkit-scrollbar-thumb { background: rgba(232,196,176,0.25); border-radius: 2px; }
     .toc-header {
       padding: 24px 20px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
       flex-shrink: 0;
     }
     .toc-eyebrow {
@@ -161,18 +150,16 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--gold);
-      opacity: 0.65;
+      opacity: 0.85;
       margin-bottom: 6px;
     }
     .toc-count {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: 14px;
-      color: var(--rose);
+      color: var(--blush);
     }
-
     .toc-list { flex: 1; padding: 8px 0; }
-
     .toc-btn {
       display: flex;
       align-items: flex-start;
@@ -186,32 +173,38 @@
       text-align: left;
       transition: background var(--transition);
     }
-    .toc-btn:hover { background: rgba(255,255,255,0.04); }
+    .toc-btn:hover { background: rgba(255,255,255,0.07); }
     .toc-btn.active {
-      background: rgba(194,123,106,0.15);
+      background: rgba(194,123,106,0.22);
       border-left-color: var(--rose);
+    }
+    /* locked chapters in TOC */
+    .toc-btn.locked { cursor: pointer; opacity: 0.7; }
+    .toc-btn.locked .toc-title::after {
+      content: ' 🔒';
+      font-size: 10px;
+      opacity: 0.7;
     }
     .toc-num {
       font-family: 'Cormorant Garamond', serif;
       font-size: 12px;
-      color: var(--rose);
-      opacity: 0.55;
+      color: var(--gold);
+      opacity: 0.75;
       flex-shrink: 0;
       margin-top: 1px;
     }
     .toc-title {
       font-size: 11px;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.65);
       line-height: 1.5;
     }
     .toc-btn.active .toc-title { color: var(--blush); }
-
     .toc-footer {
       padding: 16px 20px;
-      border-top: 1px solid rgba(255,255,255,0.07);
+      border-top: 1px solid rgba(255,255,255,0.1);
       font-style: italic;
       font-size: 11px;
-      color: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.28);
       line-height: 1.7;
     }
 
@@ -223,8 +216,6 @@
       overflow: hidden;
       min-width: 0;
     }
-
-    /* Toolbar */
     .reader-toolbar {
       flex-shrink: 0;
       height: 52px;
@@ -236,7 +227,6 @@
       padding: 0 20px;
       gap: 10px;
     }
-
     .toolbar-toc-btn {
       display: none;
       align-items: center;
@@ -255,7 +245,6 @@
     .toolbar-toc-btn span:nth-child(1) { width: 14px; }
     .toolbar-toc-btn span:nth-child(2) { width: 10px; }
     .toolbar-toc-btn span:nth-child(3) { width: 14px; }
-
     .toolbar-chapter-info { flex: 1; min-width: 0; }
     .toolbar-eyebrow {
       font-size: 8px;
@@ -272,7 +261,6 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
     .toolbar-controls { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
     .ctrl-btn {
       height: 32px;
@@ -304,7 +292,6 @@
       margin: 0 auto;
       padding: 48px 36px 40px;
     }
-
     .ch-eyebrow {
       font-size: 9px;
       letter-spacing: 0.3em;
@@ -312,7 +299,6 @@
       color: var(--gold);
       margin-bottom: 12px;
     }
-
     .ch-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.8rem, 5vw, 2.9rem);
@@ -321,7 +307,6 @@
       color: var(--deep);
       margin-bottom: 10px;
     }
-
     .ch-subtitle {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(15px, 3.5vw, 18px);
@@ -330,7 +315,6 @@
       margin-bottom: 28px;
       line-height: 1.5;
     }
-
     .ch-rule {
       display: flex;
       align-items: center;
@@ -349,7 +333,6 @@
       margin-bottom: 1.4em;
       font-weight: 300;
     }
-
     .book-h2 {
       font-family: 'Cormorant Garamond', serif;
       font-size: calc(var(--book-fs, 19px) * 1.28);
@@ -358,7 +341,6 @@
       margin: 2em 0 0.6em;
       line-height: 1.3;
     }
-
     .book-pull {
       margin: 1.8em 0;
       padding: 18px 22px;
@@ -374,7 +356,6 @@
       line-height: 1.75;
       margin: 0;
     }
-
     .book-insight {
       margin: 1.8em 0;
       padding: 16px 20px;
@@ -398,6 +379,108 @@
       font-weight: 300;
     }
 
+    /* ── PAYWALL ── */
+    .paywall-gate {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 0 36px 60px;
+    }
+    .paywall-blur-hint {
+      position: relative;
+      overflow: hidden;
+      max-height: 120px;
+      pointer-events: none;
+      margin-bottom: 0;
+    }
+    .paywall-blur-hint::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(250,246,240,0) 0%, var(--parchment) 85%);
+    }
+    body.dark .paywall-blur-hint::after {
+      background: linear-gradient(to bottom, rgba(26,18,16,0) 0%, #1a1210 85%);
+    }
+
+    .paywall-card {
+      background: var(--white);
+      border: 1px solid rgba(194,123,106,0.2);
+      border-top: 4px solid var(--rose);
+      border-radius: 14px;
+      padding: 36px 32px 32px;
+      text-align: center;
+      box-shadow: 0 12px 48px rgba(59,42,39,0.1);
+      margin-top: 24px;
+    }
+    .paywall-lock {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .paywall-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .paywall-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 400;
+      color: var(--deep);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .paywall-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-style: italic;
+      color: var(--rose);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .paywall-features {
+      list-style: none;
+      margin: 0 auto 24px;
+      max-width: 360px;
+      text-align: left;
+    }
+    .paywall-features li {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      color: var(--deep);
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(194,123,106,0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.85;
+    }
+    .paywall-features li::before { content: '✦'; color: var(--rose); font-size: 10px; flex-shrink: 0; }
+    .paywall-btn {
+      display: inline-block;
+      background: var(--rose);
+      color: var(--white);
+      padding: 14px 36px;
+      border-radius: 40px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: all var(--transition);
+      box-shadow: 0 8px 24px rgba(194,123,106,0.35);
+    }
+    .paywall-btn:hover { background: #b06e5c; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(194,123,106,0.45); }
+    .paywall-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--deep);
+      opacity: 0.45;
+      font-style: italic;
+    }
+
     /* Chapter nav buttons */
     .chapter-nav {
       max-width: 660px;
@@ -409,7 +492,6 @@
       align-items: center;
       gap: 12px;
     }
-
     .ch-nav-btn {
       flex: 1;
       max-width: 130px;
@@ -457,6 +539,10 @@
     body.dark .book-insight { background: rgba(255,255,255,0.05); }
     body.dark .book-insight p { color: #e8ddd4; }
     body.dark .reader-scroll { background: #1a1210; }
+    body.dark .paywall-card { background: #261c1a; border-color: rgba(194,123,106,0.25); }
+    body.dark .paywall-title { color: #e8ddd4; }
+    body.dark .paywall-features li { color: #e8ddd4; }
+    body.dark .paywall-note { color: #e8ddd4; }
 
     /* Mobile drawer */
     .toc-overlay {
@@ -467,7 +553,6 @@
       z-index: 149;
     }
     .toc-overlay.show { display: block; }
-
     .toc-drawer {
       position: fixed;
       top: var(--nav-h); left: 0; bottom: 0;
@@ -491,73 +576,48 @@
       background: none;
       border: none;
       cursor: pointer;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.45);
       font-size: 18px;
       line-height: 1;
       padding: 4px 6px;
     }
 
-    .toc-dev-credit{
-      margin-top:20px;
-      text-align:center;
-      font-size:11px;
-      opacity:.85;
+    .toc-dev-credit { margin-top: 20px; text-align: center; font-size: 11px; opacity: .85; }
+    .toc-dev-label  { display: block; }
+    .toc-dev-name   { display: block; font-weight: 600; margin-bottom: 8px; color: rgba(255,255,255,0.7); }
+    .toc-selar-btn {
+      display: inline-block;
+      font-size: 9px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(212,165,116,0.8);
+      text-decoration: none;
+      border: 1px solid rgba(212,165,116,0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      transition: all .2s;
     }
+    .toc-selar-btn:hover { color: rgba(232,196,176,0.95); border-color: rgba(212,165,116,0.6); }
 
-    .toc-dev-label{
-      display:block;
+    .floating-buy-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #ff6a3d;
+      color: #fff;
+      padding: 14px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 40px;
+      text-decoration: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all .35s ease;
+      z-index: 9999;
     }
-
-    .toc-dev-name{
-      display:block;
-      font-weight:600;
-      margin-bottom:8px;
-    }
-
-    .toc-selar-btn{
-      display:inline-block;
-      font-size:9px;
-      letter-spacing:.15em;
-      text-transform:uppercase;
-      color:rgba(212,165,116,0.7);
-      text-decoration:none;
-      border:1px solid rgba(212,165,116,0.25);
-      padding:4px 10px;
-      border-radius:20px;
-      transition:all .2s;
-    }
-
-    .toc-selar-btn:hover{
-      color:rgba(232,196,176,0.95);
-      border-color:rgba(212,165,116,0.5);
-    }
-
-    .floating-buy-btn{
-      position:fixed;
-      bottom:25px;
-      right:25px;
-      background:#ff6a3d;
-      color:#fff;
-      padding:14px 22px;
-      font-size:14px;
-      font-weight:600;
-      border-radius:40px;
-      text-decoration:none;
-      box-shadow:0 10px 25px rgba(0,0,0,0.25);
-      transform:translateY(120px);
-      opacity:0;
-      transition:all .35s ease;
-      z-index:9999;
-    }
-
-    .floating-buy-btn.visible{
-      transform:translateY(0);
-      opacity:1;
-    }
-
-    .floating-buy-btn:hover{
-      background:#e45c33;
-    }
+    .floating-buy-btn.visible { transform: translateY(0); opacity: 1; }
+    .floating-buy-btn:hover { background: #e45c33; }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -565,14 +625,13 @@
       .nav-links { display: none; }
       .nav-cta-desktop { display: none; }
       .nav-burger { display: flex; }
-
       .toc-sidebar { display: none; }
       .toolbar-toc-btn { display: flex; }
-
       .chapter-content { padding: 24px 18px 24px; }
       .chapter-nav { padding: 16px 18px 88px; }
+      .paywall-gate { padding: 0 18px 60px; }
+      .paywall-card { padding: 28px 20px 24px; }
     }
-
     @media (max-width: 480px) {
       .ch-title { font-size: 1.7rem; }
     }
@@ -583,7 +642,6 @@
 <!-- ── NAVIGATION ── -->
 <nav class="nav">
   <a class="nav-logo" href="index.html">Love <span>Translated</span></a>
-
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
@@ -593,9 +651,7 @@
     <li><a href="community.html">Community</a></li>
     <li><a href="resources.html">Resources</a></li>
   </ul>
-
   <a class="nav-cta nav-cta-desktop" href="workbook.html">Free Workbook</a>
-
   <button class="nav-burger" onclick="toggleMobileNav()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -614,72 +670,44 @@
 <!-- ── READER ── -->
 <div class="reader-wrap">
 
-<!-- Desktop sidebar TOC -->
-<aside class="toc-sidebar" id="tocSidebar">
-  <div class="toc-header">
-    <div>
-      <div class="toc-eyebrow">Contents</div>
-      <div class="toc-count">12 Chapters</div>
+  <!-- Desktop sidebar TOC -->
+  <aside class="toc-sidebar" id="tocSidebar">
+    <div class="toc-header">
+      <div>
+        <div class="toc-eyebrow">Contents</div>
+        <div class="toc-count">12 Chapters</div>
+      </div>
     </div>
-  </div>
-
-  <div class="toc-list" id="tocList"></div>
-
-  <!-- Developer credit -->
-  <div class="toc-dev-credit">
-    <span class="toc-dev-label">Website developed by</span>
-    <span class="toc-dev-name">Akaninyene Akpan</span>
-
-    <a href="https://selar.com/9179rr6169"
-       target="_blank"
-       rel="noopener"
-       class="toc-selar-btn">
-       🛒 Get on Selar
-    </a>
-  </div>
-
-  <div class="toc-footer">
-    "Translation is a lifelong practice, not a one-time achievement."
-  </div>
-</aside>
-
-
-<!-- Mobile TOC overlay + drawer -->
-<div class="toc-overlay" id="tocOverlay" onclick="closeToc()"></div>
-
-<aside class="toc-drawer" id="tocDrawer">
-  <div class="toc-header">
-    <div>
-      <div class="toc-eyebrow">Contents</div>
-      <div class="toc-count">12 Chapters</div>
+    <div class="toc-list" id="tocList"></div>
+    <div class="toc-dev-credit">
+      <span class="toc-dev-label" style="color:rgba(255,255,255,0.5)">Website developed by</span>
+      <span class="toc-dev-name">Akaninyene Akpan</span>
+      <a href="https://selar.com/9179rr6169" target="_blank" rel="noopener" class="toc-selar-btn">🛒 Get on Selar</a>
     </div>
-    <button class="drawer-close" onclick="closeToc()">✕</button>
-  </div>
+    <div class="toc-footer">"Translation is a lifelong practice, not a one-time achievement."</div>
+  </aside>
 
-  <div class="toc-list" id="tocListMobile"></div>
-
-  <!-- Developer credit -->
-  <div class="toc-dev-credit">
-    <span class="toc-dev-label">Website developed by</span>
-    <span class="toc-dev-name">Akaninyene Akpan</span>
-
-    <a href="https://selar.com/9179rr6169"
-       target="_blank"
-       rel="noopener"
-       class="toc-selar-btn">
-       🛒 Get on Selar
-    </a>
-  </div>
-
-  <div class="toc-footer">
-    "Translation is a lifelong practice, not a one-time achievement."
-  </div>
-</aside>
+  <!-- Mobile TOC overlay + drawer -->
+  <div class="toc-overlay" id="tocOverlay" onclick="closeToc()"></div>
+  <aside class="toc-drawer" id="tocDrawer">
+    <div class="toc-header">
+      <div>
+        <div class="toc-eyebrow">Contents</div>
+        <div class="toc-count">12 Chapters</div>
+      </div>
+      <button class="drawer-close" onclick="closeToc()">✕</button>
+    </div>
+    <div class="toc-list" id="tocListMobile"></div>
+    <div class="toc-dev-credit">
+      <span class="toc-dev-label" style="color:rgba(255,255,255,0.5)">Website developed by</span>
+      <span class="toc-dev-name">Akaninyene Akpan</span>
+      <a href="https://selar.com/9179rr6169" target="_blank" rel="noopener" class="toc-selar-btn">🛒 Get on Selar</a>
+    </div>
+    <div class="toc-footer">"Translation is a lifelong practice, not a one-time achievement."</div>
+  </aside>
 
   <!-- Main reading pane -->
   <div class="reader-main">
-
-    <!-- Toolbar -->
     <div class="reader-toolbar">
       <button class="toolbar-toc-btn" onclick="openToc()" aria-label="Table of contents">
         <span></span><span></span><span></span>
@@ -695,20 +723,27 @@
       </div>
     </div>
 
-    <!-- Scrollable content -->
     <div class="reader-scroll" id="readerScroll">
       <div class="chapter-content" id="chapterContent"></div>
+      <div id="paywallArea"></div>
       <div class="chapter-nav" id="chapterNav">
         <button class="ch-nav-btn ch-nav-btn--prev" id="prevBtn" onclick="navigate(-1)">← Prev</button>
         <span class="ch-nav-counter" id="navCounter">1 / 12</span>
         <button class="ch-nav-btn ch-nav-btn--next" id="nextBtn" onclick="navigate(1)">Next →</button>
       </div>
     </div>
-
   </div>
 </div>
 
+<a href="https://selar.com/9179rr6169" target="_blank" rel="noopener" class="floating-buy-btn" id="floatingBuyBtn">📖 Buy This Book</a>
+
 <script>
+// ─────────────────────────────────────────────
+//  CONFIG  — change FREE_CHAPTERS to adjust preview depth
+// ─────────────────────────────────────────────
+const FREE_CHAPTERS = 2;   // first 2 of 12 = ~17% free (~20%)
+const SELAR_URL     = 'https://selar.com/9179rr6169';
+
 const CHAPTERS = [
   {
     num:1, title:"The Problem with Fluency",
@@ -899,15 +934,19 @@ const CHAPTERS = [
 ];
 
 // ── State ──
-let current = 0;
+let current  = 0;
 let fontSize = 19;
 let darkMode = false;
+
+// Returns true if this chapter index is freely readable
+function isFree(i) { return i < FREE_CHAPTERS; }
 
 // ── Render TOC ──
 function buildToc(listId, onClickFn) {
   const list = document.getElementById(listId);
   list.innerHTML = CHAPTERS.map((ch, i) => `
-    <button class="toc-btn ${i === current ? 'active' : ''}" onclick="${onClickFn}(${i})">
+    <button class="toc-btn ${i === current ? 'active' : ''} ${!isFree(i) ? 'locked' : ''}"
+            onclick="${onClickFn}(${i})">
       <span class="toc-num">${String(ch.num).padStart(2,'0')}</span>
       <span class="toc-title">${ch.title}</span>
     </button>
@@ -921,17 +960,20 @@ function refreshToc() {
 
 // ── Render chapter content ──
 function renderChapter() {
-  const ch = CHAPTERS[current];
+  const ch      = CHAPTERS[current];
+  const locked  = !isFree(current);
+  const fs      = fontSize;
 
   // Toolbar
-  document.getElementById('toolbarEyebrow').textContent = `Ch. ${ch.num} / ${CHAPTERS.length}`;
-  document.getElementById('toolbarTitle').textContent   = ch.title;
-  document.getElementById('navCounter').textContent     = `${current + 1} / ${CHAPTERS.length}`;
+  document.getElementById('toolbarEyebrow').textContent =
+    `Ch. ${ch.num} / ${CHAPTERS.length}`;
+  document.getElementById('toolbarTitle').textContent = ch.title;
+  document.getElementById('navCounter').textContent   =
+    `${current + 1} / ${CHAPTERS.length}`;
   document.getElementById('prevBtn').disabled = current === 0;
   document.getElementById('nextBtn').disabled = current === CHAPTERS.length - 1;
 
-  // Content
-  const fs = fontSize;
+  // Chapter header (always shown)
   let html = `
     <div class="ch-eyebrow">Chapter ${ch.num} of ${CHAPTERS.length}</div>
     <h1 class="ch-title">${ch.title}</h1>
@@ -943,19 +985,65 @@ function renderChapter() {
     </div>
   `;
 
-  ch.content.forEach(block => {
-    if (block.type === 'p') {
-      html += `<p class="book-p" style="font-size:${fs}px">${block.text}</p>`;
-    } else if (block.type === 'h2') {
-      html += `<h2 class="book-h2" style="font-size:${Math.round(fs*1.28)}px">${block.text}</h2>`;
-    } else if (block.type === 'pull') {
-      html += `<div class="book-pull"><p style="font-size:${Math.round(fs*1.04)}px">${block.text}</p></div>`;
-    } else if (block.type === 'insight') {
-      html += `<div class="book-insight"><div class="book-insight-label">${block.label}</div><p style="font-size:${Math.round(fs*0.95)}px">${block.text}</p></div>`;
+  if (locked) {
+    // Show a teaser: just the first paragraph, blurred out
+    const firstP = ch.content.find(b => b.type === 'p');
+    if (firstP) {
+      html += `<p class="book-p" style="font-size:${fs}px">${firstP.text}</p>`;
     }
-  });
+  } else {
+    // Full content
+    ch.content.forEach(block => {
+      if      (block.type === 'p')
+        html += `<p class="book-p" style="font-size:${fs}px">${block.text}</p>`;
+      else if (block.type === 'h2')
+        html += `<h2 class="book-h2" style="font-size:${Math.round(fs*1.28)}px">${block.text}</h2>`;
+      else if (block.type === 'pull')
+        html += `<div class="book-pull"><p style="font-size:${Math.round(fs*1.04)}px">${block.text}</p></div>`;
+      else if (block.type === 'insight')
+        html += `<div class="book-insight"><div class="book-insight-label">${block.label}</div><p style="font-size:${Math.round(fs*0.95)}px">${block.text}</p></div>`;
+    });
+  }
 
   document.getElementById('chapterContent').innerHTML = html;
+
+  // Paywall gate
+  const paywallArea = document.getElementById('paywallArea');
+  if (locked) {
+    paywallArea.innerHTML = `
+      <div class="paywall-gate">
+        <div class="paywall-blur-hint">
+          <p class="book-p" style="font-size:${fs}px;padding:0 36px">
+            ${ch.content.filter(b=>b.type==='p')[1]?.text || ''}
+          </p>
+        </div>
+
+        <div class="paywall-card">
+          <span class="paywall-lock">🔒</span>
+          <div class="paywall-eyebrow">Members Only — Chapters 3 – 12</div>
+          <h2 class="paywall-title">Continue Reading<br><em>Love Translated</em></h2>
+          <p class="paywall-sub">
+            You've read the free preview. Unlock all 12 chapters,<br>
+            exercises, and the full 30-day challenge.
+          </p>
+          <ul class="paywall-features">
+            <li>All 12 chapters — including this one</li>
+            <li>30-day respect &amp; appreciation challenges</li>
+            <li>Seasonal translation guides</li>
+            <li>Repair frameworks for difficult seasons</li>
+            <li>Lifetime access, read anywhere</li>
+          </ul>
+          <a href="${SELAR_URL}" target="_blank" rel="noopener" class="paywall-btn">
+            📖 &nbsp;Get the Full Book on Selar
+          </a>
+          <p class="paywall-note">One-time purchase · Instant access · No subscription</p>
+        </div>
+      </div>
+    `;
+  } else {
+    paywallArea.innerHTML = '';
+  }
+
   document.getElementById('readerScroll').scrollTo({ top: 0, behavior: 'smooth' });
   refreshToc();
 }
@@ -965,13 +1053,11 @@ function goTo(i) {
   current = i;
   renderChapter();
 }
-
 function goToMobile(i) {
   current = i;
   renderChapter();
   closeToc();
 }
-
 function navigate(dir) {
   const next = current + dir;
   if (next >= 0 && next < CHAPTERS.length) goTo(next);
@@ -991,11 +1077,10 @@ function toggleDark() {
 }
 
 // ── Mobile TOC ──
-function openToc() {
+function openToc()  {
   document.getElementById('tocDrawer').classList.add('open');
   document.getElementById('tocOverlay').classList.add('show');
 }
-
 function closeToc() {
   document.getElementById('tocDrawer').classList.remove('open');
   document.getElementById('tocOverlay').classList.remove('show');
@@ -1008,34 +1093,21 @@ function toggleMobileNav() {
 document.addEventListener('click', e => {
   const nav = document.querySelector('.nav');
   const mn  = document.getElementById('mobileNav');
-  if (!nav.contains(e.target) && mn.classList.contains('open')) mn.classList.remove('open');
+  if (!nav.contains(e.target) && mn.classList.contains('open'))
+    mn.classList.remove('open');
 });
 
-const buyBtn = document.getElementById("floatingBuyBtn");
-
-window.addEventListener("scroll", function(){
-
-  const scrollDepth = window.scrollY;
+// ── Floating buy btn ──
+const buyBtn = document.getElementById('floatingBuyBtn');
+window.addEventListener('scroll', function() {
+  const scrollDepth  = window.scrollY;
   const triggerPoint = window.innerHeight * 1.2;
-
-  if(scrollDepth > triggerPoint){
-    buyBtn.classList.add("visible");
-  } else {
-    buyBtn.classList.remove("visible");
-  }
-
-});
+  buyBtn.classList.toggle('visible', scrollDepth > triggerPoint);
+}, { passive: true });
 
 // ── Init ──
 refreshToc();
 renderChapter();
 </script>
-<a href="https://selar.com/9179rr6169"
-   target="_blank"
-   rel="noopener"
-   class="floating-buy-btn"
-   id="floatingBuyBtn">
-   📖 Buy This Book
-</a>
 </body>
 </html>
