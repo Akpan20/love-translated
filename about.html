@@ -73,31 +73,49 @@
 
     /* Footer */
     .footer { background: var(--deep); color: var(--white); padding: 5rem 4rem 2rem; width: 100%; flex-shrink: 0; }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; max-width: 1200px; margin: 0 auto; padding-bottom: 4rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; max-width: 1200px; margin: 0 auto; padding-bottom: 4rem; border-bottom: 1px solid rgba(255,255,255,0.15); }
+
     .footer-brand-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--white); text-decoration: none; display: block; margin-bottom: 1rem; }
-    .footer-brand-desc { font-size: 0.9rem; line-height: 1.7; opacity: 0.6; max-width: 300px; }
+
+    .footer-brand-desc { font-size: 0.9rem; line-height: 1.7; color: rgba(255,255,255,0.82); max-width: 300px; }
+
     .footer-col-title { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+
     .footer-col ul { list-style: none; }
     .footer-col li { margin-bottom: 0.8rem; }
-    .footer-col a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: color var(--transition); }
+
+    .footer-col a { color: rgba(255,255,255,0.82); text-decoration: none; font-size: 0.9rem; transition: color var(--transition); }
     .footer-col a:hover { color: var(--white); }
+
     .footer-col a.footer-book-link { color: var(--blush); }
     .footer-col a.footer-book-link:hover { color: var(--white); }
+
     .footer-selar-link { color: var(--gold) !important; }
     .footer-selar-link:hover { color: var(--white) !important; }
+
     .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-    .footer-copy { font-size: 0.8rem; opacity: 0.5; }
+
+    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.75); }
+
     .footer-heart { color: var(--rose); display: inline-block; animation: heartbeat 1.5s ease-in-out infinite; }
-    .footer-dev-name { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; font-style: italic; letter-spacing: 0.06em; color: rgba(232,196,176,0.65); transition: color 0.3s ease; }
-    .footer-copy:hover .footer-dev-name { color: rgba(232,196,176,0.95); }
-    .footer-dev-bar { max-width: 1200px; margin: 1.6rem auto 0; padding-top: 1.4rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; gap: 1rem; }
-    .footer-dev-rule { flex: 1; max-width: 80px; height: 1px; background: linear-gradient(to right,transparent,rgba(212,165,116,0.25)); }
-    .footer-dev-rule--right { background: linear-gradient(to left,transparent,rgba(212,165,116,0.25)); }
+
+    .footer-dev-name { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; font-style: italic; letter-spacing: 0.06em; color: rgba(232,196,176,0.85); transition: color 0.3s ease; }
+    .footer-copy:hover .footer-dev-name { color: rgba(232,196,176,1); }
+
+    .footer-dev-bar { max-width: 1200px; margin: 1.6rem auto 0; padding-top: 1.4rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; gap: 1rem; }
+
+    .footer-dev-rule { flex: 1; max-width: 80px; height: 1px; background: linear-gradient(to right, transparent, rgba(212,165,116,0.45)); }
+    .footer-dev-rule--right { background: linear-gradient(to left, transparent, rgba(212,165,116,0.45)); }
+
     .footer-dev-text { display: flex; align-items: center; gap: 0.55rem; white-space: nowrap; }
-    .footer-dev-label { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(212,165,116,0.4); }
-    .footer-dev-dot { width: 2px; height: 2px; border-radius: 50%; background: rgba(212,165,116,0.3); flex-shrink: 0; }
-    .footer-dev-name-credit { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; font-weight: 400; letter-spacing: 0.1em; color: rgba(232,196,176,0.5); font-style: italic; transition: color 0.3s ease; }
-    .footer-dev-bar:hover .footer-dev-name-credit { color: rgba(232,196,176,0.85); }
+
+    .footer-dev-label { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(212,165,116,0.75); }
+
+    .footer-dev-dot { width: 2px; height: 2px; border-radius: 50%; background: rgba(212,165,116,0.6); flex-shrink: 0; }
+
+    .footer-dev-name-credit { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; font-weight: 400; letter-spacing: 0.1em; color: rgba(232,196,176,0.8); font-style: italic; transition: color 0.3s ease; }
+    .footer-dev-bar:hover .footer-dev-name-credit { color: rgba(232,196,176,1); }
 
     @media (max-width: 900px) {
       .about-hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 2.5rem; }
