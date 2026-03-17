@@ -1,5 +1,20 @@
 /* shared.js — nav scroll + mobile menu + active link */
 (function () {
+
+  // ── Google Analytics 4 ──────────────────────────────────────────────────
+  const GA_ID = 'G-B9G09R5JK5';
+
+  const gaScript = document.createElement('script');
+  gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+  gaScript.async = true;
+  document.head.appendChild(gaScript);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', GA_ID);
+  // ────────────────────────────────────────────────────────────────────────
+
   const nav = document.querySelector('.nav');
   const burger = document.querySelector('.nav-burger');
   const mobileMenu = document.querySelector('.nav-mobile');
