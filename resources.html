@@ -156,23 +156,45 @@
   </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-logo" href="index.html">Love <span>Translated</span></a>
+
+<!-- ========== MODULAR NAVIGATION ========== -->
+<nav class="nav" aria-label="Main">
+  <a class="nav-logo" href="index.html" aria-label="Love Translated home">
+    <img src="workbook-src/src/assets/logo.png" alt="Love Translated Logo" class="nav-logo-img">
+  </a>
+
+  <!-- Desktop menu -->
   <ul class="nav-center">
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
+    <li><a href="book.html" class="nav-book">📖 Book</a></li>
     <li><a href="workbook.html">Workbook</a></li>
     <li><a href="videos.html">Videos</a></li>
     <li><a href="community.html">Community</a></li>
     <li><a href="resources.html">Resources</a></li>
   </ul>
+
   <a class="nav-cta" href="workbook.html">Free Workbook</a>
-  <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+
+  <!-- Mobile menu toggle button -->
+  <button class="nav-burger"
+          id="navToggle"
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="mobileNav">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
-<div class="nav-mobile">
-  <a href="index.html">Home</a><a href="about.html">About</a>
-  <a href="workbook.html">Workbook</a><a href="videos.html">Videos</a>
-  <a href="community.html">Community</a><a href="resources.html">Resources</a>
+
+<!-- Mobile Navigation (hidden by default) -->
+<div class="nav-mobile" id="mobileNav" aria-label="Mobile menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="book.html" class="nav-book-mobile">📖 Read the Book</a>
+  <a href="workbook.html">Workbook</a>
+  <a href="videos.html">Videos</a>
+  <a href="community.html">Community</a>
+  <a href="resources.html">Resources</a>
   <a class="nav-cta" href="workbook.html">Free Workbook</a>
 </div>
 

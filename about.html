@@ -6,6 +6,7 @@
   <title>About — Love Translated</title>
   <link rel="stylesheet" href="style.css"/>
   <style>
+    /* About page specific styles (unchanged) */
     .about-hero {
       min-height: 60vh; display: grid; grid-template-columns: 1fr 1fr;
       align-items: center; gap: 5rem; padding: 8rem 4rem 5rem;
@@ -54,14 +55,12 @@
     .cta-band-inner { max-width: 620px; margin: 0 auto; }
     .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
 
-    /* ── FLOATING BUY BUTTON ── */
+    /* ── FLOATING BUY BUTTON (unchanged) ── */
     .floating-buy {
       position: fixed;
       bottom: 28px;
       right: 28px;
       z-index: 9999;
-
-      /* Appearance */
       background: var(--rose);
       color: var(--white);
       text-decoration: none;
@@ -72,39 +71,28 @@
       border-radius: 50px;
       padding: 14px 24px;
       box-shadow: 0 8px 28px rgba(194,123,106,0.45);
-
-      /* Hidden by default — slides up into view */
       opacity: 0;
       transform: translateY(80px);
       pointer-events: none;
       transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.25s ease;
     }
-
-    /* Visible state */
     .floating-buy.visible {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
     }
-
-    /* Hover lift */
     .floating-buy:hover {
       transform: translateY(-3px);
       box-shadow: 0 14px 40px rgba(194,123,106,0.55);
     }
-
-    /* Pulse ring — fires once to draw attention */
     .floating-buy.pulse {
       animation: buyPulse 1.8s ease-out 2;
     }
-
     @keyframes buyPulse {
       0%   { box-shadow: 0 8px 28px rgba(194,123,106,0.45), 0 0 0 0 rgba(194,123,106,0.5); }
       60%  { box-shadow: 0 8px 28px rgba(194,123,106,0.45), 0 0 0 18px rgba(194,123,106,0); }
       100% { box-shadow: 0 8px 28px rgba(194,123,106,0.45), 0 0 0 0 rgba(194,123,106,0); }
     }
-
-    /* Mobile: move to bottom-centre so it doesn't hide content */
     @media (max-width: 768px) {
       .floating-buy {
         right: 50%;
@@ -121,7 +109,7 @@
       }
     }
 
-    /* Footer buy button */
+    /* Footer buy button (unchanged) */
     .footer-buy-btn {
       display: inline-block;
       margin-top: 15px;
@@ -147,25 +135,48 @@
   </style>
 </head>
 <body>
-<nav class="nav">
-  <a class="nav-logo" href="index.html">Love <span>Translated</span></a>
+
+<!-- ========== MODULAR NAVIGATION (with image logo, Book link, ARIA) ========== -->
+<nav class="nav" aria-label="Main">
+  <a class="nav-logo" href="index.html" aria-label="Love Translated home">
+    <img src="workbook-src/src/assets/logo.png" alt="Love Translated Logo" class="nav-logo-img">
+  </a>
+
+  <!-- Desktop menu -->
   <ul class="nav-center">
     <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
+    <li><a href="book.html" class="nav-book">📖 Book</a></li>
     <li><a href="workbook.html">Workbook</a></li>
     <li><a href="videos.html">Videos</a></li>
     <li><a href="community.html">Community</a></li>
     <li><a href="resources.html">Resources</a></li>
   </ul>
+
   <a class="nav-cta" href="workbook.html">Free Workbook</a>
-  <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+
+  <!-- Mobile menu toggle button -->
+  <button class="nav-burger"
+          id="navToggle"
+          aria-label="Menu"
+          aria-expanded="false"
+          aria-controls="mobileNav">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
-<div class="nav-mobile">
-  <a href="index.html">Home</a><a href="about.html">About</a>
-  <a href="workbook.html">Workbook</a><a href="videos.html">Videos</a>
-  <a href="community.html">Community</a><a href="resources.html">Resources</a>
+
+<!-- Mobile Navigation (hidden by default) -->
+<div class="nav-mobile" id="mobileNav" aria-label="Mobile menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="book.html" class="nav-book-mobile">📖 Read the Book</a>
+  <a href="workbook.html">Workbook</a>
+  <a href="videos.html">Videos</a>
+  <a href="community.html">Community</a>
+  <a href="resources.html">Resources</a>
   <a class="nav-cta" href="workbook.html">Free Workbook</a>
 </div>
+<!-- ========== END NAVIGATION ========== -->
 
 <!-- HERO -->
 <section class="about-hero">
@@ -256,7 +267,7 @@
   </div>
 </section>
 
-<!-- Footer -->
+<!-- Footer (unchanged) -->
 <footer class="footer">
     <div class="footer-grid">
       <div>
@@ -304,7 +315,7 @@
     </div>
   </footer>
 
-  <!-- Floating Buy Button — fixed, scrolls with page -->
+  <!-- Floating Buy Button (unchanged) -->
   <a href="https://selar.com/9179rr6169"
      target="_blank"
      rel="noopener"
@@ -312,6 +323,69 @@
      class="floating-buy">
     📖 Buy This Book
   </a>
-<script src="shared.js"></script>
+
+<!-- JavaScript for navigation and floating button -->
+<script>
+  (function() {
+    // --- Mobile nav toggle (with accessibility) ---
+    const toggle = document.getElementById('navToggle');
+    const mobileNav = document.getElementById('mobileNav');
+
+    function toggleMobileNav() {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', !isExpanded);
+      mobileNav.classList.toggle('active');
+    }
+
+    if (toggle) {
+      toggle.addEventListener('click', toggleMobileNav);
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!toggle || !mobileNav) return;
+      if (!toggle.contains(event.target) && !mobileNav.contains(event.target)) {
+        if (mobileNav.classList.contains('active')) {
+          mobileNav.classList.remove('active');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
+    // --- Floating Buy Button (copied from index) ---
+    const buyBtn = document.getElementById('floatingBuyBtn');
+    if (buyBtn) {
+      let pulseTriggered = false;
+
+      function updateBuyBtn() {
+        const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight;
+        const winHeight = window.innerHeight;
+        const progress = scrollY / (docHeight - winHeight);
+        const showThreshold = Math.min(300, winHeight * 0.4);
+
+        if (scrollY > showThreshold) {
+          buyBtn.classList.add('visible');
+
+          if (!pulseTriggered) {
+            buyBtn.classList.add('pulse');
+            pulseTriggered = true;
+            setTimeout(() => buyBtn.classList.remove('pulse'), 4000);
+          }
+
+          buyBtn.textContent = progress > 0.6
+            ? '🛒 Get the Full Book on Selar'
+            : '📖 Buy This Book';
+        } else {
+          buyBtn.classList.remove('visible');
+        }
+      }
+
+      window.addEventListener('scroll', updateBuyBtn, { passive: true });
+      updateBuyBtn();
+    }
+  })();
+</script>
+
 </body>
 </html>
