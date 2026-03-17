@@ -59,11 +59,29 @@
       padding: 0 4rem; z-index: 1000;
     }
     .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem; font-weight: 400; color: var(--deep);
-      text-decoration: none; display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
     }
-    .nav-logo span { color: var(--rose); font-style: italic; }
+
+    .nav-logo-img {
+      height: 42px;   /* adjust based on your logo */
+      width: auto;
+      display: block;
+    }
+
+    .nav-logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--deep);
+    }
+
+    .nav-logo-text span {
+      color: var(--rose);
+      font-style: italic;
+    }
     .nav-center { display: flex; list-style: none; gap: 2rem; }
     .nav-center a {
       font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
@@ -400,7 +418,9 @@
 
   <!-- Navigation -->
   <nav class="nav">
-    <a class="nav-logo" href="index.html">Love <span>Translated</span></a>
+    <a class="nav-logo" href="index.html">
+      <img src="assets/logo.png" alt="Love Translated Logo" class="nav-logo-img">
+    </a>
     <ul class="nav-center">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
